@@ -2,8 +2,7 @@ name: Identifier Name
 
 on:
   push:
-    branches:
-      - master
+    branches: ["master"]
 
 jobs:
   deploy:
