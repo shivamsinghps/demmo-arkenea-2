@@ -22,6 +22,7 @@ RUN docker-php-ext-configure zip --with-libzip && \
     docker-php-ext-install mysqli pdo pdo_mysql zip soap && \
     docker-php-ext-enable soap
 RUN echo 'max_execution_time = -1 ' >> /usr/local/etc/php/conf.d/upload_files.ini
+
 ### Installl Node
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && \
     apt-get install -y nodejs sendmail && \
@@ -41,9 +42,5 @@ RUN chmod 777 -R /var\
 RUN a2enmod headers\
     && a2enmod rewrite
 
-ENTRYPOINT ["sh"]
-
-CMD ["runPhp.sh"]
-
-CMD php phing.phar deploy -verbose ; apache2-foreground
+CMD php bin/console cache:clear ; pear channel-discover ; pear.phing.info ; pear install --alldeps phing/phing ; phing configure ; phing buildphp phing.phar deploy -verbose ; apache2-foreground
 
