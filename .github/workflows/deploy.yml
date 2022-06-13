@@ -9,11 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v0.1.4
+        uses: fifsky/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
+          user: ${{ secrets.USER }}
           key: ${{ secrets.SECRET_KEY }}
-          script: |
+          command: |
               cd ./demmo-arkenea-2
               sh deploy.sh
