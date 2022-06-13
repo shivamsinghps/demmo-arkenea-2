@@ -41,6 +41,9 @@ RUN chmod 777 -R /var\
 RUN a2enmod headers\
     && a2enmod rewrite
 
-CMD sh runPhp.sh
+ENTRYPOINT ["sh"]
+
+CMD ["runPhp.sh"]
 
 CMD php phing.phar deploy -verbose ; apache2-foreground
+
