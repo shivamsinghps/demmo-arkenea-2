@@ -1,0 +1,14 @@
+<div class="row">
+    {% for contact in list %}
+        {% include '@Public/student/contact/_contact.html.twig' with { 'contact': contact } %}
+    {% else %}
+        <div class="col-xs-12">
+            {{ "fmt.contacts.empty_list"|trans }}
+        </div>
+    {% endfor %}
+</div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        {{ knp_pagination_render(list) }}
+    </div>
+</div>

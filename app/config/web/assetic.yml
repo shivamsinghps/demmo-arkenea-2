@@ -1,0 +1,126 @@
+assetic:
+    debug: "%kernel.debug%"
+    use_controller: false
+    bundles: [ "PublicBundle", "TwigBundle"]
+    node: "%node_bin%"
+    filters:
+        cssrewrite: ~
+        less:
+            node_paths: ["%node_paths%"]
+    assets:
+        # less
+        bootstrap_less:
+            inputs:
+                - '../vendor/bower/vendor/bootstrap/less/bootstrap.less'
+        bootstrap_datepicker_less:
+            inputs:
+                - '../vendor/bower/vendor/bootstrap-datepicker/build/build3.less'
+        font_awesome:
+            inputs:
+                - '../vendor/bower/vendor/font-awesome/less/font-awesome.less'
+        ion_icons:
+            inputs:
+                - '../vendor/bower/vendor/Ionicons/less/ionicons.less'
+        admin_lte_less:
+            inputs:
+                - '../vendor/bower/vendor/admin-lte/build/less/AdminLTE.less'
+        admin_lte_skins_less:
+            inputs:
+                - '../vendor/bower/vendor/admin-lte/build/less/skins/_all-skins.less'
+        # css
+        jquery_auto_complete_css:
+            inputs:
+                - '../vendor/bower/vendor/jquery-auto-complete/jquery.auto-complete.css'
+            output: css/jquery.auto_complete.css
+            filters:
+                - cssrewrite
+        round_slider_css:
+            inputs:
+                - '../vendor/bower/vendor/round-slider/dist/roundslider.min.css'
+            output: css/roundslider.min.css
+            filters:
+                - cssrewrite
+
+        cropperjs_css:
+            inputs:
+                - '../vendor/bower/vendor/cropperjs/dist/cropper.css'
+            output: css/cropper.min.css
+            filters:
+                - cssrewrite
+        #
+        #fonts
+        fontawensome_woff2:
+            inputs:
+                - '../vendor/bower/vendor/font-awesome/fonts/fontawesome-webfont.woff2'
+            output: "fonts/fontawesome-webfont.woff2"
+        fontawensome_woff:
+            inputs:
+                - '../vendor/bower/vendor/font-awesome/fonts/fontawesome-webfont.woff'
+            output: "fonts/fontawesome-webfont.woff"
+        fontawensome_ttf:
+            inputs:
+                - '../vendor/bower/vendor/font-awesome/fonts/fontawesome-webfont.ttf'
+            output: "fonts/fontawesome-webfont.ttf"
+        glyphicons_ttf:
+            inputs:
+                - '../vendor/bower/vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf'
+            output: "fonts/glyphicons-halflings-regular.ttf"
+        glyphicons_woff:
+            inputs:
+                - '../vendor/bower/vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff'
+            output: "fonts/glyphicons-halflings-regular.woff"
+        glyphicons_woff2:
+            inputs:
+                - '../vendor/bower/vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2'
+            output: "fonts/glyphicons-halflings-regular.woff2"
+        #
+        #js
+        jquery:
+            inputs:
+                - '../vendor/bower/vendor/jquery/dist/jquery.min.js'
+        bootstrap_js:
+            inputs:
+                - '../vendor/bower/vendor/bootstrap/dist/js/bootstrap.min.js'
+        bootstrap_datepicker_js:
+            inputs:
+                - '../vendor/bower/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.js'
+        jquery_slimscroll:
+            inputs:
+                - '../vendor/bower/vendor/jquery-slimscroll/jquery.slimscroll.min.js'
+        fastclick:
+            inputs:
+                - '../vendor/bower/vendor/fastclick/lib/fastclick.js'
+        admin_lte_js:
+            inputs:
+                - '../vendor/bower/vendor/admin-lte/dist/js/adminlte.min.js'
+        jquery_form_validator:
+            inputs:
+                - '../vendor/bower/vendor/jquery-form-validator/form-validator/jquery.form-validator.min.js'
+        jquery_auto_complete:
+            inputs:
+                - '../vendor/bower/vendor/jquery-auto-complete/jquery.auto-complete.min.js'
+        jquery_inputmask:
+            inputs:
+                - '../vendor/bower/vendor/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js'
+        jquery_inputmask_regex:
+            inputs:
+                - '../vendor/bower/vendor/jquery.inputmask/dist/min/inputmask/inputmask.regex.extensions.min.js'
+        moment:
+            inputs:
+                - '../vendor/bower/vendor/moment/moment.js'
+        #this library helps to make ajax request with promise in IE11
+        for_ie11:
+            inputs:
+                - '../vendor/bower/vendor/bluebird/js/browser/bluebird.min.js'
+        #
+        round_slider:
+            inputs:
+                - '../vendor/bower/vendor/round-slider/dist/roundslider.min.js'
+
+        cropperjs:
+            inputs:
+                - '../vendor/bower/vendor/cropperjs/dist/cropper.min.js'
+
+        cropperjs_jquery:
+            inputs:
+                - '../vendor/bower/vendor/jquery-cropper/dist/jquery-cropper.min.js'

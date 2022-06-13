@@ -1,0 +1,16 @@
+domain:
+    bookstore_payment:
+        # Every 2 week in monday 03:00 Pacific Time
+        pause: '8 days'
+        send_date: 'every monday'
+        send_time: '03:00'
+        send_timezone: -7
+        error_time: '2 minutes' # +- 2 minutes. For example, send_time = '03:00', time be from 02:58
+
+    order:
+        monitor:
+            chunk_size: 128
+
+        returns:
+            chunk_size: 128
+            return_window: '7 days'

@@ -1,0 +1,20 @@
+<script>
+    setTimeout(function () {
+        if (window.location !== window.parent.location) {
+            window.parent.postMessage({
+                location: window.location.href,
+                action: 'redirect'
+            }, '{{ marketing_app_url }}');
+        }
+    }, 0);
+</script>
+<script>
+    setTimeout(function () {
+        if (window.location !== window.parent.location) {
+            window.parent.postMessage({
+                location: window.location.href,
+                action: 'redirect'
+            }, '{{ app.request.getSchemeAndHttpHost() }}');
+        }
+    }, 0);
+</script>

@@ -1,0 +1,5 @@
+0 15 * * * cd /var/www/html; /usr/local/bin/php bin/console fmt:started-campaign:handle > /proc/1/fd/1 2>/proc/1/fd/2
+5 16 * * * cd /var/www/html; /usr/local/bin/php bin/console fmt:finished-campaign:handle > /proc/1/fd/1 2>/proc/1/fd/2
+10,25,40 * * * * cd /var/www/html; /usr/local/bin/php bin/console fmt:order:monitoring_order_items > /proc/1/fd/1 2>/proc/1/fd/2
+15,30,45 * * * * cd /var/www/html; /usr/local/bin/php bin/console fmt:order:check-returns > /proc/1/fd/1 2>/proc/1/fd/2
+20 15 * * * cd /var/www/html; /usr/local/bin/php bin/console fmt:transfers:deposit_bookstore > /proc/1/fd/1 2>/proc/1/fd/2

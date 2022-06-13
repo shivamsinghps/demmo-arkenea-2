@@ -1,0 +1,157 @@
+.donor-dashboard-page {
+  .circle-with-description {
+    position: relative;
+  }
+  .description-box {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 10;
+  }
+
+  .sharing-item:first-child {
+    margin-bottom: 15px;
+  }
+
+  .compagin-books-content {
+    height: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .box {
+    .statistic-title {
+      font-size: 14px;
+      text-align: left;
+    }
+    .browse-btn {
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden !important;
+      text-overflow: ellipsis;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .btn-success {
+      &.disabled {
+        margin-bottom: 55px !important;
+      }
+    }
+  }
+
+  @media (max-width: 529px) {
+    .col-xs-6 {
+      &.col-md-4 {
+        width: 100%;
+      }
+    }
+
+    .btn-success {
+      &.disabled {
+        margin-bottom: 10px !important;
+      }
+    }
+  }
+
+  @media (max-width: 680px) {
+    .circle-full-width {
+      .description-box {
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+      }
+      width: 100%;
+      text-align: center;
+      .statistic-title {
+        text-align: center;
+      }
+    }
+    .sharing-box {
+      width: 100%;
+      text-align: center;
+      .sharing-item {
+        &:first-child {
+          margin-bottom: 0;
+          margin-right: 15px;
+        }
+        display: inline-block;
+      }
+    }
+  }
+
+  .subheader-divider {
+    &.search-row {
+      background-color: #999999;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      & > * {
+        margin-right: 60px;
+
+        &:last-of-type {
+          margin-right: 0;
+        }
+      }
+
+      .browse-btn-container, .search-field-container {
+        flex-grow: 1;
+      }
+
+      .browse-btn-container .browse-btn {
+        padding: 7.5px 0;
+      }
+    }
+
+    .row-header {
+      margin: 0;
+    }
+  }
+
+  .donors-students {
+    padding-top: 20px;
+  }
+
+  #thanks-box {
+    min-height: 149px;
+    &.list {
+      position: relative;
+      p {
+        padding: 0 10px;
+      }
+      .thanks-btn {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 20px;
+        cursor: pointer;
+        color: #ccc;
+        &:hover {
+          color: #999;
+        }
+        &.thanks-btn-next {
+          right: 0;
+        }
+      }
+    }
+    .empty-box {
+      margin-top: 55px;
+      color: #999;
+    }
+    p:not(:last-child) {
+      font-weight: 600;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    .donors-students > div:nth-child(2n+1) {
+      clear: both;
+    }
+  }
+  @media (min-width: 1200px) {
+    .donors-students > div:nth-child(3n+1) {
+      clear: both;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+<div class="table-responsive no-padding">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th class="sorted">
+                <span data-sort-by="transaction.id">{{ 'fmt.transaction_history.donor.table.transaction_id'|trans }}</span>
+            </th>
+            <th class="sorted">
+                <span data-sort-by="profile.firstName,profile.lastName">{{ 'fmt.transaction_history.donor.table.student'|trans }}</span>
+            </th>
+            <th class="sorted">
+                <span data-sort-by="transaction.date">{{ 'fmt.transaction_history.donor.table.transaction_date'|trans }}</span>
+            </th>
+            <th class="sorted">
+                <span data-sort-by="amount">{{ 'fmt.transaction_history.donor.table.amount'|trans }}</span>
+            </th>
+            <th class="sorting_disabled">
+                <span>{{ 'fmt.transaction_history.donor.table.receipt'|trans }}</span>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.id }}</td>
+                <td>{{ transaction.recipient.profile.fullName }}</td>
+                <td>{{ transaction.date|date }}</td>
+                <td>{{ transaction.spendTotal|price }}</td>
+                <td>
+                    {% include '@Public/components/buttons/recipeDownloadLink.html.twig' %}
+                </td>
+            </tr>
+        {% else %}
+            <t>
+                <td colspan="4">{{ 'fmt.form.filter.no_results'|trans }}</td>
+            </t>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="col-md-12 text-center">
+        {{ knp_pagination_render(transactions) }}
+    </div>
+</div>

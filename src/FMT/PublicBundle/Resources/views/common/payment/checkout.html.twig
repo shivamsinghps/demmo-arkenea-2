@@ -1,0 +1,47 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% block content %}
+    <section class="content">
+        <div class="col-sm-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Cart Summary:</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th style="width: 50%;">Subtotal:</th>
+                                <td>$100 500</td>
+                            </tr>
+                            <tr>
+                                <th style="width: 50%;">Transaction Fee:</th>
+                                <td>$1 005</td>
+                            </tr>
+                            <tr>
+                                <th style="width: 50%;">FMT Fee:</th>
+                                <td>$1 005</td>
+                            </tr>
+                            <tr>
+                                <th style="width: 50%;">Tax:</th>
+                                <td>$1 005</td>
+                            </tr>
+                            <tr>
+                                <th style="width: 50%;">Shipping:</th>
+                                <td>$1 005</td>
+                            </tr>
+                            <tr>
+                                <th style="width: 50%;">Total:</th>
+                                <td>$101 505</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            {% include '@Public/form/checkout.html.twig' with { "form": form, "checkout" : true, "student" : "Student" } %}
+        </div>
+        <div style="clear: both"></div>
+    </section>
+{% endblock content %}

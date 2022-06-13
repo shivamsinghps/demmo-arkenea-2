@@ -1,0 +1,123 @@
+{% from '@Public/macro/fields.html.twig' import form_input, form_checkbox %}
+{% set user = app.getToken().getUser() %}
+{% set socialBtn = {'data-social-btn': 'btn'} %}
+{% if user.profile.isInvisible %}
+    {% set socialBtn = socialBtn|merge({disabled: true, checked: false}) %}
+{% endif %}
+
+<div class="col-md-9">
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">{{ 'fmt.user.profile.personal_info'|trans }}</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-4 col-xs-12">
+                    {{ form_input(form.profile.firstName) }}
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    {{ form_input(form.profile.lastName) }}
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    {{ form_input(form.profile.email, [], form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">{{ 'fmt.user.profile.label.shipping'|trans }}</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    {{ form_input(form.profile.address.address1) }}
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    {{ form_input(form.profile.address.address2) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-xs-12">
+                    {{ form_input(form.profile.address.city) }}
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    {{ form_input(form.profile.address.region) }}
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    {{ form_input(form.profile.address.code) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">{{ 'fmt.user.profile.label.school'|trans }}</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    {{ form_input(form.profile.school) }}
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    {{ form_input(form.profile.major) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    {{ form_input(form.profile.gradYear) }}
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    {{ form_input(form.profile.studentId) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">{{ 'fmt.user.profile.label.visibility'|trans }}</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6 col-xs-12 margin-bottom-10">
+                    {{ 'fmt.user.profile.visibility_label'|trans }}
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    {{ form_input(form.profile.visible, {'data-visibility': 'select'}) }}
+                </div>
+            </div>
+            <div class="row social-network-wrap">
+                <div class="col-md-6 col-xs-12 margin-bottom-10">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <a class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></a>
+                        </div>
+                        <div class="col-xs-10 no-padding-left">
+                            {{ form_checkbox(form.profile.facebook, socialBtn) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <a class="btn btn-social-icon btn-twitter"><i class="fa fa-twitter"></i></a>
+                        </div>
+                        <div class="col-xs-10 no-padding-left">
+                            {{ form_checkbox(form.profile.twitter, socialBtn) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="no-padding-lr about-me-block">
+    <div class="box-header about-me-header">
+        <b>{{ 'fmt.user.profile.about_me'|trans }}</b>
+    </div>
+    <div class="about-me-content text-right">
+        <i>{{ 'fmt.user.profile.about_me_max_char'|trans }}</i>
+        {{ form_input(form.profile.aboutText) }}
+    </div>
+</div>

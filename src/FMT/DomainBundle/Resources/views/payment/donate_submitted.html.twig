@@ -1,0 +1,13 @@
+{% extends '@Public/emails/base_temlate.email.twig' %}
+{% block subject %}Thank you for your textbook donation!{% endblock %}
+
+{% block content %}
+    {% if not transaction.anonymous %}
+        <p>Thank you {{ transaction.sender.firstName }}!</p>
+    {% else %}
+        <p>Thank you!</p>
+    {% endif %}
+    <p>We’ve received your donation in the amount of {{ transaction.spendTotal | price }}. We would like to thank you for helping support {{ transaction.campaign.user.firstName }}’s academic success.</p>
+    <p>Sincerely,</p>
+    <p>Fund My Textbooks</p>
+{% endblock %}

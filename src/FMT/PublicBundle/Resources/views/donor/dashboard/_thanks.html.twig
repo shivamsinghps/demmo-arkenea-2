@@ -1,0 +1,25 @@
+<div class="box box-success box-grey">
+    <div class="box-header with-border">
+        <h3 class="box-title">{{ 'fmt.user.donor.dashboard.my_thanks.header'|trans|upper }}</h3>
+    </div>
+    {% set showSlider = thanks_for_donations|length > 1 %}
+    <div class="box-body{% if showSlider %} list{% endif %}"
+         id="thanks-box"
+         data-thanks-for-donations="{{ thanks_for_donations|json_encode }}"
+    >
+        {% if thanks_for_donations|length %}
+            {% if showSlider %}
+                <i class="glyphicon glyphicon-menu-left thanks-btn thanks-btn-prev"></i>
+                <i class="glyphicon glyphicon-menu-right thanks-btn thanks-btn-next"></i>
+            {% endif %}
+            <p></p>
+            <p></p>
+            <p data-predefined-text="{{ 'fmt.user.donor.dashboard.my_thanks.funding_amount'|trans }}"></p>
+            <p></p>
+        {% else %}
+        <p class="empty-box">
+            <b>{{ 'fmt.user.donor.dashboard.my_thanks.empty'|trans|upper }}</b>
+        </p>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,167 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% set user = campaign.user %}
+{% set profile = user.profile %}
+{% set share_text = generate_share_text(user)|trans %}
+{% set page_url = url(constant('FMT\\PublicBundle\\Controller\\Common\\CampaignController::ROUTE_VIEW'), {id: campaign.id}) %}
+{% set avatar = asset(get_user_avatar(user)) %}
+{% set fb_share_link = generate_share_link({'u': page_url,}, 'fb') %}
+{% set tw_share_link = generate_share_link({'url': page_url, 'text': share_text}, 'tw') %}
+{% set endDate = campaign.endDate ? campaign.endDate|textual_month_format : 'fmt.widgets.campaign.header.not_set'|trans %}
+{% set page_dicription = 'fmt.widgets.campaign.header.goal'|trans({'%price%': campaign.estimatedCost|price}) %}
+{% set page_dicription = page_dicription ~ ' ' ~ 'fmt.widgets.campaign.header.ends'|trans({'%date%': endDate}) %}
+{% set page_dicription = page_dicription ~ ' ' ~ 'fmt.widgets.campaign.header.progress'|trans({'%percent%': campaign.percentOfFunded|percent}) %}
+
+{% block meta %}
+    {% include '@Public/common/campaign/_sharing_meta.html.twig' %}
+{% endblock meta %}
+
+{% block content %}
+<section class="content campaign">
+    {% include '@Public/common/campaign/_paused_banner.html.twig' with {campaign: campaign} %}
+
+    <div class="row">
+        <div class="col-md-8">
+            {% include '@Public/components/campaign/studentInfoFull.html.twig' %}
+        </div>
+
+        <div class="col-md-4">
+            {% include '@Public/components/campaign/widget.html.twig' with {showAllBooks: true} %}
+
+            <div class="share-buttons-box">
+                {% if is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_SHARE_FB'), campaign) %}
+                    <a href="{{ fb_share_link }}"
+                       class="btn btn-primary share-button"
+                       role="button"
+                       target="_blank"
+                       data-social="share"
+                    >
+                        <i class="fa fa-facebook-official"></i> {{ 'fmt.widgets.campaign.social.facebook'|trans }}
+                    </a>
+                {% endif %}
+
+                {% if is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_SHARE_TW'), campaign) %}
+                    <a href="{{ tw_share_link }}"
+                       class="btn btn-info share-button"
+                       role="button"
+                       target="_blank"
+                       data-social="share"
+                    >
+                        <i class="fa fa-twitter-square"></i> {{ 'fmt.widgets.campaign.social.twitter'|trans }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% if is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_FUND'), campaign) %}
+        <div class="box box-primary books-box books-box-view">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-10 margin-bottom-10">
+                        <h3 class="box-title">
+                            {{ 'fmt.campaign.textbooks.title'|trans }}
+                                <small>{{ 'fmt.campaign.textbooks.title_small'|trans }}</small>
+                        </h3>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="pull-right box-tools">
+                            {% if userIsNotStudent or user.id == activeUserId %}
+                                <a class="btn btn-primary btn-sm btn-fix-text" href="{{ donate_user_link(user) }}">
+                                    {{ campaign|fund_student_name|trans({'%name%': campaign.user.profile.firstName}) }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="table-responsive no-padding">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>{{ 'fmt.campaign.textbooks.table.header.title'|trans }}</th>
+                            <th class="mobile-hide">{{ 'fmt.campaign.textbooks.table.header.author'|trans }}</th>
+                            <th class="mobile-hide">{{ 'fmt.campaign.textbooks.table.header.class'|trans }}</th>
+                            <th class="mobile-hide">{{ 'fmt.campaign.textbooks.table.header.isbn'|trans }}</th>
+                            <th>{{ 'fmt.campaign.textbooks.table.header.cost'|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key, book in campaign.books %}
+                            {{ include('@Public/components/campaign/bookRow.html.twig', {'item': book, 'key': key + 1}) }}
+                        {% endfor %}
+                        </tbody>
+                        {% if is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_SEE_SUMMARY'), campaign) %}
+                            <tfoot class="summary">
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td class="text-right">{{ 'fmt.campaign.textbooks.table.footer.shipping'|trans }}</td>
+                                <td>{{ campaign.estimatedShipping|price }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td class="text-right">{{ 'fmt.campaign.textbooks.table.footer.total'|trans }}</td>
+                                <td>{{ campaign.estimatedCost|price }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td class="text-right">{{ 'fmt.campaign.textbooks.table.footer.funded'|trans }}</td>
+                                <td>{{ campaign.fundedTotal|price }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td class="text-right">{{ 'fmt.campaign.textbooks.table.footer.purchased'|trans }}</td>
+                                <td>{{ campaign.purchasedTotal|price }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td class="text-right">{{ 'fmt.campaign.textbooks.table.footer.remaining'|trans }}</td>
+                                <td>{{ campaign.allowedDonateAmount|price }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td colspan="2"><small>{{ 'fmt.campaign.textbooks.table.note.shipping'|trans|raw }}</small></td>
+                            </tr>
+                            </tfoot>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</section>
+{% endblock content %}
+
+{% block footer_scripts %}
+    {% javascripts
+        '@PublicBundle/Resources/public/js/handler/round-slider.js'
+        '@PublicBundle/Resources/public/js/page/common/cart/actions.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        $(document).ready(function () {
+            new CartActions({
+                settings: {
+                    summary: false
+                },
+                selectors: {
+                    catalogAreaClass: 'campaign',
+                },
+                actionButtonConfig: {
+                    initialState: 'add',
+                    transitions: {
+                        add: 'remove',
+                        remove: 'add'
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock footer_scripts %}

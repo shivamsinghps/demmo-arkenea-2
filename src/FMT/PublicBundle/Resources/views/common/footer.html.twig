@@ -1,0 +1,39 @@
+{% set footerLinks = footer_links() %}
+<footer class="main-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-3 social-networks-block">
+                <ul class="social-networks-list">
+                    <li class="social-networks-item">
+                        <a href="{{ social_facebook_link }}" class="social-networks-link">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li class="social-networks-item">
+                        <a href="{{ social_twitter_link }}" class="social-networks-link">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="social-networks-item">
+                        <a href="{{ social_instagram_link }}" class="social-networks-link">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                    </li>
+                    <li class="social-networks-item">
+                        <a href="{{ social_linkedin_link }}" class="social-networks-link">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-md-6 marketing-links-block">
+                {% for page, link in footerLinks %}
+                    <a href="{{ link }}" class="marketing-link">{{ ('fmt.marketing_pages.' ~ page)|trans }}</a>
+                {% endfor %}
+            </div>
+            <div class="col-xs-12 col-md-3 copyright-block">
+                Fund My Textbooks <i class="fa fa-copyright"></i> {{ "now"|date('Y') }}
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,10 @@
+{% set classes = is_in_cart(item) ? 'cart-remove fa-remove text-red' : 'cart-add fa-cart-plus text-green' %}
+
+{% if is_granted(constant('FMT\\PublicBundle\\Voter\\CartVoter::CAN_ADD_TO_CART'), item) or is_granted(constant('FMT\\PublicBundle\\Voter\\CartVoter::CAN_REMOVE_FROM_CART'), item) %}
+    <button class="cart-button">
+        <i class="cart-action fa fa-2x {{ classes }}"
+           data-product='{{ {id: item.id}|json_encode }}'
+           data-row-id="{{ rowId }}"
+        ></i>
+    </button>
+{% endif %}

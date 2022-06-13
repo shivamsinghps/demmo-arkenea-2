@@ -1,0 +1,89 @@
+env.is_prod = False
+env.BUILD_NUMBER = 0
+env.domain = lms.local
+env.app_env = dev
+env.app_debug = 1
+env.database_host = application_db
+env.database_port = 3306
+env.database_name = fmt
+env.database_user = root
+env.database_password = root
+env.mailer_transport = smtp
+env.mailer_host = smtp.mailtrap.io
+env.mailer_port = 2525
+env.mailer_user = f064e93c9d05e8
+env.mailer_password = 32729e51880215
+env.sender_email = pankajk@arkenea.com
+env.sender_name = Do Not Reply
+env.csrf_secret = 222ab8abbbb4f5a8a94477678c79fdf5
+env.node_bin = /usr/bin/node
+env.node_path = /usr/lib/node_modules
+env.npm_bin = /usr/bin/npm
+env.cache_server = ~
+
+# Marketing
+env.marketing_app_url = http://fmt-wp.loc
+env.base_menu__help = bottom:/help-contact
+env.base_menu__about = top:/about-fundmytextbooks
+env.base_menu__privacy = bottom:/privacy-and-cookies
+env.base_menu__how_works = top:/how-fmt-works
+env.base_menu__terms = bottom:/terms-of-use
+env.base_menu__fees = bottom:/info-on-fees
+env.base_menu__partner = bottom:/partner-with-fmt
+
+# Calculation settings
+env.calculate_fmt_fee_percent = 0.05
+env.calculate_stripe_fee_percent = 0.029
+env.calculate_stripe_fee_static = 30
+
+# Third-party services
+env.nebook_endpoint = https://webprismapi.prismservices.net/v3.14/WebPrismService.svc/json
+env.nebook_wsdl = https://purchase.prismservices.net/purchase.asmx?wsdl
+env.nebook_xmlns = https://manager2.thecampushub.com/Services/Purchase
+env.nebook_bookstore_id = 1
+env.nebook_user = fmt
+env.nebook_password = fmt
+env.nebook_cache_lifetime = 3600
+
+# Stripe settings
+env.stripe_public_key = pk_test_qCuvD0GmKFPV3WhU4zCrEIpO
+env.stripe_secret_key = sk_test_4D0g5lMS3A3amHNxtdrbrahz
+env.stripe_live_mode = 0
+env.stripe_webhook_signature = ~
+
+# Content storage settings
+env.avatar_storage = file:///avatar
+env.s3_key = ~
+env.s3_secret = ~
+
+# AWS
+env.aws_region = ~
+env.aws_key = ~
+env.aws_secret = ~
+
+# Google analytics
+env.google_analytics_id = google-analytics-id
+
+# Socials
+env.social_facebook_link = https://www.facebook.com/fundmytextbooks
+env.social_twitter_link = https://twitter.com/fundmytextbooks
+env.social_linkedin_link = https://www.linkedin.com/company/fund-my-textbooks/
+env.social_instagram_link = https://www.instagram.com/fundmytextbooks/
+
+# Dwolla
+env.dwolla_endpoint = https://api-sandbox.dwolla.com
+env.dwolla_client_id = CxNpSitl8OcdUkepns9gBwjkvByT5TnwogObaqoFut79RD71Li
+env.dwolla_client_key = AtKHlvvJwMkBaP791JAI8XQAgfrdKnu2hVPb051VlEGGPlTUO6
+env.dwolla_webhooks_token = goW3M4p9pYcIQ9ovdONyH9G3YOVFXX7JqgjJ44FqKO92JKdILH
+env.dwolla_webhooks_endpoint = http://localhost:32453/payments/dwolla/webhooks
+env.dwolla_fmt_funding_source = https://dashboard-sandbox.dwolla.com/account/funding-sources/12341234-1234-1234-1234-12341234123
+env.dwolla_bookstore_email = ~
+env.dwolla_bookstore_customer_first_name = ~
+env.dwolla_bookstore_customer_last_name = ~
+env.dwolla_bookstore_customer_email = ~
+env.dwolla_bookstore_customer_business_name = ~
+env.dwolla_bookstore_customer_ip_address = ~
+env.dwolla_bookstore_customer_correlation_id = ~
+env.dwolla_bookstore_funding_source_name = test
+env.dwolla_bookstore_funding_source_routing_number = ~
+env.dwolla_bookstore_funding_source_account_number = ~

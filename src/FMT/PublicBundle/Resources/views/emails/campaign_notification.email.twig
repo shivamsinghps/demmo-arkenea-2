@@ -1,0 +1,43 @@
+{% extends "@Public/emails/base_temlate.email.twig" %}
+{% block subject %}{{ student.profile.fullname }} has a new textbook campaign...{% endblock %}
+{% set campaign_route_name = constant('FMT\\PublicBundle\\Controller\\Common\\CampaignController::ROUTE_VIEW') %}
+{% set url = url(campaign_route_name, {id: campaign.id}) %}
+
+{% block content %}
+    <p>Hi, {{ donor.firstName }}</p>
+    <p>
+        Do you remember the "Save the Date" email you received from {{ student.profile.firstName }} about their
+        upcoming textbook fundraising campaign with FundMyTextbooks?
+    </p>
+    <p>
+        Well, it's here! Woot!! And now, {{ student.profile.firstName }} is inviting you to consider donating. (And
+        remember, your donation will only go to the books... we promise.)
+    </p>
+    <p>
+        There are several ways you can help:
+    </p>
+    <ul>
+        <li>Anonymous donation</li>
+        <li>Purchase a book or donate to their fund with no account needed</li>
+        <li>Use your account to purchase a book or donate to their fund and/or others' with greater easy</li>
+    </ul>
+    <p>
+        So - please click the link below, or copy and paste it into your browser if it doesn't want to work.
+        {{ student.profile.firstName }} thought highly enough of you to invite you to help them on their educational
+        journey and so we join them in thanking you in advance!
+    </p>
+    <p>
+        <a
+                class="btn btn-primary"
+                style="width: 222px"
+                href="{{ url }}"
+        >
+            Click Here to show campaign
+        </a>
+    </p>
+    <p>
+        <a href="{{ url }}">
+            {{ url }}
+        </a>
+    </p>
+{% endblock %}

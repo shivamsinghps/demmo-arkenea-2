@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_analytics_id }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag("js", new Date());
+        gtag("config", "{{ google_analytics_id }}");
+    </script>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Fund My Text Books {% block page_meta_title %}{% endblock page_meta_title%}</title>
+    {% include '@Public/iframeHandler.html.twig'%}
+
+    {% block meta %}{% endblock meta %}
+
+    {% stylesheets
+        '@font_awesome'
+        '@ion_icons'
+        '@bootstrap_less'
+        '@admin_lte_less'
+        '@bootstrap_datepicker_less'
+        '@admin_lte_skins_less'
+        '@cropperjs_css'
+        '@PublicBundle/Resources/public/less/custom.less' 
+        '@PublicBundle/Resources/public/less/campaign.less'
+        '@PublicBundle/Resources/public/less/cart.less'
+    filter='less' %}
+        <link  rel="stylesheet" href="{{ asset_url }}" type="text/css" media="all" property=""/>
+    {% endstylesheets %}
+
+    <link rel="stylesheet" href="{{ asset('css/jquery.auto_complete.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/roundslider.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    {% block page_scripts %}
+    {% endblock page_scripts %}
+    {% block page_stylesheet %}
+    {% endblock page_stylesheet %}
+</head>
+<body class="{% block body_class %}skin-blue ark-wrapper layout-top-nav{% endblock body_class %}" {% block body_attributes %}{%  endblock body_attributes %}>
+
+{% block container %}{% endblock container %}
+
+{% block flash_messages %}
+    {% include '@Public/common/_flash_messages.htm.twig' with {flashes: app.flashes} %}
+{% endblock flash_messages %}
+
+{% block modal %}
+    {% include '@Public/common/_modal_html.twig' %}
+{% endblock modal %}
+
+{% include '@Public/common/_autocomplete.html.twig' %}
+
+{% block included_scripts %}
+    {% javascripts
+        '@jquery'
+        '@bootstrap_js'
+        '@for_ie11'
+        '@bootstrap_datepicker_js'
+        '@jquery_slimscroll'
+        '@fastclick'
+        '@admin_lte_js'
+        '@jquery_form_validator'
+        '@jquery_auto_complete'
+        '@moment'
+        '@round_slider'
+        '@cropperjs'
+        '@cropperjs_jquery'
+        '@PublicBundle/Resources/public/js/custom.js'
+        '@PublicBundle/Resources/public/js/util/flash.js'
+        '@PublicBundle/Resources/public/js/util/popup.js'
+        '@PublicBundle/Resources/public/js/util/share.js'
+        '@PublicBundle/Resources/public/js/util/ajax-request.js'
+        '@PublicBundle/Resources/public/js/util/formatting.js'
+        '@PublicBundle/Resources/public/js/util/custom-component.js'
+        '@PublicBundle/Resources/public/js/util/cart.js'
+        '@PublicBundle/Resources/public/js/handler/date-widget.js'
+        '@PublicBundle/Resources/public/js/handler/scroll-to.js'
+        '@PublicBundle/Resources/public/js/handler/auto-flash.js'
+        '@PublicBundle/Resources/public/js/handler/form-collection.js'
+        '@PublicBundle/Resources/public/js/handler/share-window.js'
+        '@PublicBundle/Resources/public/js/handler/book-search.js'
+        '@PublicBundle/Resources/public/js/handler/donate-form.js'
+        '@PublicBundle/Resources/public/js/handler/stripe-checkout.js'
+        '@PublicBundle/Resources/public/js/handler/shipping-options.js'
+        '@PublicBundle/Resources/public/js/handler/campaign-form.js'
+        '@PublicBundle/Resources/public/js/page/common/login/reset.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock included_scripts %}
+
+{% block page_specific_javascript %}{% endblock page_specific_javascript %}
+
+{% block footer_stylesheet %}
+{% endblock footer_stylesheet %}
+
+{% block footer_scripts %}
+{% endblock footer_scripts %}
+</body>
+</html>

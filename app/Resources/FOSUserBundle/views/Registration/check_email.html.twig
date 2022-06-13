@@ -1,0 +1,14 @@
+{% extends '@Public/common/login-layout.html.twig' %}
+
+{% block content %}
+    <section class="content">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ 'fmt.authentication.sign_up'|trans }}</h3>
+            </div>
+            <div class="box-body">
+                <p>{{ 'fmt.registration.check_email'|trans({'%email%': user.email}) }}</p>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

@@ -1,0 +1,31 @@
+{
+  "name": "fmt-application",
+  "authors": [
+    "Alexey Zinukov <a.zinukov@syberry.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~3.4.0",
+    "admin-lte": "^2.4.3",
+    "jquery-form-validator": "^2.3.77",
+    "jquery-auto-complete": "^1.0.7",
+    "jquery.inputmask": "^3.3.1",
+    "cropperjs": "^1.5.12",
+    "jquery-cropper": "^1.0.1 ",
+    "bluebird": "^3.5.1",
+    "round-slider": "~1.6.1"
+  },
+  "resolutions": {
+    "jquery": "~3.4.0"
+  }
+}

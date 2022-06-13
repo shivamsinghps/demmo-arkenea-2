@@ -1,0 +1,24 @@
+<div class="registration-tabs-body">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab_1" data-toggle="tab" data-tab="donor" aria-expanded="true" style="color: black;">
+                    {{ 'fmt.user.role.donor'|trans }}
+                </a>
+            </li>
+            <li class="">
+                <a href="#tab_2" data-toggle="tab" data-tab="student" aria-expanded="false" style="color: black;">
+                    {{ 'fmt.user.role.student'|trans }}
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content registration-tabs-content">
+            <div class="tab-pane active" id="tab_1">
+                {% include '@Public/common/registration/_donor_form.html.twig' %}
+            </div>
+            <div class="tab-pane" id="tab_2">
+                {% include '@Public/common/registration/_student_form.html.twig' %}
+            </div>
+        </div>
+    </div>
+</div>

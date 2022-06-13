@@ -1,0 +1,48 @@
+<section class="content-header">
+    <h1>{{ 'fmt.user.profile.header_menu.dashboard'|trans|upper }}</h1>
+</section>
+<section class="content">
+    <div class="box box-default">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-3">
+                    {% include '@Public/components/campaign/avatar.html.twig' %}
+                </div>
+                <div class="col-md-9">
+                    {% include '@Public/student/dashboard/_statistic.html.twig' %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <div class="col-xs-3 col-md-3 campaign-block-title">
+                                <span>{{ 'fmt.campaign.student.campaigns'|trans }}</span>
+                            </div>
+                            <div class="col-xs-9 col-md-9 new-campaign-btn-wrap">
+                                {% if is_granted(constant('FMT\\PublicBundle\\Voter\\UserVoter::CAN_ADD_CAMPAIGN'), user) %}
+                                    <a
+                                        href="{{ path(constant('FMT\\PublicBundle\\Controller\\Student\\CampaignController::ROUTE_ADD')) }}"
+                                        class="btn btn-primary">
+                                        {{ 'fmt.campaign.student.create_new_campaign'|trans|upper }}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            {% for campaign in campaigns %}
+                                {% set campaign_date_text = campaign.finished ?
+                                    'fmt.widgets.campaign.header.ended'|trans({'%date%': campaign.endDate|textual_month_format }) :
+                                    'fmt.widgets.campaign.header.ends'|trans({'%date%': campaign.endDate|textual_month_format })
+                                %}
+                                <div class="col-md-4 margin-bottom-10">
+                                {% include '@Public/components/campaign/widget.html.twig' with {"showLinks": true} %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

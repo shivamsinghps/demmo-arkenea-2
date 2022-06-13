@@ -1,0 +1,6 @@
+services:
+    FMT\PublicBundle\ParamConverter\:
+        resource: '../../ParamConverter'
+        autowire: true
+        autoconfigure: true
+        tags: ['request.param_converter']

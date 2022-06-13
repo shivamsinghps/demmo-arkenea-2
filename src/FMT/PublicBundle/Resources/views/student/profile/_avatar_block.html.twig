@@ -1,0 +1,32 @@
+{% set user = user|default(app.user) %}
+{% set profile = user.profile %}
+{% set userAvatar = get_user_avatar(user) %}
+{% set school = profile.school %}
+{% set hideFormBtn = hideBtn|default(false) %}
+{% from '@Public/macro/fields.html.twig' import form_upload_input %}
+
+<div class="box-body box-profile">
+    <div class="avatar-wrapper margin-bottom-10">
+        {% if userAvatar %}
+            <img src="{{ asset(userAvatar) }}" alt="">
+        {% else %}
+            <i class="fa fa-user img-thumbnail" style="padding: 32px 0"></i>
+        {% endif %}
+    </div>
+    {% if not hideFormBtn %}
+        {{ form_upload_input(form.profile.avatar.filename, {
+            class: 'hidden',
+            'data-type-error-message': 'fmt.upload_avatar.type_error'|trans([], 'validators'),
+            'data-size-error-message': 'fmt.upload_avatar.size_error'|trans([], 'validators'),
+            'data-width-error-message': 'fmt.upload_avatar.dimension.min.width_error'|trans([], 'validators'),
+            'data-height-error-message': 'fmt.upload_avatar.dimension.min.height_error'|trans([], 'validators'),
+
+        }, get_temp_avatar_filename(user)) }}
+        <span class="text-muted text-center avatar-label-text">{{ 'fmt.user.profile.profile_avatar_label'|trans }}</span>
+    {% endif %}
+    <h3 class="profile-username text-center break-long-words">{{ user.profile.fullName }}</h3>
+
+    {% if school %}
+        <p class="text-muted text-center">{{ user.profile.school.name }}</p>
+    {% endif %}
+</div>

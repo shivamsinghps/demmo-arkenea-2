@@ -1,0 +1,7 @@
+framework:
+    lock: "%lock_adapter%"
+
+services:
+    fmt.lock:
+        alias: lock.factory
+        public: true

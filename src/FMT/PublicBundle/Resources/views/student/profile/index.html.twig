@@ -1,0 +1,32 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% block body_class %}{{ parent() }} profile-page {% endblock body_class %}
+{% block content %}
+    <section class="content">
+        {% if app.user.isIncompleteStudent %}
+            <div class="alert alert-danger alert-dismissible">
+                {{ 'fmt.user.profile.page_warning_student'|trans }}
+            </div>
+        {% endif %}
+        <div class="box box-primary">
+            {{ form_start(form, {attr: {'data-form': 'profile'}}) }}
+                <div class="box-body no-padding-lr">
+                    <div class="col-md-3">
+                        {% include '@Public/student/profile/_avatar_block.html.twig' %}
+                        {% include '@Public/student/profile/_buttons_block.html.twig' %}
+                    </div>
+                    {% include '@Public/student/profile/_form.html.twig' %}
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock content %}
+
+{% block footer_scripts %}
+    {% javascripts
+    '@PublicBundle/Resources/public/js/handler/profile-disable.js'
+    '@PublicBundle/Resources/public/js/page/student/profile/index.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

@@ -1,0 +1,71 @@
+<div class="nav-tabs-custom campaign-popup">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#catalog" data-toggle="tab">
+                {{ 'fmt.campaign.textbooks.popup.browse.tabs.tab1.title'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="#search" data-toggle="tab">
+                {{ 'fmt.campaign.textbooks.popup.browse.tabs.tab2.title'|trans }}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="catalog">
+            <ol class="breadcrumb">
+                {% if major is defined %}
+                    <li>
+                        <a href="#" data-url="{{ major.url }}" data-name="{{ major.name }}">
+                            <i class="fa fa-dashboard"></i>
+                            {{ major.name }}
+                        </a>
+                    </li>
+                {% endif %}
+            </ol>
+
+            <ul class="list-unstyled">
+                {% for item in list %}
+                    <li>
+                        {% set url = item.url|default %}
+                        <a href="#"
+                                {% for key, value in item %}
+                                    data-{{ key }}="{{ value }}"
+                                {% endfor %}
+                        >
+                            {{ item.name }}
+
+                            {% if item.state is defined and item.state %}
+                                ({{ item.state }})
+                            {% endif %}
+
+                            {% if item['calculated-inventory'] is defined and item['calculated-inventory'] == 0 %}
+                                <span class="text-danger">{{ 'fmt.statuses.book.STATUS_OUT_OF_STOCK'|trans }}</span>
+                            {% endif %}
+
+                            {% if item['converted-price'] is defined %}
+                                - {{ item['converted-price'] }}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% else %}
+                    <li><i>{{ 'fmt.campaign.textbooks.popup.browse.empty'|trans }}</i></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="tab-pane" id="search">
+            <div class="form-group">
+                <label for="isbn" id="isbn-label"
+                       title="{{ 'fmt.campaign.textbooks.popup.browse.tabs.tab2.tooltip'|trans }}"
+                       data-placement="right">
+                    {{ 'fmt.campaign.textbooks.popup.browse.tabs.tab2.label'|trans }}
+                </label>
+                <input class="form-control" type="text" id="isbn"
+                       {% if major is defined %}data-url="{{ url(constant('FMT\\PublicBundle\\Controller\\Common\\BookController::ROUTE_SEARCH'), {'id': major.id}) }}"{% endif %}
+                       placeholder="10-digit or 13-digit number"
+                       maxlength="13"
+                >
+            </div>
+        </div>
+    </div>
+</div>

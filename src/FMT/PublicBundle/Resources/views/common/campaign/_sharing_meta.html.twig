@@ -1,0 +1,15 @@
+<meta property="og:url" content="{{ page_url }}" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{ share_text }}" />
+<meta property="og:description" content="{{ page_dicription }}" />
+<meta name="twitter:url" content="{{ page_url }}">
+
+{% if avatar is defined and avatar %}
+    <meta name="twitter:image" content="{{ absolute_url(avatar) }}">
+    <meta property="og:image" content="{{ absolute_url(avatar) }}" />
+{% else %}
+    {% image '@PublicBundle/Resources/public/images/logo.svg' %}
+    <meta name="twitter:image" content="{{ absolute_url(asset_url) }}">
+    <meta property="og:image" content="{{ absolute_url(asset_url) }}" />
+    {% endimage %}
+{% endif %}

@@ -1,0 +1,80 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% set campaign = user.getUnfinishedCampaign() %}
+
+{% block body_class %}{{ parent() }} profile-page {% endblock body_class %}
+{% block content %}
+    <section class="content-header contacts-page">
+        <h1 class="content-title">{{ 'fmt.contacts.title'|trans }}</h1>
+
+        <div class="dropdown right-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span>{{ 'fmt.contacts.create_title'|trans }} <i class="fa fa-id-card" aria-hidden="true"></i></span>
+            </a>
+            <ul class="dropdown-menu no-hide-click-inside contact-form">
+                <li>
+                    <div class="create-contact-body">
+                        <h3 class="login-box-msg">{{ 'fmt.contacts.contact_info'|trans }}</h3>
+                        <div class="login-form-wrapper">
+                            {% include '@Public/student/contact/_create_contact.html.twig' with {'form': form } %}
+                        </div>
+                        <div class="text-center">
+                            <a href="javascript:void(0)" id="cancel-create">{{ 'fmt.contacts.cancel'|trans }}</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+{# TODO: Uncomment for #117933 Import contact #}
+{#        <div class="dropdown right-menu import-dropdown">#}
+{#            <a href="#" class="dropdown-toggle" data-toggle="dropdown">#}
+{#                <span>{{ 'fmt.contacts.import_title'|trans }} <i class="fa fa-cloud-download" aria-hidden="true"></i></span>#}
+{#            </a>#}
+{#        </div>#}
+    </section>
+    <div class="clearfix"></div>
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        {% include '@Public/student/contact/_contact_list.html.twig' %}
+                    </div>
+                    <div class="col-md-4">
+                        <div class="box box-info person-info-block">
+                            {% if campaign.isMassMailedAvailable %}
+                                <div class="box-body">
+                                    <div class="box-title break-long-words"></div>
+                                    <div class="invite-person">
+                                        <span>
+                                        <a href="{{ url(constant('FMT\\PublicBundle\\Controller\\Student\\ContactController::ROUTE_INVITES_ALL')) }}" style="color:black">
+                                                <i class="fa fa-envelope-o"
+                                                   aria-hidden="true"
+                                                   data-toggle="tooltip"
+                                                   data-placement="right"
+                                                   title="{{ 'fmt.contacts.tooltip'|trans }}"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <p class="text-left">Send a "Save the Date"</p>
+                                    <p class="text-left">Email to My Contacts</p>
+                                </div>
+                            {% endif %}
+                            {% include '@Public/student/contact/_campaign_widget.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+{% block footer_scripts %}
+    {% javascripts
+        '@PublicBundle/Resources/public/js/handler/round-slider.js'
+        '@PublicBundle/Resources/public/js/page/student/contact/index.js'
+        '@PublicBundle/Resources/public/js/page/student/contact/add.js'
+        '@PublicBundle/Resources/public/js/page/student/contact/campaign-invitation-modal.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

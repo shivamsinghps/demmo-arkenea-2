@@ -1,0 +1,102 @@
+{% set current_campaign = user.getUnfinishedCampaign() %}
+{% set campaigns_count = campaigns|length %}
+{#TODO add correct data to statisctic #}
+<div class="box box-success">
+    <div class="box-body">
+        <div class="row margin-bottom-10">
+            <div class="col-xs-4 col-md-4 stat-circ-full-width">
+                <div class="round-slider"
+                     data-value="{{ campaigns_count }}"
+                     data-max="{{ campaigns_count }}"
+                     data-radius="60"
+                     data-border-width="15"
+                     data-color="#e6a181"
+                ></div>
+                <div class="circle-label student-stat-title">{{ 'fmt.campaign.student.campaigns'|trans|upper }}</div>
+            </div>
+
+            <div class="col-xs-4 col-md-4 stat-circ-full-width">
+                <div class="round-slider"
+                     data-value="{{ booksPurchased }}"
+                     data-max="{{ booksCount }}"
+                     data-radius="60"
+                     data-border-width="15"
+                     data-color="#007399"
+                ></div>
+                <div class="circle-label student-stat-title">{{ 'fmt.campaign.student.books_purchased'|trans|upper }}</div>
+            </div>
+            <div class="col-xs-4 col-md-4 stat-circ-full-width circle-with-description">
+                <div class="description-box"
+                     title="{{ "fmt.campaign.student.funds_donated.description"|trans }}"
+                     data-toggle="tooltip"
+                     data-placement="bottom"
+                ></div>
+                <div class="round-slider round-slider-price"
+                     data-value="{{ (statistic.donatedToMe / 100)|number(0) }}"
+                     data-max="{{ (total_goal_amount(campaigns) / 100)|number(0) }}"
+                     data-radius="60"
+                     data-border-width="15"
+                     data-color="#3ab98d"
+                     data-start-angle="90"
+                ></div>
+                <div class="circle-label student-stat-title">{{ 'fmt.campaign.student.funds_donated.text'|trans|upper }}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=" col-xs-6 col-md-4 stat-circ-full-width">
+                {% if current_campaign %}
+                    {% if is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_EDIT'), current_campaign) %}
+                        <div class="col-md-12 margin-bottom-10">
+                            <a href="{{ url(constant('FMT\\PublicBundle\\Controller\\Student\\CampaignController::ROUTE_EDIT'), {id: current_campaign.id}) }}"
+                               class="btn btn-primary">
+                                <b>{{ 'fmt.campaign.student.edit_current_campaign'|trans|upper }}</b>
+                            </a>
+                        </div>
+                    {% endif %}
+                    <div class="col-md-12 margin-bottom-10">
+                        <a href="{{ url(constant('FMT\\PublicBundle\\Controller\\Common\\CampaignController::ROUTE_VIEW'), {id: current_campaign.id}) }}"
+                           class="btn btn-primary">
+                            <b>{{ 'fmt.campaign.student.view_current_campaign'|trans|upper }}</b>
+                        </a>
+                    </div>
+                {% endif %}
+                <div class="col-md-12 margin-bottom-10">
+                    {% if is_granted(constant('FMT\\PublicBundle\\Voter\\UserVoter::CAN_SHARE_FB'), user) %}
+                        <a href="{{ fb_share_link }}"
+                           class="btn btn-primary"
+                           role="button"
+                           target="_blank"
+                           data-social="share"
+                        >
+                            <i class="fa fa-facebook-official"></i> Share
+                        </a>
+                    {% endif %}
+                    {% if is_granted(constant('FMT\\PublicBundle\\Voter\\UserVoter::CAN_SHARE_TW'), user) %}
+                        <a href="{{ tw_share_link }}"
+                           class="btn btn-info"
+                           role="button"
+                           target="_blank"
+                           data-social="share"
+                        >
+                            <i class="fa fa-twitter-square"></i> Tweet
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-8 stat-circ-full-width">
+                {% if current_campaign %}
+                    <div class="round-slider round-slider-half slider-horizontal-gradient"
+                         data-value="{{ min(current_campaign.percentOfFunded, 1)|percent }}"
+                         data-circle-shape="half-top"
+                         data-radius="110"
+                         data-border-width="20"
+                         data-color="{{ color_by_percent(current_campaign.percentOfFunded) }}"
+                    ></div>
+                    <div class="circle-label student-stat-title circle-half-title">
+                        {{ 'fmt.campaign.student.textbook_funding'|trans|upper }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

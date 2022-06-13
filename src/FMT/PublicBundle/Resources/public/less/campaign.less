@@ -1,0 +1,196 @@
+.content.campaign {
+  .fa-user {
+    &.img-thumbnail {
+      width: 100%;
+      text-align: center;
+      font-size: 150px;
+      padding: 50px 0;
+    }
+  }
+
+  .thumbnail {
+    margin-bottom: 10px;
+  }
+
+  .about-me {
+    margin-left: 15px;
+    word-break: break-word;
+  }
+
+  .btn-fix-text {
+    max-width: 160px;
+  }
+
+  .btn-fund-my-self {
+    max-width: none;
+  }
+
+  .actions-box {
+    max-width: 320px;
+  }
+
+  .btn-primary {
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .books-box {
+    &.books-box-edit {
+      .box-header {
+        @media (max-width: 500px) {
+          .pull-right {
+            float: left !important;
+          }
+        }
+      }
+
+      .box-body {
+        @media (max-width: 374px) {
+          .date {
+            width: 100%;
+          }
+        }
+
+        .table {
+          .actions {
+            button {
+              min-width: 38px;
+            }
+          }
+        }
+      }
+    }
+
+    &.books-box-view {
+      .box-header {
+        @media (max-width: 767px) {
+          .pull-right {
+            float: left !important;
+          }
+        }
+      }
+    }
+  }
+
+  .thanks-icon {
+    font-size: 40px;
+    &.fa-frown-o {
+      color: blue;
+    }
+    &.fa-smile-o {
+      font-size: 19px;
+      color: green;
+      margin-right: -24px;
+      padding-left: 10px;
+    }
+    &.fa-check {
+      color: green;
+    }
+  }
+  .thanks-icon-wrapper{
+    display: flex;
+  }
+
+  .thanks-popup {
+    max-width: 290px;
+    min-width: 290px;
+    left: -255px;
+    top: -290px;
+    right: auto;
+    bottom: auto;
+    color: black;
+    padding: 10px;
+    @quoteColor: #608fa0;
+
+    &.result {
+      top: -215px;
+    }
+
+    .thanks-text-area textarea {
+      resize: vertical;
+      min-height: 64px;
+      max-height: 512px;
+      overflow-wrap: break-word;
+    }
+    .left-quote {
+      color: @quoteColor;
+    }
+    .right-quote {
+      text-align: right;
+      color: @quoteColor;
+      width: 100%;
+    }
+    .popup-header{
+      background-color: #3c8dbc;
+      margin: -10px -10px 10px -10px;
+      padding: 10px 10px 5px 10px;
+      border-radius: 5px 5px 0 0;
+    }
+    .btn{
+      display:block;
+      margin: 0;
+      width: 72px;
+    }
+    .buttons-wrapper{
+      display: flex;
+      justify-content: space-around;
+    }
+    .thanks-text {
+      margin: 10px;
+    }
+  }
+  .donation-comment{
+    margin-top:30px;
+    font-style: italic;
+  }
+  .contact-form {
+    width: 300px;
+  }
+  @media (max-width: 767px) {
+    .small-box .icon {
+      display: block !important;
+    }
+  }
+  .campaign-details.box {
+    margin-bottom: 10px;
+  }
+  .share-buttons-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    .share-button {
+      margin: 0 10px 0 0;
+    }
+  }
+  #thanks {
+    .form-group {
+      margin-bottom: 0;
+    }
+    & ~ .buttons-wrapper {
+      margin-top: 15px
+    }
+  }
+}
+
+.modal {
+  .campaign-popup {
+    #search {
+      #isbn-label {
+        border-bottom: 1px dotted;
+      }
+    }
+  }
+}
+
+.search-results-bar {
+  background: rgba(153, 153, 153, 1);
+  padding: 15px 30px;
+  h3 {
+    margin: 0;
+    color: #fff;
+  }
+}
+
+.donate-column {
+  height: 400px;
+}

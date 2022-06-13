@@ -1,0 +1,16 @@
+{% block body_text %}{% endblock %}
+{% block body_html %}
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <title>{% block subject %}{% endblock %}</title>
+        {% include "@Public/emails/partials/_styles.html.twig" %}
+    </head>
+    <body>
+        {% include "@Public/emails/partials/_header.html.twig" %}
+        {% block content %}{% endblock %}
+        {% include "@Public/emails/partials/_footer.html.twig" %}
+    </body>
+    </html>
+{% endblock %}
+

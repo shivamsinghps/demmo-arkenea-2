@@ -1,0 +1,14 @@
+{% from '@Public/macro/fields.html.twig' import form_input, form_login_registration_input %}
+
+{% set studentForm = get_student_registration_form() %}
+
+{{ form_start(studentForm, {'action': url(constant('FMT\\PublicBundle\\Controller\\Common\\RegistrationController::ROUTE_STUDENT_REGISTER'))}) }}
+{{ form_input(studentForm.profile.firstName) }}
+{{ form_input(studentForm.profile.lastName) }}
+{{ form_input(studentForm.profile.school) }}
+{{ form_input(studentForm.profile.studentId) }}
+{{ form_login_registration_input(studentForm.login) }}
+<div class="text-center">
+    <button type="submit" class="btn btn-primary">{{ 'fmt.form.submit'|trans|upper }}</button>
+</div>
+{{ form_end(studentForm) }}

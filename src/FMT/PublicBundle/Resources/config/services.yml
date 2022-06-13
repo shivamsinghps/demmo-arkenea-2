@@ -1,0 +1,22 @@
+imports:
+    - { resource: api_services.yml }
+    - { resource: controllers.yml }
+    - { resource: form.yml }
+    - { resource: listeners.yml }
+    - { resource: security.yml }
+    - { resource: twig.yml }
+    - { resource: subscriber.yml }
+    - { resource: voters.yml }
+    - { resource: converters.yml }
+    - { resource: base_menu.yml }
+
+
+services:
+    Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface: "@security.authorization_checker"
+    Symfony\Component\HttpFoundation\Session\SessionInterface: "@session"
+    Symfony\Component\Form\FormFactoryInterface: "@form.factory"
+    Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface: "@security.token_storage"
+    Symfony\Component\Routing\RouterInterface: "@router"
+    Symfony\Bundle\FrameworkBundle\Templating\EngineInterface: "@templating"
+    Symfony\Component\EventDispatcher\EventDispatcherInterface: "@event_dispatcher"
+    Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface: '@assetic.parameter_bag'

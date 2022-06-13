@@ -1,0 +1,321 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% set user = campaign.user %}
+{% set profile = user.profile %}
+{% set share_text = generate_share_text(user)|trans %}
+{% set page_url = '' %}
+{% if campaign.id %}
+    {% set page_url = url(constant('FMT\\PublicBundle\\Controller\\Common\\CampaignController::ROUTE_VIEW'), {id: campaign.id}) %}
+{% endif %}
+{% set avatar = asset(get_user_avatar(user)) %}
+{% set fb_share_link = generate_share_link({'u': page_url,}, 'fb') %}
+{% set tw_share_link = generate_share_link({'url': page_url,}, 'tw') %}
+{% set endDate = campaign.endDate ? campaign.endDate|textual_month_format : 'fmt.widgets.campaign.header.not_set'|trans %}
+{% set page_dicription = 'fmt.widgets.campaign.header.goal'|trans({'%price%': campaign.estimatedCost|price}) %}
+{% set page_dicription = page_dicription ~ ' ' ~ 'fmt.widgets.campaign.header.ends'|trans({'%date%': endDate}) %}
+{% set page_dicription = page_dicription ~ ' ' ~ 'fmt.widgets.campaign.header.progress'|trans({'%percent%': campaign.percentOfFunded|percent}) %}
+
+{% block meta %}
+    {% include '@Public/common/campaign/_sharing_meta.html.twig' %}
+{% endblock meta %}
+
+{% block content %}
+    <section class="content campaign">
+        {% include '@Public/common/campaign/_paused_banner.html.twig' with {campaign: campaign} %}
+
+        <div class="row">
+            <div class="col-md-8">
+                {% include '@Public/components/campaign/studentInfoFull.html.twig' %}
+            </div>
+
+            <div class="col-md-4">
+                {% if campaign.id %}
+                    {% include '@Public/components/campaign/widget.html.twig' with {showAllBooks: true} %}
+                {% endif %}
+
+                <div class="share-buttons-box">
+                    {% if is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_SHARE_FB'), campaign) %}
+                        <a href="{{ fb_share_link }}"
+                           class="btn btn-primary share-button"
+                           role="button"
+                           target="_blank"
+                           data-social="share"
+                        >
+                            <i class="fa fa-facebook-official"></i> {{ 'fmt.widgets.campaign.social.facebook'|trans }}
+                        </a>
+                    {% endif %}
+
+                    {% if is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_SHARE_TW'), campaign) %}
+                        <a href="{{ tw_share_link }}"
+                           class="btn btn-info share-button"
+                           role="button"
+                           target="_blank"
+                           data-social="share"
+                        >
+                            <i class="fa fa-twitter-square"></i> {{ 'fmt.widgets.campaign.social.twitter'|trans }}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if campaign.id %}
+            <div class="box box-primary donors-box" style="z-index: 10">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <h3 class="box-title">
+                            {{ 'fmt.campaign.donors.title'|trans }}
+                            <small>{{ 'fmt.campaign.donors.title_small'|trans }}</small>
+                        </h3>
+                    </div>
+                    <div class="col-xs-9">
+                        <div class="pull-right dropdown box-tools">
+                            <a href="{{ url(constant('FMT\\PublicBundle\\Controller\\Student\\ContactController::ROUTE_INDEX')) }}" class="btn btn-primary btn-sm">
+                                <span>{{ 'fmt.campaign.donors.buttons.invite'|trans }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                {% if campaignTransactions is defined %}
+                    {% for transaction in campaignTransactions %}
+                        <div class="col-lg-4 col-md-6 col-xs-12">
+                            <div class="small-box bg-gray-light">
+                                <div class="inner">
+                                    <h4>{{ transaction.donorFullName }}</h4>
+                                    {% if transaction.type is constant('FMT\\DataBundle\\Entity\\UserTransaction::TXN_BOOK_PURCHASE') %}
+                                        <p>{{ 'fmt.campaign.student.buy_book'|trans }} {{ transaction.order.price|price }}</p>
+                                    {% else %}
+                                        <p>{{ 'fmt.campaign.student.donation'|trans }} {{ transaction.net|price }}</p>
+                                    {% endif %}
+                                    <p class="donation-comment">{{ transaction.comment|quote }}</p>
+                                </div>
+                                <div class="icon dropup thanks-dropdown">
+                                    {% if not transaction.isAnonymous and transaction.sender.completed %}
+                                            {% if transaction.needThanks %}
+                                                <div class="dropdown-menu pull-right thanks-popup no-hide-click-inside">
+                                                    {{ include('@Public/student/campaign/thanks_form.html.twig', {'transaction': transaction}) }}
+                                                </div>
+                                            {% else %}
+                                                <div class="dropdown-menu pull-right thanks-popup no-hide-click-inside result">
+                                                    {{ include('@Public/student/campaign/thanks_result.html.twig', {'thanksText': transaction.thanks}) }}
+                                                </div>
+                                            {% endif %}
+                                        <button type="button"
+                                                class="btn btn-default btn-sm dropdown-toggle"
+                                                data-toggle="dropdown">
+                                    <span class="thanks-icon-wrapper">
+                                        {% if transaction.needThanks %}
+                                            <i class="fa fa-frown-o thanks-icon"></i>
+                                        {% else %}
+                                            <i class="fa fa-smile-o thanks-icon"></i>
+                                            <i class="fa fa-check thanks-icon"></i>
+                                        {% endif %}
+                                    </span>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% set error_wrapper = '.books-box .box-body' %}
+
+        {{ form_start(form, {'attr': {
+            'data-toggle': 'campaign-form',
+            'data-error': 'fmt.campaign.textbooks.form.errors.calculate_totals'|trans,
+            'data-error-wrapper': error_wrapper,
+            'data-url-recalculate': url(constant('FMT\\PublicBundle\\Controller\\Student\\CampaignController::ROUTE_RECALCULATE'), {id: campaign.id ?: 0}),
+            'data-status-available': constant('FMT\\DataBundle\\Entity\\CampaignBook::STATUS_AVAILABLE'),
+            'data-status-out-of-stock': constant('FMT\\DataBundle\\Entity\\CampaignBook::STATUS_OUT_OF_STOCK'),
+            'data-status-out-of-stock-message': 'fmt.statuses.book.STATUS_OUT_OF_STOCK'|trans
+        }}) }}
+        <div class="box box-primary books-box books-box-edit">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-xs-4 margin-bottom-10">
+                        <h3 class="box-title">{{ 'fmt.campaign.textbooks.title'|trans }}</h3>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="pull-right box-tools">
+                            {% if campaign.id and campaign.active and is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_EDIT'), campaign) %}
+                                {% if campaign.paused %}
+                                    <button class="btn btn-primary btn-sm"
+                                            type="button"
+                                            data-url="{{ url(constant('FMT\\PublicBundle\\Controller\\Student\\CampaignController::ROUTE_TOGGLE_PAUSE_STATUS'), {'id': campaign.id}) }}"
+                                            data-title="{{ 'fmt.campaign.textbooks.popup.restart.title'|trans }}"
+                                            data-message="{{ 'fmt.campaign.textbooks.popup.restart.explanation'|trans }}"
+                                            data-button-name="{{ 'fmt.campaign.textbooks.popup.button.restart'|trans }}"
+                                            data-error="{{ 'fmt.campaign.textbooks.form.errors.toggle_pause_status'|trans }}"
+                                            data-error-wrapper="{{ error_wrapper }}"
+                                            data-toggle="campaign-pause-restart"
+                                    >
+                                        {{ 'fmt.campaign.textbooks.buttons.restart'|trans }}
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-primary btn-sm"
+                                            type="button"
+                                            data-url="{{ url(constant('FMT\\PublicBundle\\Controller\\Student\\CampaignController::ROUTE_TOGGLE_PAUSE_STATUS'), {'id': campaign.id}) }}"
+                                            data-title="{{ 'fmt.campaign.textbooks.popup.pause.title'|trans }}"
+                                            data-message="{{ 'fmt.campaign.textbooks.popup.pause.explanation'|trans }}"
+                                            data-button-name="{{ 'fmt.campaign.textbooks.popup.button.pause'|trans }}"
+                                            data-error="{{ 'fmt.campaign.textbooks.form.errors.toggle_pause_status'|trans }}"
+                                            data-error-wrapper="{{ error_wrapper }}"
+                                            data-toggle="campaign-pause-restart"
+                                    >
+                                        {{ 'fmt.campaign.textbooks.buttons.pause'|trans }}
+                                    </button>
+                                {% endif %}
+                            {% endif %}
+                            {% if is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_FUND'), campaign) %}
+                                <a class="btn btn-primary btn-sm btn-fix-text" href="{{ url(constant('FMT\\PublicBundle\\Controller\\Common\\PaymentController::ROUTE_DONATE'), {'id': user.id}) }}">
+                                    {{ campaign|fund_student_name|trans({'%name%': campaign.user.profile.firstName}) }}
+                                </a>
+                            {% endif %}
+
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                {{ 'fmt.campaign.textbooks.buttons.save'|trans }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                {{ form_errors(form) }}
+
+                <div class="date col-lg-2 col-sm-3 col-xs-6">
+                    {{ form_row(form.startDate) }}
+                </div>
+                <div class="date col-lg-2 col-sm-3 col-xs-6">
+                    {{ form_row(form.endDate) }}
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="col-xs-12 table-responsive no-padding">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>{{ 'fmt.campaign.textbooks.table.header.title'|trans }}</th>
+                                <th class="mobile-hide">{{ 'fmt.campaign.textbooks.table.header.author'|trans }}</th>
+                                <th class="mobile-hide">{{ 'fmt.campaign.textbooks.table.header.class'|trans }}</th>
+                                <th class="mobile-hide">{{ 'fmt.campaign.textbooks.table.header.isbn'|trans }}</th>
+                                <th>{{ 'fmt.campaign.textbooks.table.header.cost'|trans }}</th>
+                                <th style="width: 100px">{{ 'fmt.campaign.textbooks.table.header.actions'|trans }}</th>
+                            </tr>
+                            </thead>
+                            <tbody id="book-list"
+                                   data-toggle="form-collection"
+                                   data-item="tr"
+                                   data-add-button=".add-book"
+                                   data-remove-button=".remove-book"
+                                   data-serial-number=".serial-number"
+                                   data-remove-title="{{ 'fmt.campaign.textbooks.popup.remove.title'|trans }}"
+                                   data-remove-message="{{ 'fmt.campaign.textbooks.popup.remove.message'|trans }}"
+                                   data-prototype="{% filter escape %}
+                            {{ include('@Public/components/campaign/bookFormRow.html.twig', {'form': form.books.vars.prototype}) }}
+                            {% endfilter %}">
+                            {% for book in form.books %}
+                                {{ include('@Public/components/campaign/bookFormRow.html.twig', {'form': book, 'key': loop.index0 + 1}) }}
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td></td>
+                                <td colspan="2">
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                            data-toggle="book-search"
+                                            data-url="{{ url(constant('FMT\\PublicBundle\\Controller\\Common\\BookController::ROUTE_COURSES'), {'id': campaign.major.id}) }}"
+                                            data-error="{{ 'fmt.campaign.textbooks.form.errors.browse'|trans }}"
+                                            data-not-found="{{ 'fmt.campaign.textbooks.form.errors.not_found'|trans }}"
+                                            data-error-wrapper="{{ error_wrapper }}"
+                                    >
+                                        {{ 'fmt.campaign.textbooks.buttons.browse'|trans }}
+                                    </button>
+
+                                    <button type="button" class="hide add-book"></button>
+                                </td>
+                                <td colspan="4" class="mobile-hide"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {{ form_widget(form.shippingOption) }}
+                                </td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td class="text-right">{{ 'fmt.campaign.textbooks.table.footer.shipping'|trans }}</td>
+                                <td data-field="estimated-shipping">
+                                    {{ form.vars.value.estimatedShipping|default(0)|price }}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-sm"
+                                            data-toggle="shipping-options"
+                                            data-url="{{ url(constant('FMT\\PublicBundle\\Controller\\Common\\ShippingController::ROUTE_OPTIONS'), {'id': campaign.major.id}) }}"
+                                            data-id="{{ form.vars.value.shippingOption }}"
+                                            data-error="{{ 'fmt.campaign.textbooks.form.errors.shipping_options'|trans }}"
+                                            data-error-wrapper="{{ error_wrapper }}"
+                                    >
+                                        {{ 'fmt.campaign.textbooks.table.footer.shipping_option'|trans }}
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td class="text-right">{{ 'fmt.campaign.textbooks.table.footer.total'|trans }}</td>
+                                <td data-field="estimated-cost">{{ campaign.estimatedCost|price }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td class="text-right">{{ 'fmt.campaign.textbooks.table.footer.funded'|trans }}</td>
+                                <td data-field="funded-total">{{ campaign.fundedTotal|price }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td class="text-right">{{ 'fmt.campaign.textbooks.table.footer.purchased'|trans }}</td>
+                                <td data-field="purchased-total">{{ campaign.purchasedTotal|price }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td class="text-right">{{ 'fmt.campaign.textbooks.table.footer.remaining'|trans }}</td>
+                                <td data-field="allowed-donate-amount">{{ campaign.allowedDonateAmount|price }}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="3" class="mobile-hide"></td>
+                                <td colspan="2"><small>{{ 'fmt.campaign.textbooks.table.note.shipping'|trans|raw }}</small></td>
+                                <td></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </section>
+{% endblock content %}
+
+{% block footer_scripts %}
+    {% javascripts
+        '@PublicBundle/Resources/public/js/handler/round-slider.js'
+        '@jquery_inputmask'
+        '@jquery_inputmask_regex'
+        '@PublicBundle/Resources/public/js/page/student/campaign/add-edit.js'
+        '@PublicBundle/Resources/public/js/handler/campaign-pause-restart.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

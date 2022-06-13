@@ -1,0 +1,10 @@
+infrastructure:
+    mapper:
+        class: FMT\InfrastructureBundle\Service\Mapper\Mapper
+        namespaces:
+            - FMT\InfrastructureBundle\Service\Nebook\RestApi\Mapper\
+            - FMT\InfrastructureBundle\Service\Payments\Dwolla\Mapper\
+
+    dwolla:
+        webhooks_route: /payments/dwolla/webhooks
+        webhooks_controller: FMT\InfrastructureBundle\Service\Payments\Dwolla\Controller\WebhooksController

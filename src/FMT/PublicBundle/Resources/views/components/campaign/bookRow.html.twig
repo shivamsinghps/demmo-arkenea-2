@@ -1,0 +1,13 @@
+{% set rowId = random_string() %}
+
+<tr class="cart-row {{ rowId }}">
+    <td><span>{{ key }}.</span></td>
+    <td>{{ item.title|default }} ({{ item|book_state }})</td>
+    <td class="mobile-hide">{{ item.author|default }}</td>
+    <td class="mobile-hide">{{ item.class|default }}</td>
+    <td class="mobile-hide">{{ item.isbn|default }}</td>
+    <td>{{ item.price|default|price }}</td>
+    {% if userIsNotStudent or campaign.user.id == activeUserId %}
+        <td>{% include "@Public/common/cart/_action_button.html.twig" with {item: item, rowId: rowId} only %}</td>
+    {% endif %}
+</tr>

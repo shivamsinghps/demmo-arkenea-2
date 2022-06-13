@@ -1,0 +1,25 @@
+<div class="hide">
+    {#flash message data#}
+    {% for label, messages in flashes %}
+        {% for message in messages %}
+            <div data-toggle="auto-flash" data-type="{{ label }}">
+                {{ message|trans }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {#flash message template#}
+    <div class="alert alert-dismissible flash-message-template">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4 data-flash-title="true"></h4>
+        <div data-flash-message="true"></div>
+    </div>
+
+    {#flash message icons#}
+    <div class="flash-message-template-icon">
+        <i class="icon fa fa-ban" data-icon-type="{{ constant('FMT\\PublicBundle\\Twig\\FlashExtension::ERROR_TYPE') }}"></i>
+        <i class="icon fa fa-info" data-icon-type="{{ constant('FMT\\PublicBundle\\Twig\\FlashExtension::INFO_TYPE') }}"></i>
+        <i class="icon fa fa-warning" data-icon-type="{{ constant('FMT\\PublicBundle\\Twig\\FlashExtension::WARNING_TYPE') }}"></i>
+        <i class="icon fa fa-check" data-icon-type="{{ constant('FMT\\PublicBundle\\Twig\\FlashExtension::SUCCESS_TYPE') }}"></i>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+{% block content %}
+    <div class="register-box-body">
+        <div class="login-form-wrapper" data-toggle="forgot-wrapper">
+            {% include '@Public/common/login/_login_form.html.twig' %}
+        </div>
+        <div class="reset-password-form-wrapper hidden" data-toggle="forgot-wrapper">
+            {% include '@Public/common/login/_reset_form.html.twig' with {
+                data_toggle: 'forgot-link',
+                back_button: 'fmt.form.back_to_login'|trans|upper
+            } %}
+        </div>
+    </div>
+{% endblock %}

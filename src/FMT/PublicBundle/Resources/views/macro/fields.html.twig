@@ -1,0 +1,105 @@
+{% macro form_input(form, attr, parentForm, showFormErrors = true) %}
+    {% import _self as this_macro %}
+    {% set attributes = form.vars.attr|merge({'class': 'form-control'}) %}
+    {% set attributes = attributes|merge(attr|default([])) %}
+    {% set isFormInvalid = form.vars.errors|length %}
+    {% set isParentFormInvalid = parentForm.vars.errors|default([])|length %}
+    {% set hasAddon = attr.pre_addon is defined %}
+    {% set className = hasAddon ? "input-group" : "form-group" %}
+    <div class="{{ className }} {% if isFormInvalid or isParentFormInvalid %} has-error {% endif %}">
+        {% if hasAddon %}
+            <span class="input-group-addon"><i class="fa fa-{{ attr.pre_addon }}"></i></span>
+        {% endif %}
+        {{- form_label(form) -}}
+        {{- form_widget(form, {attr: attributes}) -}}
+        {% if not hasAddon %}
+            {% if showFormErrors and isFormInvalid %}
+                {{ this_macro.form_input_error(form) }}
+            {% endif %}
+            {% if isParentFormInvalid %}
+                {{ this_macro.form_input_error(parentForm) }}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro form_input_error(form) %}
+    {% for error in form.vars.errors %}
+        <span class="help-block">{{ error.message }}</span>
+    {% endfor %}
+{% endmacro %}
+
+{% macro form_checkbox(form, attr) %}
+    {% set attributes = form.vars.attr|merge(attr|default([])) %}
+    <div class="form-group">
+        {{- form_widget(form, {attr: attributes}) -}}
+    </div>
+{% endmacro %}
+
+{% macro form_upload_input(form, attr, placeholder = '') %}
+    {% import _self as this_macro %}
+    {% set attributes = form.vars.attr|merge(attr|default([])) %}
+    {% set isFormInvalid = form.vars.errors|length %}
+    <div class="input-group margin-bottom-10 {% if isFormInvalid %} has-error {% endif %}" data-upload-block="true">
+        <label class="input-group-btn">
+            <span class="btn btn-primary">
+                {{ 'fmt.form.browse'|trans|upper }} {{ form_widget(form, {attr: attributes}) }}
+            </span>
+        </label>
+        <input type="text" class="form-control" readonly placeholder="{{ placeholder }}">
+    </div>
+    <div class="{% if isFormInvalid %} has-error {% endif %}">
+        <div data-error="error" class="help-block"></div>
+        {{ this_macro.form_input_error(form) }}
+    </div>
+{% endmacro %}
+
+{% macro flash_message(flashes) %}
+    {% for label, messages in flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> {{ label|capitalize }}</h4>
+                {{ message|trans }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro form_radio_line(form) %}
+    {% for radio in form %}
+        <label class="radio-inline">
+            <input
+                type="radio"
+                name="{{ radio.vars.full_name }}"
+                value="{{ radio.vars.value }}"
+                {% if radio.vars.checked %}checked{% endif %}
+            {% for key, attr in radio.vars.attr %}
+                {{ key }}="{{ attr }}"
+            {% endfor %}
+            >
+            {{ radio.vars.label|trans }}
+        </label>
+    {% endfor %}
+    {% do form.setRendered %}
+{% endmacro %}
+
+{% macro form_login_registration_input(form) %}
+    {% set isFormInvalid = form.vars.errors|length %}
+    {% set attributes = form.vars.attr|merge({'class': 'form-control'}) %}
+    {% set reset_password_url = url(constant('FMT\\PublicBundle\\Controller\\Common\\ResetController::ROUTE_REQUEST')) %}
+    {% set html_code = '<span class="btn-link pointer-link" data-btn="show-forgot-password"><a href="' ~ reset_password_url ~ '">here</a></span>' %}
+    <div class="form-group {% if isFormInvalid %} has-error {% endif %}">
+        {{- form_label(form) -}}
+        {{- form_widget(form, {attr: attributes}) -}}
+        {% if isFormInvalid %}
+            {% for error in form.vars.errors %}
+                <span class="help-block">{{ error.messageTemplate|trans(
+                    {'%html%': html_code},
+                    'validators'
+                    )|raw }}
+                </span>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}

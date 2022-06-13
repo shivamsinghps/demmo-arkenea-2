@@ -1,0 +1,31 @@
+imports:
+    - { resource: infrastructure.yml }
+    - { resource: aws_lambda.yml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    FMT\InfrastructureBundle\Service\Payments\Dwolla\:
+        autowire: false
+        autoconfigure: false
+        resource: '../../Service/Payments/Dwolla/{Item,Mapper}'
+
+    FMT\InfrastructureBundle\Service\Payments\Dwolla\Options:
+        arguments:
+            $endpoint: '%dwolla_endpoint%'
+            $clientId: '%dwolla_client_id%'
+            $clientKey: '%dwolla_client_key%'
+
+    FMT\InfrastructureBundle\Service\Payments\Dwolla\Listener\HandleWebhooksListener:
+        arguments:
+            $webhooksRoute: '%fmt.payments.dwolla.webhooks_route%'
+            $webhooksToken: '%fmt.payments.dwolla.webhooks_token%'
+            $webhooksController: '%fmt.payments.dwolla.webhooks_controller%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 128 }
+
+    FMT\InfrastructureBundle\Service\AmazonS3\StorageFactory:
+        arguments:
+            $root: "%kernel.root_dir%/../web"

@@ -1,0 +1,21 @@
+{% use "bootstrap_3_layout.html.twig" %}
+
+{# Widgets #}
+
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        {% if form is not rootform %}
+            <span class="help-block" data-toggle="flash">
+        {% else %}
+            <div class="alert alert-danger" data-toggle="flash">
+        {% endif %}
+
+        <ul class="list-unstyled">
+        {%- for error in errors -%}
+            <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{ error.message }}</li>
+        {%- endfor -%}
+        </ul>
+
+        {% if form is not rootform %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}

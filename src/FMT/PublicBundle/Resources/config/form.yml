@@ -1,0 +1,20 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+
+    FMT\PublicBundle\FormType\:
+        resource: '../../FormType/*'
+        tags: [form.type]
+
+
+    FMT\PublicBundle\FormType\AddressType:
+        arguments:
+            $usStates: '%us_state%'
+        tags: [form.type]
+
+    FMT\PublicBundle\FormType\Security\RegistrationDonorType:
+        arguments:
+            $subscriber: '@FMT\PublicBundle\FormType\Subscribers\RegistrationDonorSubscriber'
+        tags: [form.type]

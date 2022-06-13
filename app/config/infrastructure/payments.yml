@@ -1,0 +1,30 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+
+    FMT\InfrastructureBundle\Service\Payments\:
+        resource: '../../../src/FMT/InfrastructureBundle/Service/Payments/*'
+
+
+    FMT\InfrastructureBundle\Service\Payments\Stripe\StripeClient:
+        arguments:
+            $secretKey: '%stripe_secret_key%'
+
+    FMT\DomainBundle\Type\Payment\FMT:
+        arguments:
+            $commission: '%calculate_fmt_fee_percent%'
+
+    FMT\DomainBundle\Type\Payment\Stripe:
+        arguments:
+            $commission: '%calculate_stripe_fee_percent%'
+            $static: '%calculate_stripe_fee_static%'
+
+    FMT\DomainBundle\Type\Payment\Settings:
+        properties:
+            application: '@FMT\DomainBundle\Type\Payment\FMT'
+            paymentService: '@FMT\DomainBundle\Type\Payment\Stripe'
+            currency: "usd"
+            publicKey: "%stripe_public_key%"
+            live: "%stripe_live_mode%"

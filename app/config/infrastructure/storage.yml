@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+
+    FMT\InfrastructureBundle\Service\AmazonS3\StorageInterface:
+        factory: ['@FMT\InfrastructureBundle\Service\AmazonS3\StorageFactory', getInstance]
+        arguments: ["%avatar_storage%", "%s3_key%", "%s3_secret%"]

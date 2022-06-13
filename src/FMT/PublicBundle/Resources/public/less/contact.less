@@ -1,0 +1,113 @@
+.contacts-page {
+  .import-dropdown {
+    margin-right: 20px;
+  }
+  .right-menu {
+    float: right;
+    > a {
+      color: #333333;
+      font-size: 18px;
+      i {
+        margin-left: 3px;
+      }
+    }
+  }
+  .content-title {
+    float: left
+  }
+  .dropdown-menu {
+    &.contact-form {
+      width: 300px;
+      position: absolute;
+      right: 0;
+      left: auto;
+    }
+  }
+}
+
+.campaign-invitation-modal {
+  display: none;
+  hr {
+    border-top: 1px solid #e5e5e5 !important;
+  }
+  .right-quote {
+    text-align: right;
+    color: #608fa0;
+    width: 100%;
+  }
+  .left-quote {
+    color: #608fa0;
+    width: 100%;
+  }
+  .help-block-error {
+    color: #a83800;
+  }
+}
+
+.campaign-delete-modal {
+  display: none;
+  text-align: center;
+}
+
+.create-contact-body {
+  padding: 20px;
+}
+
+#create-contact-form {
+  #status-message {
+    display: none;
+    &.error {
+      color: #dd4b39;
+      border: 1px solid;
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+    &.success {
+      color: #40B541;
+      border: 1px solid;
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+  }
+}
+
+.person-info-block {
+  font-size: 16px;
+  font-weight: 500;
+  p {
+    margin: 0 0 5px;
+  }
+  .person-name {
+    font-size: 19px;
+    margin: 0 0 10px;
+    > i {
+      margin-right: 5px;
+    }
+  }
+  .person-email {
+    font-weight: 500;
+  }
+  .invite-person {
+    position: absolute;
+    right: 8px;
+    top: 5px;
+    font-size: 24px;
+    > span {
+      cursor: pointer;
+      color: #333333
+    }
+
+    .tooltip.left {
+      margin-right: 40px !important;
+    }
+  }
+  .remove-person {
+    position: absolute;
+    right: 10px;
+    top: 70px;
+    font-size: 17px;
+    > a {
+      color: #333333
+    }
+  }
+}

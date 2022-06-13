@@ -1,0 +1,17 @@
+{% set thanksForm = get_thanks_form(transaction) %}
+<h3 class="popup-header" style="font-size: 30px">{{ 'fmt.campaign.student.thanks_popup.header.need_thanks'|trans }}</h3>
+<p class="thanks-text">{{ 'fmt.campaign.student.thanks_popup.subheader.need_thanks'|trans }}</p>
+{{ form_start(thanksForm) }}
+<div>
+    <i class="fa fa-quote-left left-quote" aria-hidden="true"></i>
+    <div class="thanks-text-area">
+        {{ form_widget(thanksForm.thanks) }}
+    </div>
+    {{ form_widget(thanksForm) }}
+    <i class="fa fa-quote-right right-quote" aria-hidden="true"></i>
+    <div class="buttons-wrapper">
+        <button class="btn btn-primary">{{ 'fmt.form.submit'|trans }}</button>
+        <span class="btn btn-default" data-toggle="dropdown" aria-expanded="false">{{ 'fmt.form.cancel'|trans }}</span>
+    </div>
+</div>
+{{ form_end(thanksForm) }}

@@ -1,0 +1,71 @@
+{#TODO add correct statistic#}
+<div class="box box-success box-grey">
+    <div class="box-header with-border">
+        <h3 class="box-title">{{ 'fmt.user.donor.dashboard.my_statistics'|trans|upper }}</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-3 col-md-3 circle-full-width">
+                <div class="round-slider"
+                     data-value="{{ students_founded }}"
+                     data-max="{{ students_founded }}"
+                     data-radius="50"
+                     data-border-width="10"
+                     data-color="#e6a181"
+                ></div>
+                <div class="circle-label statistic-title">{{ 'fmt.user.donor.dashboard.students_funded'|trans|upper }}</div>
+            </div>
+            <div class="col-xs-3 col-md-3 circle-full-width">
+                <div class="round-slider"
+                     data-value="{{ books_purchased }}"
+                     data-max="{{ books_purchased }}"
+                     data-radius="50"
+                     data-border-width="10"
+                     data-color="#007399"
+                ></div>
+                <div class="circle-label statistic-title">{{ 'fmt.user.donor.dashboard.books_purchased'|trans|upper }}</div>
+            </div>
+            <div class="col-xs-3 col-md-3 circle-full-width circle-with-description">
+                <div class="description-box"
+                     title="{{ "fmt.user.donor.dashboard.amount_funded.description"|trans }}"
+                     data-toggle="tooltip"
+                     data-placement="bottom"
+                ></div>
+                <div class="round-slider"
+                     data-value="{{ (amount_founded / 100)|number(0) }}"
+                     data-max="{{ (amount_founded / 100)|number(0) }}"
+                     data-radius="50"
+                     data-border-width="10"
+                     data-color="#3ab98b"
+                ></div>
+                <div class="circle-label statistic-title">{{ 'fmt.user.donor.dashboard.amount_funded.text'|trans|upper }}</div>
+            </div>
+            <div class="col-xs-3 col-md-3 sharing-box">
+                {% if is_granted(constant('FMT\\PublicBundle\\Voter\\DonorVoter::CAN_SHARE_FB'), user) %}
+                    <div class="sharing-item">
+                        <a href="{{ fb_share_link }}"
+                           class="btn btn-primary"
+                           role="button"
+                           target="_blank"
+                           data-social="share"
+                        >
+                            <i class="fa fa-facebook-official"></i> Share
+                        </a>
+                    </div>
+                {% endif %}
+                {% if is_granted(constant('FMT\\PublicBundle\\Voter\\DonorVoter::CAN_SHARE_TW'), user) %}
+                    <div class="sharing-item">
+                        <a href="{{ tw_share_link }}"
+                           class="btn btn-info"
+                           role="button"
+                           target="_blank"
+                           data-social="share"
+                        >
+                            <i class="fa fa-twitter-square"></i> Tweet
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

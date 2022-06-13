@@ -1,0 +1,58 @@
+{% set dotationDetails = get_count_and_amount_donation(contact.donor, user) %}
+{% set isInvited = campaign ? campaign.hasContact(contact) : false %}
+{% set campaignDonations = campaign ? get_donation_amount_for_campaign(dotationDetails, campaign) : [] %}
+{% set totalDonations = campaign ? get_donation_amount(dotationDetails) : [] %}
+
+<div class="col-lg-6 col-md-6 col-xs-12">
+    <div class="box box-info person-info-block">
+        <div class="box-body">
+            <div class="box-title break-long-words">
+                <p class="person-name">
+                    {# TODO: will be uncommented later #}
+{#                    {% if isInvited %}#}
+{#                        {% if campaignDonations is empty %}#}
+{#                            <i class="fa fa-square-o" aria-hidden="true"></i>#}
+{#                        {% else %}#}
+{#                            <i class="fa fa-check-square-o" aria-hidden="true"></i>#}
+{#                        {% endif %}#}
+{#                    {% endif %}#}
+                    {{ contact.fullName }}
+                </p>
+            </div>
+            {% if campaign %}
+                <div class="invite-person">
+                    <span data-toggle="modal" data-target="#modal-invitation-{{ contact.id }}">
+                        <i class="fa fa-envelope-o"
+                           aria-hidden="true"
+                           data-toggle="tooltip"
+                           data-placement="right"
+                           title="{{ 'fmt.contacts.tooltip'|trans }}"></i>
+                    </span>
+                </div>
+            {% endif %}
+            <div class="remove-person">
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#modal-delete-{{ contact.id }}">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </a>
+            </div>
+            {% if isInvited %}
+{#                <p class="all-donation">{{ 'fmt.contacts.current_campaign_donations'|trans }}:#}
+{#                    {{ donation_view(campaignDonations) }}#}
+{#                </p>#}
+{#                <p class="all-donation">{{ 'fmt.contacts.all_donations'|trans }}:#}
+{#                    {{ donation_view(totalDonations) }}#}
+{#                </p>#}
+                {# TODO: will be uncommented later #}
+                <br>
+            {% else %}
+                <p class="all-donation">{{ 'fmt.contacts.not_invited'|trans }}  </p>
+            {% endif %}
+            <p class="person-email">
+                <a href="mailto:{{ contact.donor.profile.email }}">{{ contact.donor.profile.email }}</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% include '@Public/student/contact/_invite_contact_modal.html.twig' with { 'contact': contact, 'campaign': campaign } %}
+{% include '@Public/student/contact/_delete_contact_modal.html.twig' with { 'contact': contact } %}

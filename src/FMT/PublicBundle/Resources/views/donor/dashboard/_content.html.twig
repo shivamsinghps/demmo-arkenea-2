@@ -1,0 +1,35 @@
+{% set canSeePrivateElements = is_granted(constant('FMT\\PublicBundle\\Voter\\UserVoter::CAN_SEE_PRIVATE_ELEMENTS'), user) %}
+{% if needSearchField is not defined %}
+    {% set needSearchField = true %}
+{% endif %}
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-body no-padding-lr">
+            <div>
+                <div class="col-md-8">
+                    {% include '@Public/donor/dashboard/_statistic.html.twig' %}
+                </div>
+                <div class="col-md-4">
+                    {% include '@Public/donor/dashboard/_thanks.html.twig' %}
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="subheader-divider">
+                <h3 class="row-header">{{ 'fmt.user.donor.dashboard.students_and_campaigns_header'|trans }}</h3>
+            </div>
+            {% if canSeePrivateElements and needSearchField %}
+                {% include  '@Public/donor/dashboard/_search_funded_students_row.html.twig' %}
+                <div class="donors-students">
+                    {% for student in students %}
+                        {% include '@Public/donor/dashboard/_funded_student.html.twig' %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="container">
+                <div class="preloader">
+                    <div class="loader fa-spin"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

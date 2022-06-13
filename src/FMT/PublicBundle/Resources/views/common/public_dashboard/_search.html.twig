@@ -1,0 +1,23 @@
+<div class="box box-success">
+    <div class="box-header with-border">
+        {% include '@Public/common/public_dashboard/_filter_block.html.twig' %}
+    </div>
+    <div class="row">
+        <div class="search-results-bar">
+            <h3>Search Results - Displaying {{ total }} Results</h3>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                {{ knp_pagination_render(campaigns) }}
+            </div>
+        </div>
+        {% include '@Public/common/public_dashboard/_students_list.html.twig' %}
+        <div class="row">
+            <div class="col-md-12 text-right">
+                {{ knp_pagination_render(campaigns) }}
+            </div>
+        </div>
+    </div>
+</div>

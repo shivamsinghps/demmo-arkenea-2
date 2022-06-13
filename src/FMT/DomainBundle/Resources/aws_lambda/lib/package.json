@@ -1,0 +1,12 @@
+{
+  "name": "fmt-aws-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Syberry CIS",
+  "license": "ISC",
+  "dependencies": {
+    "request": "~2.85",
+    "request-promise": "~4.2"
+  }
+}

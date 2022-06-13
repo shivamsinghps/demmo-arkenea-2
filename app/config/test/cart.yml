@@ -1,0 +1,25 @@
+services:
+
+    test.domain.service.cart.locker:
+        alias: FMT\DomainBundle\Service\Cart\CartLocker
+        public: true
+
+    test.domain.service.cart.checkout:
+        alias: FMT\DomainBundle\Service\Cart\CheckoutService
+        public: true
+
+    test.domain.service.cart.cart_manager:
+        alias: FMT\DomainBundle\Service\Manager\CartManager
+        public: true
+
+    test.domain.service.cart.processor.nebook:
+        alias: FMT\DomainBundle\Service\Cart\Processor\NebookProcessor
+        public: true
+
+    test.domain.service.cart.nebook:
+        alias: FMT\DomainBundle\Service\Cart\NebookService
+        public: true
+
+    test.domain.service.cart.provider.anonymous:
+        alias: FMT\DomainBundle\Service\Cart\Provider\AnonymousProvider
+        public: true

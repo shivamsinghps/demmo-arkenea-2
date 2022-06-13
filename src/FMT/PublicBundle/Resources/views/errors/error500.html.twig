@@ -1,0 +1,35 @@
+{% extends "@Public/common/general-layout.html.twig" %}
+{% set isAuthenticated = is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+{% block body_class %}{{ parent() }} exception-page {% endblock body_class %}
+
+{% block content %}
+    {% include "@Public/errors/partials/_error_title.html.twig" %}
+    <section class="content">
+        <div class="box box-default">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col col-xs-12 col-md-9 information-box">
+                        <p>FAIL (Found An Interesting..... Lalalalalalala).</p>
+                        <p>You're probably pretty confused right now.</p>
+                        <p>Our server may have just....  wait.... yep.  The server exploded.</p>
+                        {% if not isAuthenticated %}
+                        <p>But since you're here, how about signing up to donate or get funded!</p>
+                        {% endif %}
+                    </div>
+                    {% if not isAuthenticated %}
+                        {{ include('@Public/errors/partials/_registration_block.html.twig') }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block footer_scripts %}
+    {% javascripts
+        '@PublicBundle/Resources/public/js/handler/signup-popup.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

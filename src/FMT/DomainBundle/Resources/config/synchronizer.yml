@@ -1,0 +1,8 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+
+    FMT\DomainBundle\Service\Synchronizer\:
+        resource: '../../Service/Synchronizer/*'

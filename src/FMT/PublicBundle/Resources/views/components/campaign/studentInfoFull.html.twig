@@ -1,0 +1,8 @@
+<div class="row">
+    <div class="col-md-6">
+        {% include '@Public/components/campaign/avatar.html.twig' with {fund: true} %}
+    </div>
+    <div class="about-me">
+        {{ campaign.user.profile.aboutText|nl2br }}
+    </div>
+</div>

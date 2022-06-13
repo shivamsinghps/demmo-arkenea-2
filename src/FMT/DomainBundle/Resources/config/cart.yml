@@ -1,0 +1,49 @@
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    FMT\DomainBundle\Service\Cart\:
+        resource: '../../../../../src/FMT/DomainBundle/Service/Cart/*'
+
+    FMT\DomainBundle\Service\Cart\CheckoutService:
+        arguments:
+            $logger: '@monolog.logger.cartCheckout'
+
+
+    # Services that provide cart entity depending on the current circumstances
+    FMT\DomainBundle\Service\Cart\Provider\UserProvider:
+        tags:
+            - { name: fmt.cart.provider, alias: user, priority: 10 }
+
+    FMT\DomainBundle\Service\Cart\Provider\AnonymousProvider:
+        tags:
+            - { name: fmt.cart.provider, alias: anonymous, priority: 0 }
+
+    FMT\DomainBundle\Service\Cart\Provider\DummyProvider:
+        tags:
+            - { name: fmt.cart.provider, alias: dummy, priority: -10 }
+
+
+    # Processors that update cart aggregate values after any change happens
+    FMT\DomainBundle\Service\Cart\Processor\CampaignProcessor:
+        tags:
+            - { name: fmt.cart.processor, alias: campaign, priority: 30 }
+
+    FMT\DomainBundle\Service\Cart\Processor\NebookProcessor:
+        tags:
+            - { name: fmt.cart.processor, alias: nebook, priority: 20 }
+
+    FMT\DomainBundle\Service\Cart\Processor\FmtFeeProcessor:
+        arguments:
+            $calculator: '@FMT\DomainBundle\Type\Payment\FMT'
+        tags:
+            - { name: fmt.cart.processor, alias: fmtFee, priority: 10 }
+
+    FMT\DomainBundle\Service\Cart\Processor\TransactionFeeProcessor:
+        arguments:
+            $calculator: '@FMT\DomainBundle\Type\Payment\Stripe'
+        tags:
+            - { name: fmt.cart.processor, alias: transactionFee, priority: 0 }

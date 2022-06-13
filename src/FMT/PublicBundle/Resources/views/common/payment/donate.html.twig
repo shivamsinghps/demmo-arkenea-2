@@ -1,0 +1,104 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+{% set campaign = student.getUnfinishedCampaign() %}
+{% set campaignId = campaign ? campaign.id : 0 %}
+{% set alowedAmount = campaign ? campaign.getAllowedDonateAmount() : 0 %}
+{% set avatar = get_user_avatar(student) %}
+{% set paymentAmount = form.vars.value.paymentAmount ?? form.vars.value.paymentAmount %}
+
+{% block content %}
+    <section class="content">
+        <div class="col-sm-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        {{ 'fmt.payment_form.remaining_need'|trans({'%firstName%': student.profile.firstName, '%amount%': alowedAmount|price}) }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="box box-default donate-column">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ student.profile.fullName }}</h3>
+                    <div>
+                        <i>{{ student.profile.school.name }} {{ student.profile.gradYear }}</i>
+                    </div>
+                </div>
+                <div class="box-body flex-center">
+                    {% if avatar %}
+                        <img src="{{ asset(avatar) }}" class="img-thumbnail">
+                    {% else %}
+                        <i class="fa fa-user img-thumbnail"></i>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="box box-default donate-column">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Donate Funds</h3>
+                </div>
+                <form class="box-body donate-form"
+                      data-toggle="donate-form"
+                      data-service-fee="5"
+                      data-validate-amount-url="{{ url(constant('FMT\\PublicBundle\\Controller\\Common\\CampaignController::ROUTE_VALIDATE_DONATE_AMOUNT'), {id: campaignId}) }}"
+                      action="javascript:void(0)"
+
+                >
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label for="amount" class="required">Amount:</label>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input
+                                        type="text"
+                                        id="amount"
+                                        class="form-control"
+                                        name="amount"
+                                        placeholder="0.00"
+                                        data-max-length="32"
+                                        data-validation="number"
+                                        data-validation-allowing="float"
+                                        value="{{ paymentAmount }}"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label>Transaction Fee:</label>
+                        </div>
+                        <div class="col-xs-6">$<span data-donate-form="txn-fee">0.00</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label>FMT Fee:</label>
+                        </div>
+                        <div class="col-xs-6">$<span data-donate-form="fmt-fee">0.00</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label>Total:</label>
+                        </div>
+                        <div class="col-xs-6">$<span data-donate-form="total">0.00</span></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            {% include '@Public/form/checkout.html.twig' with { "form" : form, "student" : student.profile.firstName } %}
+        </div>
+        <div style="clear: both"></div>
+    </section>
+{% endblock content %}
+
+{% block page_specific_javascript %}
+    {% javascripts
+        '@PublicBundle/Resources/public/js/page/common/payment/donate.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock page_specific_javascript %}
+

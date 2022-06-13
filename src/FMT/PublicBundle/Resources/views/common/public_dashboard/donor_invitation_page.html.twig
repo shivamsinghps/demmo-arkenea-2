@@ -1,0 +1,59 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% set profile = student.profile %}
+{% set avatar = asset(get_user_avatar(student)) %}
+{% set signup_donor_route_name = constant('FMT\\PublicBundle\\Controller\\Common\\RegistrationController::ROUTE_CONFIRM') %}
+{% set donate_route_name = constant('FMT\\PublicBundle\\Controller\\Common\\PaymentController::ROUTE_DONATE') %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>{{ 'fmt.user.invitation_page.header'|trans }}</h1>
+    </section>
+    <section class="content">
+        <div class="box box-primary invitation-page">
+            <div class="box-body no-padding-lr flex-wrap">
+                <div class="col-md-4">
+                    {% include '@Public/components/campaign/avatar.html.twig' with {user: student} %}
+                </div>
+                <div class="col-md-4">
+                    <div class="box box-info flex-wrap">
+                        <div>
+                            <h2>{{ 'fmt.user.invitation_page.create_account.header'|trans }}</h2>
+                            <p>{{ 'fmt.user.invitation_page.create_account.text'|trans }}</p>
+                        </div>
+                        <div class="donate_link">
+                            {% if token %}
+                                <a href="{{ url(signup_donor_route_name, {token: token}) }}" class="btn btn-primary">
+                                    {{ 'fmt.user.invitation_page.create_account.button'|trans }}
+                                </a>
+                            {% else %}
+                                <a data-show-signup="donor" class="btn btn-primary show-signup-popup">
+                                    {{ 'fmt.user.invitation_page.create_account.button'|trans }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="box box-info flex-wrap">
+                        <div>
+                            <h2>{{ 'fmt.user.invitation_page.without_account.header'|trans }}</h2>
+                            <p>{{ 'fmt.user.invitation_page.without_account.text'|trans({'%name%': profile.firstName}) }}</p>
+                        </div>
+                        <div class="donate_link">
+                            <a href="{{ url(donate_route_name, {id: student.id}) }}" class="btn btn-primary">
+                                {{ 'fmt.user.invitation_page.without_account.button'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+{% block footer_scripts %}
+    {{ parent() }}
+    {% javascripts '@PublicBundle/Resources/public/js/handler/signup-popup.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

@@ -1,0 +1,15 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+{% block body_class %}{{ parent() }} index-page-no-authorized {% endblock body_class %}
+{% block content %}
+    <section class="content-header">
+        <h1>Search Campaigns</h1>
+    </section>
+    <section class="content">
+        {# TODO: For three random/last campaigns use template '@Public/common/public_dashboard/_campaignView.html.twig' #}
+        <div class="box box-default">
+            <div class="box-body">
+                {% include '@Public/common/public_dashboard/_search_campaigns_row.html.twig' with {sortDirection: 'ASC'}%}
+            </div>
+        </div>
+    </section>
+{% endblock content %}

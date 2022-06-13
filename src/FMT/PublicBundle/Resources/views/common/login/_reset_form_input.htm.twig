@@ -1,0 +1,19 @@
+{% set formError = formError|default(false) %}
+{% set email = email|default('') %}
+
+<p class="login-box-msg">{{ 'fmt.authentication.forgot_password'|trans|upper }}</p>
+<div class="form-group {% if formError %} has-error {% endif %}" data-reset-password-form-input-wrapper="wrapper">
+    <label for="username" class="email-label">{{ 'fmt.form.email'|trans }}</label>
+    <input
+            type="text"
+            name="username"
+            value="{{ email }}"
+            required="required"
+            class="form-control"
+            placeholder="Email"
+            data-validation="email"
+            data-validation-error-msg="{{ 'fmt.email.js_error'|trans([], 'validators') }}"
+            data-reset-password-form-username="username"
+    />
+    <small class="help-block text-center fon-size-ms reset-notice">{{ 'fmt.registration.reset.form_label'|trans|upper }}</small>
+</div>

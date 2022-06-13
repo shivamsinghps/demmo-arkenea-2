@@ -1,0 +1,17 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+
+    FMT\PublicBundle\Controller\Common\RegistrationController:
+        arguments:
+            $formFactory: '@fos_user.registration.form.factory'
+
+    FMT\PublicBundle\Controller\Common\ResetController:
+        arguments:
+            $formFactory: '@fos_user.resetting.form.factory'
+            $retryTtl: '%fos_user.resetting.retry_ttl%'
+    FMT\PublicBundle\Controller\Common\StripeEventController:
+        arguments:
+            $stripeWebhookSignature: '%stripe_webhook_signature%'

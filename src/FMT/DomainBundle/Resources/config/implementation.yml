@@ -1,0 +1,38 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Repository
+    FMT\DomainBundle\Repository\UserRepositoryInterface: '@FMT\DataBundle\Repository\UserRepository'
+    FMT\DomainBundle\Repository\UserSchoolRepositoryInterface: '@FMT\DataBundle\Repository\UserSchoolRepository'
+    FMT\DomainBundle\Repository\UserMajorRepositoryInterface: '@FMT\DataBundle\Repository\UserMajorRepository'
+    FMT\DomainBundle\Repository\CampaignRepositoryInterface: '@FMT\DataBundle\Repository\CampaignRepository'
+    FMT\DomainBundle\Repository\OrderRepositoryInterface: '@FMT\DataBundle\Repository\OrderRepository'
+    FMT\DomainBundle\Repository\UserTransactionRepositoryInterface: '@FMT\DataBundle\Repository\UserTransactionRepository'
+    FMT\DomainBundle\Repository\UserStatisticRepositoryInterface: '@FMT\DataBundle\Repository\UserStatisticRepository'
+    FMT\DomainBundle\Repository\UserContactRepositoryInterface: '@FMT\DataBundle\Repository\UserContactRepository'
+    FMT\DomainBundle\Repository\DwollaEventRepositoryInterface: '@FMT\DataBundle\Repository\DwollaEventRepository'
+    FMT\DomainBundle\Repository\BookstoreTransferRepositoryInterface: '@FMT\DataBundle\Repository\BookstoreTransferRepository'
+    FMT\DomainBundle\Repository\OrderItemRepositoryInterface: '@FMT\DataBundle\Repository\OrderItemRepository'
+
+    # Manager
+    FMT\DomainBundle\Service\UserManagerInterface: '@FMT\DomainBundle\Service\Manager\UserManager'
+    FMT\DomainBundle\Service\BookManagerInterface: '@FMT\DomainBundle\Service\Manager\BookManager'
+    FMT\DomainBundle\Service\ShippingManagerInterface: '@FMT\DomainBundle\Service\Manager\ShippingManager'
+    FMT\DomainBundle\Service\CampaignManagerInterface: '@FMT\DomainBundle\Service\Manager\CampaignManager'
+    FMT\DomainBundle\Service\FileManagerInterface: '@FMT\DomainBundle\Service\Manager\FileManager'
+    FMT\DomainBundle\Service\CartManagerInterface: '@FMT\DomainBundle\Service\Manager\CartManager'
+    FMT\DomainBundle\Service\PaymentManagerInterface: '@FMT\DomainBundle\Service\Manager\PaymentManager'
+    FMT\DomainBundle\Service\UserTransactionManagerInterface: '@FMT\DomainBundle\Service\Manager\UserTransactionManager'
+    FMT\DomainBundle\Service\UserContactManagerInterface: '@FMT\DomainBundle\Service\Manager\UserContactManager'
+    FMT\DomainBundle\Service\BookstorePaymentManagerInterface: '@FMT\DomainBundle\Service\BookstorePayment\BookstorePaymentManager'
+
+    # Helper
+    FMT\DomainBundle\Service\ReceiptHelperInterface: '@FMT\DomainBundle\Service\Pdf\ReceiptFPDFHelper'
+
+    # Order
+    FMT\DomainBundle\Service\OrderReturnsCheckerInterface: '@FMT\DomainBundle\Service\Order\OrderReturnsChecker'
+
+    # Other
+    FMT\DomainBundle\Service\BookstorePayment\NotificatorInterface: '@FMT\DomainBundle\Service\BookstorePayment\EmailNotificator'

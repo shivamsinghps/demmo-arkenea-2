@@ -1,0 +1,32 @@
+fmt:
+    password:
+        error: 'The password should contain at least 8 symbols, Latin letters of different register, digits and special charactes.'
+    email:
+        error: 'This value is not a valid email address.'
+        invalid_characters_error: 'Email address should not contain invalid characters.'
+        js_error: 'Error. Email address not recognized.'
+    grad_year:
+        error: 'Please enter correct year.'
+    unique_email:
+        error: 'This email address could not be used because it already exists in the database.'
+        reset_request: 'This email address could not be used because it already exists in the database. Please click %html% if you need to reset your password to log in, or try a different email address.'
+    upload_avatar:
+        dimension:
+            min:
+                height_error: 'Your picture height should be at least {{ min_height }}px. Please increase the height of the image and try again.'
+                width_error: 'Your picture width should be at least {{ min_width }}px. Please increase the width of the image and try again.'
+        size_error: 'Your image file is larger than the maximum permitted file size of {{ limit }} {{ suffix }}. Please upload a smaller image file.'
+        not_blank: 'Avatar should not be blank.'
+        type_error: 'This file is not a valid image.'
+    reset:
+        error: 'Error. Email address not recognized.'
+    profile:
+        donor_visibility_social_error: 'Please choose at least one option.'
+    campaign:
+        date_range: 'The start date can not be longer than the end date'
+        books:
+            count: 'The campaign should contain 1 book or more.'
+            unique: 'You can not choose several identical books'
+    contact:
+        already_invited_error: 'This donor has already been invited.'
+        student_error: 'This email address is already taken by another student. You cannot add students to your contacts.'

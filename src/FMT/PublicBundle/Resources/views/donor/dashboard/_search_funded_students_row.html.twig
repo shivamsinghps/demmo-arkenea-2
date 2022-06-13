@@ -1,0 +1,29 @@
+<div class="search-row subheader-divider">
+    <div class="search-header-container">
+        <h3 class="row-header">{{ 'fmt.user.donor.dashboard.search_i_funded_header'|trans }}</h3>
+    </div>
+    <div class="search-field-container">
+            {{ form_start(form) }}
+        <div class="input-group">
+            {{ form_widget(form.search, { 'attr': {'placeholder': 'fmt.user.donor.dashboard.search_field_placeholder'|trans}}) }}
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-primary btn-flat">
+                    <i class="fa fa-fw fa-search"></i>
+                </button>
+            </span>
+        </div>
+            {% do form.sortDirection.setRendered %}
+            {% do form.major.setRendered %}
+            {% do form.sortBy.setRendered %}
+            {% do form.limit.setRendered %}
+            {{ form_end(form) }}
+    </div>
+    <div class="browse-btn-container">
+        <a
+                href="{{ url(constant('\\FMT\\PublicBundle\\Controller\\Common\\PublicDashboardController::ROUTE_ACTIVE_CAMPAIGN')) }}"
+                class="btn btn-primary btn-block no-padding-lr browse-btn">
+            <b>{{ 'fmt.form.browse_active_campaigns'|trans }}</b>
+        </a>
+    </div>
+
+</div>

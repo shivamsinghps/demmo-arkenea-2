@@ -1,0 +1,39 @@
+{% extends "@Public/emails/base_temlate.email.twig" %}
+{% block subject %}{{ student.profile.fullName }} has a special request...{% endblock %}
+
+{% if isCampaignInvitation is defined and isCampaignInvitation %}
+    {% set invitation_route_name = constant('FMT\\PublicBundle\\Controller\\Common\\PublicDashboardController::ROUTE_DONOR_INVITATION_PAGE') %}
+    {% set invitation_url = url(invitation_route_name, {id: student.id, token: donor.confirmationToken}) %}
+{% else %}
+    {% set invitation_route_name = constant('FMT\\PublicBundle\\Controller\\Common\\RegistrationController::ROUTE_CONFIRM') %}
+    {% set invitation_url = url(invitation_route_name, {token: donor.confirmationToken}) %}
+{% endif %}
+
+{% block content %}
+    <p>Hello, {{ donor.profile.firstName }}</p>
+    <p>
+        {{ student.profile.firstName }} invites you to join crowdfunding platform "FundMyTextbooks"
+        where you will be able to donate the student with confidence that your donation will only go to books!
+        (We promise)
+    </p>
+
+    {% if personalNote is defined and personalNote %}
+        <p>
+            Here's a note from {{ student.fullName }}:
+        </p>
+
+        <p>
+            "{{ personalNote }}"
+        </p>
+    {% endif %}
+
+    <p>
+        <a href="{{ invitation_url }}">
+            {{ invitation_url }}
+        </a>
+    </p>
+    <p>If clicking the link doesn't work, you can copy and paste it into your browser.</p>
+
+    <p>Warm Regards,</p>
+    <p>The FMT Team (and {{ student.fullName }})</p>
+{% endblock %}

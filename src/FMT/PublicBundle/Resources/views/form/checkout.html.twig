@@ -1,0 +1,64 @@
+{% from '@Public/macro/fields.html.twig' import form_input, form_input_error %}
+
+{% set isAuthorized = is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+{% set isCheckout = form.vars.attr["data-checkout"] ? 1 : 0 %}
+{% set endpoint = isCheckout ? "#" : "#" %}
+{% set btnName = isCheckout ? "fmt.payment_form.buttons.checkout" : "fmt.payment_form.buttons.donate" %}
+{% set donorFirstName = app.user ? app.user.profile.firstName : null %}
+{% set donorLastName = app.user ? app.user.profile.lastName : null %}
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<form action="{{ form.vars.action }}"
+      method="{{ form.vars.method }}"
+      name="{{ form.vars.name }}"
+      data-toggle="stripe-checkout"
+      data-token="{{ form.vars.attr["data-token"] }}"
+      data-checkout="{{ form.vars.attr["data-checkout"] }}"
+      class="box box-default donate-column"
+      novalidate="novalidate"
+>
+    <div class="box-header with-border">
+        <h3 class="box-title">{{ 'fmt.payment_form.title' | trans }}</h3>
+    </div>
+    <div class="box-body">
+        {% if not isAuthorized %}
+        <div class="form-group">
+            <p class="margin">
+                <label class="required">{{ "fmt.payment_form.fields.email" | trans }}:</label>
+            </p>
+            {{ form_input(form.email, {pre_addon: "envelope"}) }}
+            {% if form.email.vars.errors|length %}
+                <div class="has-error" style="padding-left: 40px">
+                    {{ form_input_error(form.email) }}
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="form-group">
+            {{ form_widget(form.anonymous.children|first) }}
+            {{ form_widget(form.anonymous.children|last)  | trans({"%name%": student}) | raw }}
+            {% if not isAuthorized %}
+            <div class="row" id="donor-name-box" data-is-authorized="{{ isAuthorized }}">
+                <div class="col-xs-6">
+                    {{ form_input(form.first_name) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_input(form.last_name) }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div data-stripe-checkout="credit-card-field"></div>
+
+        {% if form.payment_amount is defined %}
+            {{ form_row(form.payment_amount) }}
+        {% endif %}
+        {{ form_widget(form.payment_processor) }}
+        {{ form_widget(form._token) }}
+    </div>
+    <div class="box-footer">
+        {{ form_widget(form.cancel, {attr: {class: "btn btn-default"}}) }}
+        {{ form_widget(form.proceed, {attr: {class: "btn btn-info pull-right", disabled: "disabled"}}) }}
+    </div>
+</form>

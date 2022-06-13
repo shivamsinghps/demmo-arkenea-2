@@ -1,0 +1,25 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% set profile = user.profile %}
+{% set share_text = generate_share_text(user)|trans %}
+{% set page_url = url(constant('FMT\\PublicBundle\\Controller\\Common\\PublicDashboardController::ROUTE_DONOR_INDEX'), {id: user.id}) %}
+{% set fb_share_link = generate_share_link({'u': page_url,}, 'fb') %}
+{% set tw_share_link = generate_share_link({'url': page_url}, 'tw') %}
+{% set page_dicription = user.profile.fullName %}
+
+{% block meta %}
+    {% include '@Public/common/campaign/_sharing_meta.html.twig' %}
+{% endblock meta %}
+
+{% block body_class %}{{ parent() }} donor-dashboard-page {% endblock body_class %}
+{% block content %}
+   {% include '@Public/donor/dashboard/_content.html.twig' with {needSearchField: false} %}
+{% endblock content %}
+{% block footer_scripts %}
+    {% javascripts
+    '@PublicBundle/Resources/public/js/handler/round-slider.js'
+    '@PublicBundle/Resources/public/js/page/donor/dashboard/index.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

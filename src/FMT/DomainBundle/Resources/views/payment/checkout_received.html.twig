@@ -1,0 +1,16 @@
+{% extends '@Public/emails/base_temlate.email.twig' %}
+{% block subject %}You've received funds in FundMyTextbooks!{% endblock %}
+
+{% block content %}
+<p>Great news, {{ transaction.recipient.firstName }}!</p>
+<p>{% if not transaction.anonymous %}A donor {{ transaction.sender.fullName }}{% else %}An anonymous donor{% endif %}, has checkouted books to your FundMyTextbooks campaign!  Log in to FMT to see the details{% if not transaction.anonymous %}and make sure to send them a thank you by clicking the happy face icon on their contact card{% endif %}.</p>
+<p>
+    <a class="btn btn-primary" style="width: 125px" href="{{ url('fmt-common-dashboard-index') }}">Click Here Log In</a>
+</p>
+<p>
+    <a href="{{ url('fmt-student-profile-index') }}">{{ url('fmt-student-profile-index') }}</a>
+</p>
+<p>Have an awesome day!</p>
+<p>The FMT Team</p>
+
+{% endblock content %}

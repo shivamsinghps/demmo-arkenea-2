@@ -1,0 +1,28 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% block body_class %}{{ parent() }} active-campaign-page {% endblock body_class %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>Active Campaigns</h1>
+    </section>
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body no-padding-lr">
+                <div>
+                    <div class="col-md-12" data-ajax-container="container">
+                        {% include '@Public/common/public_dashboard/_search.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+{% block footer_scripts %}
+    {% javascripts
+        '@PublicBundle/Resources/public/js/handler/round-slider.js'
+        '@PublicBundle/Resources/public/js/handler/live-reaction.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

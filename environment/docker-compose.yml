@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  application_db:
+    image: mysql:5.7
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: "fmt"
+      MYSQL_ROOT_PASSWORD: "root"
+    container_name: application_db
+
+  application:
+    build:
+      context: ./..
+    ports:
+      - "32453:80"
+    volumes:
+      - ./../.:/var/www/html
+      - ./config/php/docker-php-ext-xdebug.ini:/FMT/enviroment/config/php/conf.d/docker-php-ext-xdebug.ini
+      - ./config/php/upload_files.ini:/FMT/enviroment/config/php/conf.d/upload_files.ini
+      - ./cache:/var/www/html/app/var/cache
+      - ./log:/var/www/html/app/var/log
+    container_name: application
+    environment:
+      XDEBUG_CONFIG: remote_host=${LOCAL_IP}
+      PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
+    depends_on:
+      - application_db
+    links:
+      - application_db

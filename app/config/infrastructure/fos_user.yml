@@ -1,0 +1,25 @@
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: FMT\DataBundle\Entity\User
+    service:
+        mailer: fos_user.mailer.twig_swift
+    from_email:
+        address: "%sender_address%"
+        sender_name: "%sender_name%"
+    registration:
+        confirmation:
+            enabled: true
+            template: 'PublicBundle:emails:confirmation.email.twig'
+    resetting:
+        email:
+            template: 'PublicBundle:emails:password_reset.email.twig'
+
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    FOS\UserBundle\Mailer\MailerInterface: '@fos_user.mailer.twig_swift'
+    FOS\UserBundle\Doctrine\UserManager: '@fos_user.user_manager.default'

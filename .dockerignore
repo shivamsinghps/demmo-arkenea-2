@@ -1,0 +1,5 @@
+environment
+.gitlab-ci.yml
+.idea
+.gitignore
+.git

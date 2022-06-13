@@ -1,0 +1,15 @@
+<div class="box box-default">
+    {% if sortByMajor is defined and sortByMajor %}
+        <div class="box-header with-border">
+            <h3>{{ major_name|upper|default('fmt.form.filter.no_results'|trans) }}</h3>
+        </div>
+    {% endif %}
+    <div class="box-body">
+        {% if campaigns is defined %}
+            {% for campaign in campaigns %}
+                {% set user = campaign.user %}
+                {% include '@Public/components/student/student_full_widget.html.twig' %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>

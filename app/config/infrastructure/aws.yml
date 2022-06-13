@@ -1,0 +1,7 @@
+# @see https://github.com/aws/aws-sdk-php-symfony
+aws:
+    version: latest
+    region: '%aws_region%'
+    credentials:
+        key: '%aws_key%'
+        secret: '%aws_secret%'

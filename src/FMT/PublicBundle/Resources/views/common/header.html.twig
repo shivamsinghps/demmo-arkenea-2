@@ -1,0 +1,111 @@
+{% set isAuthenticated = is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+{% set headerBaseLinks = header_links() %}
+{% set log_in_url = url(constant('FMT\\PublicBundle\\Controller\\Common\\PublicDashboardController::ROUTE_LOG_IN')) %}
+{% set sign_up_url = url(constant('FMT\\PublicBundle\\Controller\\Common\\PublicDashBoardController::ROUTE_SIGN_UP')) %}
+{% set search_url = url(constant('FMT\\PublicBundle\\Controller\\Common\\PublicDashBoardController::ROUTE_SEARCH')) %}
+<header class="main-header">
+    <nav class="navbar navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <div class="logo-header">
+                    {% if isAuthenticated %}
+                        {% set user = app.user %}
+                        {% set dashboardRoute = url(get_user_available_route(user, 'dashboard')) %}
+                        <a href="{{ dashboardRoute }}" data-iframe-link >
+                            {% image '@PublicBundle/Resources/public/images/logo.svg' %}
+                                <img class="logo" src="{{ asset_url }}" alt="logo"/>
+                            {% endimage %}
+                        </a>
+                    {% else %}
+                        <a href="{{ marketing_app_url }}" data-iframe-link >
+                            {% image '@PublicBundle/Resources/public/images/logo.svg' %}
+                                <img class="logo" src="{{ asset_url }}" alt="logo"/>
+                            {% endimage %}
+                        </a>
+                    {% endif %}
+                    <button
+                        type="button"
+                        class="navbar-toggle collapsed"
+                        data-toggle="collapse"
+                        data-target="#navbar-collapse"
+                    >
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu header-small-menu">
+                <div class="nav navbar-nav header-small-menu">
+                    <ul
+                        class="nav navbar-nav navbar-collapse collapse header-small-menu full-width"
+                        id="navbar-collapse"
+                        aria-expanded="true"
+                    >
+                        {% for page, link in headerBaseLinks %}
+                            <li class="small-menu-item">
+                                <a href="{{ link }}">{{ ('fmt.marketing_pages.' ~ page)|trans }}</a>
+                            </li>
+                        {% endfor %}
+                    <!-- User Account Menu -->
+                    {% if not isAuthenticated %}
+                        <li class="small-menu-item">
+                            <a href="{{ search_url }}" class="global-cart-header" data-iframe-link >
+                                <span class="small-menu-item-text">Search</span>
+                                <i class="fa fa-fw fa-search"></i>
+                                Search Campaigns
+                            </a>
+                        </li>
+                        <li class="small-menu-item">
+                            {% include '@Public/common/cart_header.html.twig' %}
+                        </li>
+                        <li class="small-menu-item">
+                            <a href="{{ sign_up_url }}">
+                                <span>{{ 'fmt.authentication.sign_up'|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="small-menu-item">
+                            <!-- Menu Toggle Button -->
+                            <a href="{{ log_in_url }}" >
+                                <span>{{ 'fmt.authentication.log_in'|trans }}</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        {% set profileRoute = url(get_user_available_route(user, 'profile')) %}
+
+                        {% if user.isAnyStudent %}
+                            {% set contactsRoute = url(get_user_available_route(user, 'contacts')) %}
+                            <li class="small-menu-item">
+                                <a href="{{ contactsRoute }}">{{ 'fmt.user.profile.header_menu.contacts'|trans }}</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="small-menu-item">
+                            <a href="{{ dashboardRoute }}">{{ 'fmt.user.profile.header_menu.dashboard'|trans }}
+                            </a>
+                        </li>
+                        <li class="small-menu-item">
+                            <a href="{{ profileRoute }}">{{ 'fmt.user.profile.header_menu.profile'|trans }}</a>
+                        </li>
+                        <li class="small-menu-item">
+                            <a href="{{ search_url }}" class="global-cart-header" data-iframe-link >
+                                <span class="small-menu-item-text">Search</span>
+                                <i class="fa fa-fw fa-search"></i>
+                                Search Campaigns
+                            </a>
+                        </li>
+                        <li class="small-menu-item">
+                            {% include '@Public/common/cart_header.html.twig' %}
+                        </li>
+                        <li class="small-menu-item">
+                            <a href="{{ url('fos_user_security_logout') }}">
+                                <span class="small-menu-item-text">{{ 'fmt.authentication.logout'|trans }}</span>
+                                <i class="glyphicon glyphicon-log-out"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

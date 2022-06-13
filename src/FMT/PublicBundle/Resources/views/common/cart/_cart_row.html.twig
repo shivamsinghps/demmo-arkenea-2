@@ -1,0 +1,9 @@
+{% set rowId = random_string() %}
+
+<tr class="cart-row {{ rowId }}">
+    <td>{{ item.title }} ({{ item.book|book_state }})</td>
+    <td style="width: 150px">{{ item.price|default|price }}</td>
+    <td style="width: 50px">
+        {% include "@Public/common/cart/_action_button.html.twig" with {item: item.book, rowId: rowId} only %}
+    </td>
+</tr>

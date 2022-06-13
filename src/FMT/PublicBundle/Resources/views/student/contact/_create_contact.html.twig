@@ -1,0 +1,10 @@
+{% from '@Public/macro/fields.html.twig' import form_input %}
+
+{{ form_start(form, {'action': url(constant('FMT\\PublicBundle\\Controller\\Student\\ContactController::ROUTE_CREATE')), 'attr': {'id': 'create-contact-form'}}) }}
+    {{ form_input(form.profile.firstName) }}
+    {{ form_input(form.profile.lastName) }}
+    {{ form_input(form.login) }}
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary">{{ 'fmt.form.submit'|trans|upper }}</button>
+    </div>
+{{ form_end(form) }}

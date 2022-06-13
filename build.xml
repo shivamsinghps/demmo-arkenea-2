@@ -1,0 +1,287 @@
+<project name="FundMyTextbook" default="build" basedir="./">
+    <property environment="env"/>
+
+    <!--  Load our configuration -->
+    <property file="./build.properties"/>
+
+    <!--  Test, code analysis executable paths -->
+    <property name="phpmd" value="${project.basedir}/vendor/bin/phpmd"/>
+    <property name="phpmd_config" value="${project.basedir}/build/syberry-phpmd-1.0.xml"/>
+    <property name="phpcs" value="${project.basedir}/vendor/bin/phpcs"/>
+    <property name="phpunit" value="${project.basedir}/vendor/bin/phpunit"/>
+    <property name="console" value="${project.basedir}/bin/console"/>
+    <property name="env.app_env" value="prod" override="false"/>
+
+    <property name="lambda_local_dir" value="${project.basedir}/src/FMT/DomainBundle/Resources/aws_lambda" override="false"/>
+
+    <!--=============================================================================================================-->
+    <!-- Main targets -->
+
+    <!-- CONFIGURE -->
+    <target name="configure" unless="configure.done">
+        <property name="env.domain" value="fmt.local" override="false"/>
+        <property name="env.mailer_transport" value="mail" override="false"/>
+        <property name="env.social_facebook_link" value="'#'" override="false"/>
+        <property name="env.social_twitter_link" value="'#'" override="false"/>
+        <property name="env.social_linkedin_link" value="'#'" override="false"/>
+        <property name="env.social_instagram_link" value="'#'" override="false"/>
+        <property name="env.mailer_host" value="~" override="false"/>
+        <property name="env.mailer_port" value="~" override="false"/>
+        <property name="env.mailer_user" value="~" override="false"/>
+        <property name="env.mailer_password" value="~" override="false"/>
+        <property name="env.sender_name" value="Do Not Reply" override="false"/>
+        <property name="env.nebook_endpoint" value="https://webprismapi.prismservices.net/v3.14/WebPrismService.svc/json" override="false"/>
+        <property name="env.nebook_wsdl" value="https://purchase.prismservices.net/purchase.asmx?wsdl" override="false"/>
+        <property name="env.nebook_xmlns" value="https://manager2.thecampushub.com/Services/Purchase" override="false"/>
+        <property name="env.node_bin" value="/usr/bin/node" override="false"/>
+        <property name="env.node_path" value="/usr/local/lib/node_modules" override="false"/>
+        <property name="env.cache_server" value="~" override="false"/>
+        <property name="env.stripe_live_mode" value="1" override="false"/>
+        <property name="env.avatar_storage" value="file:///avatar" override="false" />
+        <property name="symfony_script" value="app" />
+        <property name="symfony_debug" value="0" />
+        <property name="application_cache_adapter" value="filesystem" />
+        <property name="application_lock_adapter" value="flock" />
+        <if>
+            <equals arg1="${env.app_env}" arg2="dev" />
+            <then>
+                <property name="symfony_script" value="app_dev" />
+                <property name="symfony_debug" value="1" override="true" />
+            </then>
+        </if>
+        <if>
+            <not><equals arg1="${env.cache_server}" arg2="~" /></not>
+            <then>
+                <exec executable="php" outputProperty="application_cache_adapter" checkreturn="true">
+                    <arg value="-r" />
+                    <arg line="&#34;echo parse_url('${env.cache_server}', PHP_URL_SCHEME);&#34;" />
+                </exec>
+                <property name="application_lock_adapter" value="${env.cache_server}" override="true" />
+            </then>
+        </if>
+        <copy file="app/config/parameters.yml.tpl" tofile="app/config/parameters.yml" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="IS_PROD" value="${env.is_prod}"/>
+                    <token key="BUILD_NUMBER" value="${env.BUILD_NUMBER}"/>
+                    <token key="DOMAIN_NAME" value="${env.domain}"/>
+                    <token key="DATABASE_HOST" value="${env.database_host}"/>
+                    <token key="DATABASE_PORT" value="${env.database_port}"/>
+                    <token key="DATABASE_NAME" value="${env.database_name}"/>
+                    <token key="DATABASE_USER" value="${env.database_user}"/>
+                    <token key="DATABASE_PASSWORD" value="${env.database_password}"/>
+                    <token key="MAILER_TRANSPORT" value="${env.mailer_transport}"/>
+                    <token key="MAILER_HOST" value="${env.mailer_host}"/>
+                    <token key="MAILER_PORT" value="${env.mailer_port}"/>
+                    <token key="MAILER_USER" value="${env.mailer_user}"/>
+                    <token key="MAILER_PASSWORD" value="${env.mailer_password}"/>
+                    <token key="SENDER_EMAIL" value="${env.sender_email}"/>
+                    <token key="SENDER_NAME" value="${env.sender_name}"/>
+                    <token key="NEBOOK_ENDPOINT" value="${env.nebook_endpoint}"/>
+                    <token key="NEBOOK_WSDL" value="${env.nebook_wsdl}"/>
+                    <token key="NEBOOK_XMLNS" value="${env.nebook_xmlns}"/>
+                    <token key="NEBOOK_BOOKSTORE_ID" value="${env.nebook_bookstore_id}"/>
+                    <token key="NEBOOK_USER" value="${env.nebook_user}"/>
+                    <token key="NEBOOK_PASSWORD" value="${env.nebook_password}"/>
+                    <token key="NEBOOK_CACHE_LIFETIME" value="${env.nebook_cache_lifetime}"/>
+                    <token key="CSRF_SECRET" value="${env.csrf_secret}"/>
+                    <token key="NODE_BIN" value="${env.node_bin}"/>
+                    <token key="NODE_PATH" value="${env.node_path}"/>
+                    <token key="NPM_BIN" value="${env.npm_bin}"/>
+                    <token key="CACHE_SERVER" value="${env.cache_server}"/>
+                    <token key="CACHE_ADAPTER" value="${application_cache_adapter}"/>
+                    <token key="LOCK_ADAPTER" value="${application_lock_adapter}" />
+                    <token key="STRIPE_PUBLIC_KEY" value="${env.stripe_public_key}"/>
+                    <token key="STRIPE_SECRET_KEY" value="${env.stripe_secret_key}"/>
+                    <token key="STRIPE_LIVE_MODE" value="${env.stripe_live_mode}"/>
+                    <token key="STRIPE_WEBHOOK_SIGNATURE" value="${env.stripe_webhook_signature}"/>
+                    <token key="AVATAR_STORAGE" value="${env.avatar_storage}"/>
+                    <token key="S3_KEY" value="${env.s3_key}"/>
+                    <token key="S3_SECRET" value="${env.s3_secret}"/>
+                    <token key="AWS_REGION" value="${env.aws_region}"/>
+                    <token key="AWS_KEY" value="${env.aws_key}"/>
+                    <token key="AWS_SECRET" value="${env.aws_secret}"/>
+                    <token key="LAMBDA_LOCAL_DIR" value="${lambda_local_dir}"/>
+                    <token key="CALCULATE_FMT_FEE_PERCENT" value="${env.calculate_fmt_fee_percent}"/>
+                    <token key="CALCULATE_STRIPE_FEE_PERCENT" value="${env.calculate_stripe_fee_percent}"/>
+                    <token key="CALCULATE_STRIPE_FEE_STATIC" value="${env.calculate_stripe_fee_static}"/>
+                    <token key="MARKETING_APP_URL" value="${env.marketing_app_url}"/>
+                    <token key="MARKETING_HELP_PAGE" value="${env.base_menu__help}"/>
+                    <token key="MARKETING_ABOUT_PAGE" value="${env.base_menu__about}"/>
+                    <token key="MARKETING_PRIVACY_PAGE" value="${env.base_menu__privacy}"/>
+                    <token key="MARKETING_HOW_WORKS_PAGE" value="${env.base_menu__how_works}"/>
+                    <token key="MARKETING_TERMS_PAGE" value="${env.base_menu__terms}"/>
+                    <token key="MARKETING_FEES_PAGE" value="${env.base_menu__fees}"/>
+                    <token key="MARKETING_PARTNER_WITH_FMT_PAGE" value="${env.base_menu__partner}"/>
+                    <token key="GOOGLE_ANALYTICS_ID" value="${env.google_analytics_id}"/>
+                    <token key="SOCIAL_FACEBOOK_LINK" value="${env.social_facebook_link}"/>
+                    <token key="SOCIAL_TWITTER_LINK" value="${env.social_twitter_link}"/>
+                    <token key="SOCIAL_LINKEDIN_LINK" value="${env.social_linkedin_link}"/>
+                    <token key="SOCIAL_INSTAGRAM_LINK" value="${env.social_instagram_link}"/>
+                    <token key="GOOGLE_ANALYTICS_ID" value="${env.google_analytics_id}"/>
+                    <token key="GOOGLE_ANALYTICS_ID" value="${env.google_analytics_id}"/>
+                    <token key="DWOLLA_ENDPOINT" value="${env.dwolla_endpoint}"/>
+                    <token key="DWOLLA_CLIENT_ID" value="${env.dwolla_client_id}"/>
+                    <token key="DWOLLA_CLIENT_KEY" value="${env.dwolla_client_key}"/>
+                    <token key="DWOLLA_WEBHOOKS_TOKEN" value="${env.dwolla_webhooks_token}"/>
+                    <token key="DWOLLA_WEBHOOKS_ENDPOINT" value="${env.dwolla_webhooks_endpoint}"/>
+                    <token key="DWOLLA_FMT_FUNDING_SOURCE" value="${env.dwolla_fmt_funding_source}"/>
+                    <token key="DWOLLA_BOOKSTORE_EMAIL" value="${env.dwolla_bookstore_email}"/>
+                    <token key="DWOLLA_BOOKSTORE_CUSTOMER_FIRST_NAME" value="${env.dwolla_bookstore_customer_first_name}"/>
+                    <token key="DWOLLA_BOOKSTORE_CUSTOMER_LAST_NAME" value="${env.dwolla_bookstore_customer_last_name}"/>
+                    <token key="DWOLLA_BOOKSTORE_CUSTOMER_EMAIL" value="${env.dwolla_bookstore_customer_email}"/>
+                    <token key="DWOLLA_BOOKSTORE_CUSTOMER_BUSINESS_NAME" value="${env.dwolla_bookstore_customer_business_name}"/>
+                    <token key="DWOLLA_BOOKSTORE_CUSTOMER_IP_ADDRESS" value="${env.dwolla_bookstore_customer_ip_address}"/>
+                    <token key="DWOLLA_BOOKSTORE_CUSTOMER_CORRELATION_ID" value="${env.dwolla_bookstore_customer_correlation_id}"/>
+                    <token key="DWOLLA_BOOKSTORE_FUNDING_SOURCE_NAME" value="${env.dwolla_bookstore_funding_source_name}"/>
+                    <token key="DWOLLA_BOOKSTORE_FUNDING_SOURCE_ROUTING_NUMBER" value="${env.dwolla_bookstore_funding_source_routing_number}"/>
+                    <token key="DWOLLA_BOOKSTORE_FUNDING_SOURCE_ACCOUNT_NUMBER" value="${env.dwolla_bookstore_funding_source_account_number}"/>
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <copy file=".htaccess.tpl" tofile="web/.htaccess" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="SCRIPT_NAME" value="${symfony_script}" />
+                    <token key="APP_DEBUG" value="${symfony_debug}" />
+                    <token key="APP_ENV" value="${env.app_env}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <copy file="app/config/parameters.yml" tofile="app/config/parameters.yml.dist" overwrite="true"/>
+        <if>
+            <not><equals arg1="${symfony_script}" arg2="app_dev" /></not>
+            <then>
+                <delete file="web/app_dev.php" quiet="true" />
+            </then>
+        </if>
+        <property name="configure.done" value="true"/>
+    </target>
+
+    <!-- BUILD -->
+    <target name="build">
+        <phingcall target="composer"/>
+        <phingcall target="bower"/>
+        <phingcall target="npm"/>
+    </target>
+
+    <!-- TEST -->
+    <target name="test" depends="pre-test" description="Performs different tests of the source code">
+        <if>
+            <equals arg1="${env.app_env}" arg2="dev"/>
+            <then>
+                <parallel threadCount="3">
+                    <phingcall target="test-phpcs"/>
+                    <phingcall target="test-phpmd"/>
+                    <phingcall target="test-phpunit"/>
+                </parallel>
+            </then>
+            <else><echo message="Tests is not allowed on non-DEV environment"/></else>
+        </if>
+    </target>
+
+    <!-- DEPLOY -->
+    <target name="deploy" depends="configure">
+        <exec command="php ${console} doctrine:migrations:migrate --no-interaction --env=${env.app_env}" checkreturn="true"/>
+        <exec command="php ${console} cache:clear --env=${env.app_env}" checkreturn="true"/>
+        <exec command="php ${console} assetic:dump --env=${env.app_env}" checkreturn="true"/>
+        <exec command="php ${console} assets:install --env=${env.app_env}" checkreturn="true"/>
+        <phingcall target="access_rights"/>
+    </target>
+
+    <target name="access_rights">
+        <exec command="mkdir -p web/avatar" />
+        <exec command="chown -R www-data:www-data web/avatar" />
+        <exec command="chown -R www-data:www-data var" />
+    </target>
+
+    <!--=============================================================================================================-->
+    <!-- Secondary targets -->
+
+    <target name="composer" unless="composer.done" description="Installing project dependencies">
+        <exec command="php composer.phar install" checkreturn="true"/>
+        <property name="composer.done" value="true"/>
+    </target>
+
+    <target name="npm" unless="npm.done" description="Installing project javascript dependencies">
+        <if>
+            <not><isset property="${env.npm_bin}" /></not>
+            <then><property name="env.npm_bin" value="npm" override="false"/></then>
+        </if>
+        <exec command="${env.npm_bin} install --prefix ${lambda_local_dir}/lib" returnProperty="app.return"/>
+        <property name="npm.done" value="true"/>
+    </target>
+
+    <target name="test-phpunit" unless="phpunit.done"
+            description="Perform unit and integration tests using PHPUnit">
+        <exec executable="${phpunit}" checkreturn="true">
+            <arg value="--log-junit"/>
+            <arg path="${project.basedir}/build/logs/phpunit.xml"/>
+            <arg value="-c"/>
+            <arg path="${project.basedir}/phpunit.xml.dist"/>
+        </exec>
+        <property name="phpunit.done" value="true"/>
+    </target>
+
+    <target name="test-phpcs" unless="phpcs.done"
+            description="Perform project code analysis using PHPCS">
+        <exec executable="${phpcs}" checkreturn="true">
+            <arg path="--standard=PSR2"/>
+            <arg path="--report=checkstyle"/>
+            <arg value="--extensions=php"/>
+            <arg path="src"/>
+            <arg path=">"/>
+            <arg path="${project.basedir}/build/logs/phpcs.xml"/>
+        </exec>
+        <property name="phpcs.done" value="true"/>
+    </target>
+
+    <target name="test-phpmd" unless="phpmd.done"
+            description="Perform project mess detection using PHPMD">
+        <exec executable="${phpmd}" checkreturn="true">
+            <arg path="src"/>
+            <arg value="xml"/>
+            <arg path="${phpmd_config}"/>
+            <arg value="--ignore-violations-on-exit"/>
+            <arg value="--reportfile"/>
+            <arg path="${project.basedir}/build/logs/pmd.xml"/>
+        </exec>
+        <property name="phpmd.done" value="true"/>
+    </target>
+
+    <target name="pre-test" description="Prepare directory structure before tests">
+        <delete dir="${project.basedir}/build/logs" quiet="true" />
+        <mkdir dir="${project.basedir}/build/logs/"/>
+    </target>
+
+    <target name="crontab">
+        <property name="env.verbose" value="" override="true"/>
+        <if>
+            <equals arg1="${env.app_env}" arg2="dev" />
+            <then><property name="env.verbose" value="-vvv" override="true"/></then>
+        </if>
+        <exec command="test -e crontab.out" returnProperty="app.return"/>
+        <if>
+            <equals arg1="${app.return}" arg2="0"/>
+            <then>
+                <resolvepath propertyName="URI.base" file="./" />
+                <copy file="crontab.out" tofile="crontab" overwrite="true">
+                    <filterchain>
+                        <replacetokens begintoken="##" endtoken="##">
+                            <token key="APP_ENV" value="${env.app_env}" />
+                            <token key="APP_VERBOSE" value="${env.verbose}" />
+                            <token key="HOME" value="${URI.base}" />
+                        </replacetokens>
+                    </filterchain>
+                </copy>
+                <exec command="crontab crontab"/>
+                <delete file="crontab" quiet="true" />
+            </then>
+        </if>
+    </target>
+
+    <target name="bower">
+        <exec command="bower install --allow-root" checkreturn="true" />
+    </target>
+
+</project>

@@ -1,0 +1,441 @@
+fmt:
+    form:
+        cancel: Cancel
+        submit: 'Submit'
+        back_to_login: 'Back to login'
+        first_name: 'First name'
+        last_name: 'Last name'
+        student_id: 'Student ID'
+        school: 'School'
+        major: 'Major'
+        grad_year: 'Grad year'
+        address_line: 'Address Line'
+        address_line2: 'Address Line 2'
+        post_code: 'Postal Code'
+        city: 'City'
+        region: 'State'
+        comment: 'Comment'
+        avatar: 'Avatar'
+        browse: 'Browse'
+        email: 'Email'
+        password: 'Password'
+        re_password: 'Re-enter Password'
+        browse_active_campaigns: 'Browse Active Campaigns'
+        clear_filter: Clear filter
+        search_placeholder: Search active fundraising campaings by name, school, or major
+        filter:
+            major: 'Major:'
+            sort_by: 'Sort By:'
+            sort_asc: 'Ascend'
+            sort_desc: 'Descend'
+            all_majors: 'All Majors'
+            records_per_page: 'Records per page:'
+            all: 'All'
+            no_results: 'No results'
+            search_placeholder_campaign: 'First or Last Name'
+            search_placeholder_th_student: 'Trx Date (mm/dd/yyyy)'
+            search_placeholder_th_donor: 'Student Name or Trx Date (mm/dd/yyyy)'
+            clear: 'Clear filter'
+            trx_date: 'Trx Date'
+            trx_amount: 'Trx Amount'
+            select_value: 'Select value'
+            date_format: mm/dd/yyyy
+            student: 'Student'
+            row_number: 'Row Number'
+    authentication:
+        session_expired: 'Oh, it looks like your session have expired. Please login into the system again.'
+        sign_up: 'Sign Up'
+        log_in: 'Log In'
+        sign_out: 'Sign out'
+        sign_up_as: 'Sign Up As %role%'
+        forgot_password: 'Forgot Password'
+        profile: 'Profile'
+        logout: Logout
+        error:
+            email: Hmmmm. We don’t recognize this email address.
+            password: Hmmmm. We don’t recognize this password.
+    registration:
+        check_email: |
+            An email has been sent to %email%. It contains an activation link you must click to activate your account.
+        confirmation:
+            page_title: 'Confirmation'
+            confirm: 'Confirm'
+            success_message: 'Your password has been successfully created. You can now log in to your account.'
+            be_a_donor: 'Be a Donor'
+            get_funded: 'Get Funded'
+        reset:
+            form_label: 'Please provide your existing email'
+            page_title: 'Reset Your Password'
+            check_email: An email has been sent. It contains a link you must click to reset your password. If you don't get an email check your spam folder or try again.
+            success_reset: Please check your email.
+        login:
+            forgot_password: 'Forgot Password'
+
+    user:
+        profile:
+            label:
+                name: 'Name'
+                email: 'Email'
+                shipping: 'Shipping'
+                school: 'School'
+                picture: 'Picture'
+                visibility: 'Visibility'
+                visibility_all: 'Yes, by site users and visitors.'
+                visibility_register: 'Yes, but only by site users.'
+                visibility_no: 'No, only view my profile by invitation.'
+                donot_visibility_yes: 'Yes'
+                donot_visibility_no: 'No'
+            email_placeholder: 'Email Address (personal recommended, not school)'
+            grad_year_placeholder: '4-digit Year'
+            facebook_text: 'Permit Visitors to share your campaign on their Facebook timelines.'
+            twitter_text: 'Permit Visitors to share your campaign on their Twitter feeds.'
+            facebook_donor_text: 'Permit to share statistics on Facebook timelines.'
+            twitter_donor_text: 'Permit to share statistics on Twitter feeds.'
+            submit: 'Save profile'
+            about_me: 'About me'
+            view_donations: 'View donations'
+            view_current_campaign: 'View current campaign'
+            delete_account: 'Delete My Account'
+            page_warning_student: 'To start creating a textbook funding campaign, fill in all the fields.'
+            page_warning_donor: 'To start funding a campaign, update or save your profile.'
+            profile_update_success: 'Profile has been updated.'
+            profile_avatar_label: 'This isn’t a dating service… Keep it clean.'
+            visibility_label: 'Do you want to be searchable?'
+            donor_visibility_label: 'Do you want to enable Share functionality?'
+            edit_current_campaig: 'Edit current campaign'
+            about_me_max_char: '5000 symbols maximum'
+            personal_info: 'Personal Info'
+            header_menu:
+                contacts: 'Contacts'
+                dashboard: 'Dashboard'
+                profile: 'My Profile'
+            popup:
+                delete:
+                    title: Delete the account
+                    description: WHOA, this can't be undone. Are you positive?
+                    confirm: Confirm
+        role:
+            donor: 'Donor'
+            student: 'Student'
+        errors:
+            default: Something went wrong. Please, try again later.
+        disable_profile:
+            success: Looking forward to seeing you in the future.
+            cant_delete: You can't remove your profile while your active campaign has a positive balance.
+        invitation_page:
+            header: How would you prefer to donate?
+            create_account:
+                header: Create an Account
+                text: Creating an account is a great option for donors who plan on donating more than once or for more than one person.  Nifty features like the option to save account information, receipt history, a pretty cool dashboard, and other stuff - on top of being free - make creating an account a great option for everyone.
+                button: Create an account
+            without_account:
+                header: Continue as guest
+                text: If you prefer to donate anonymously, or just prefer not to have another username/password to keep track of, you don't have to create an account to help %name%.  It's free, ya know...?  With the nifty features like the option to save payment info, receipt history, and so on.  If you do want to bypass that cool stuff, okay.
+                button: Continue as guest
+
+        donor:
+            dashboard:
+                students_and_campaigns_header: Students and Campaigns
+                search_i_funded_header: Search for a Student I've Funded
+                search_field_placeholder: Part of Student Name
+                students_funded: Students funded
+                books_purchased: Books purchased
+                amount_funded:
+                    text: Amount funded
+                    description: This is the amount of funds received by the student(s).
+                my_statistics: My Statistics
+                my_thanks:
+                    header: My Thanks
+                    funding_amount: 'Currently funding: $%amount%'
+                    empty: Students haven't thanked you yet
+            profile:
+                header: MY DONOR PROFILE
+
+    widgets:
+        campaign:
+            header:
+                starting: 'Campaign Starting in %days%'
+                goal: 'Campaign Goal: %price%'
+                ends: 'Campaign Ends: %date%'
+                ended: 'Campaign ENDED: %date%'
+                progress: 'Campaign progress: %percent%'
+                not_set: 'Not Set'
+            title: My Books
+            footer: (details below in "Textbooks")
+            social:
+                facebook: Share
+                twitter: Tweet
+            about:
+                read_more: '...read more'
+
+    campaign:
+        too_much_amount: You're very generous, but the amount to donate can't be more than the funding need of ${amount}
+        student_donate_not_implemented: At this time, students are not able to fund other students. We're working hard to make this happen fast. Look for this update coming in the future. Thanks.
+        state:
+            paused: Paused
+            finished: Finished
+        status:
+            paused: This Campaign is Paused. Donations Can Be Made When it is Restarted. Thanks.
+            restarted: This Campaign is RESTARTED!!! W00T w00t!
+        student:
+            fund_student: Fund %name%
+            fund_myself: Fund Myself
+            view_campaign: View campaign
+            fully_funded: Fully Funded!
+            campaigns: Campaigns
+            books_purchased: Books purchased
+            funds_donated:
+                text: Funds donated
+                description: This is the amount of funds received by the student
+            edit_current_campaign: Edit current campaign
+            view_current_campaign: View current campaign
+            create_new_campaign: Create New Campaign
+            textbook_funding: Textbook funding!!
+            my_books: My Books
+            see_more: See more
+            donation: 'Donation:'
+            buy_book: 'Buying a book:'
+            thanks_popup:
+                header:
+                    already_thanks: You Thanked this Donor
+                    need_thanks: Thank this Donor
+                subheader:
+                    already_thanks: 'You''re so nice...! :) Here''s what you said:'
+                    need_thanks: You're so nice...! :) Tell them how much their help meant to you.
+        donors:
+            title: Donors
+            title_small: (this Campaign)
+            buttons:
+                invite: Invite donors
+        textbooks:
+            title: Textbooks
+            title_small: You can purchase books for the student directly below, or fund the overall campaign here. >>
+            buttons:
+                fund_student: Fund %name%
+                fund_myself: Fund Myself
+                edit: Edit campaign
+                save: Save campaign
+                browse: Browse For Book
+                remove: Remove
+                exchange: Exchange
+                pause: Pause Campaign
+                restart: Restart campaign
+            table:
+                header:
+                    title: Book Title
+                    author: Author
+                    class: Class
+                    isbn: ISBN
+                    cost: Cost
+                    actions: Actions
+                footer:
+                    shipping: Shipping*
+                    shipping_option: Change Shipping
+                    total: Campaign Total
+                    funded: Funded So Far
+                    purchased: Already Purchased
+                    remaining: Remaining Need
+                note:
+                    shipping: "*This student's school charges a flat rate for shipping. <br> Each order placed, whether a single-book order or <br> a single order for all books, will include a shipping charge."
+            form:
+                labels:
+                    startDate: Campaign start
+                    endDate: Campaign end
+                result:
+                    success: Campaign was saved
+                errors:
+                    browse: Textbooks could not be found at this time. Please check back later.
+                    not_found: Not found
+                    shipping_options: Sorry, some problems were occurred during displaying shipping methods. Please try again or contact the Support team
+                    calculate_totals: Sorry, some problems were occurred during calculating campaign totals, please try again or contact the Support team
+                    toggle_pause_status: Sorry, some problems were occurred during changing campaign status, please try again or contact the Support team
+            popup:
+                browse:
+                    title: Browse for book
+                    close: Cancel
+                    empty: Empty
+                    tabs:
+                        tab1:
+                            title: Catalog
+                        tab2:
+                            title: Search
+                            label: ISBN
+                            tooltip: A book's ISBN is usually found on the back cover, near the barcode.
+                remove:
+                    title: Remove book
+                    message: Are you sure you want to remove this book?
+                shipping:
+                    title: Select shipping
+                    message: Your school charges a flat rate for shipping. Each order placed, whether a single-book order or a single order for all books, will include a shipping charge. After a campaign has been created (saved for the first time), shipping can be upgraded and cannot be downgraded.
+                    options: Shipping Options
+                pause:
+                    title: Pause This Campaign
+                    explanation: "<p>Okay, you're about to pause your campaign. This means that this campaign will be hidden, so no one will be able to see it, you won't get any more funding for it, and you won't be able to use your funding.</p>
+                                  <p>However, you WILL be able to edit your campaign and you can re-start it any time and when you do re-start it, all the stuff above will return.</p>"
+                restart:
+                    title: Restart This Campaign
+                    explanation: "<p>Okay, you're about to restart your campaign.  This means that this campaign will be visible, so anyone will be able to see it, you'll be able to  get funding for it, and you'll be able to use your funding.</p>
+                                  <p>You can pause it again any time and if you do pause it, all the stuff above will turn back off again.</p>"
+                button:
+                    pause: Yeah, Pause It
+                    restart: Yep, Restart It
+
+    cart:
+        title: Shopping Cart
+        empty: The cart is empty
+        summary:
+            subtotal: Subtotal
+            shipping: Shipping
+            tax: Tax
+            fmt_tax_fee: FMT Service Fee
+            transaction_fee: Transaction Fee
+            total: Total
+        product:
+            add:
+                success: Product has been successfully added to cart
+                duplicate_item: Selected product is already in your cart
+                can_not_add_item: The following item can not be added to your cart
+                check_products_from_other_campaign: Please check that you don't have books from other campaigns
+            remove:
+                success: Product has been successfully removed from cart
+                absent_item: Selected product is not in your cart
+        errors:
+            send_payment: An error occurred while sending the payment
+            send_order: An error occurred while sending the order to the store
+
+    statuses:
+        # @deprecated, but use as an example
+        campaign:
+            STATUS_INACTIVE: Inactive
+            STATUS_ACTIVE: Active
+            STATUS_PAUSED: Paused
+        book:
+            STATUS_AVAILABLE: Available
+            STATUS_OUT_OF_STOCK: The item is out of stock now
+            STATUS_ORDERED: Ordered
+            STATUS_UNAVAILABLE: Unavailable
+        book_state:
+            STATE_UNKNOWN: Unknow
+            STATE_NEW: New
+            STATE_USED: Used
+
+    flash_message:
+        danger: 'Error'
+        success: 'Success'
+
+    ajax:
+        ajax_only: You can access this only using Ajax
+        ajax_error: Ajax error. Please try again later
+
+    social_network:
+        student_share_statistics: >
+            Campaigns: %campaigns%,
+
+            books purchased: %books_purchased%,
+
+            funds total: %funds_total%.
+        donor_share_statistics: >
+            Students funded: %students_founded%,
+
+            books purchased: %books_purchased%,
+
+            amount funded: %amount_founded%.
+        donor_share_text: 'I''m helping students afford school at #FundMyTextbooks'
+        share_text: '#FundMyTextbooks is helping make #collegedreams happen!'
+        share_text_self_user: '#FundMyTextbooks is helping make my #collegedreams happen!'
+    menu:
+        cart: Cart
+
+    transaction_history:
+        donor:
+            title: Donor Transaction History
+            table:
+                transaction_id: '#'
+                student: Student
+                transaction_date: Transaction Date
+                amount: Amount
+                receipt: Receipt
+                download: Download
+
+        student:
+            title: Transaction History
+            table:
+                transaction_id: '#'
+                transaction_date: Transaction Date
+                amount:
+                    text: Amount
+                    description: This is the amount of funds charged including fees
+                receipt: Receipt
+                download: Download
+        receipt:
+            general:
+                receipt: Receipt
+                receipt_number: Receipt number
+                date_paid: Date paid
+                payment_method: Payment method
+                description: '%amount% paid on %date%'
+            table:
+                header:
+                    description: Description
+                    qty: Qty
+                    amount: Amount
+                total: Amount paid
+            footer: 'Page 1 of 1'
+
+    # form/checkout.html.twig
+    payment_form:
+        remaining_need: '%firstName% has a remaining need of %amount% for this campaign to be fully funded.'
+        title: Payment
+        fields:
+            email: E-mail address for recipe
+            anonymous: I want to make my donation anonymously
+            named: I'm okay if %name% knows I'm a donor
+            first_name: First name
+            last_name: Last name
+        buttons:
+            cancel: Cancel
+            donate: Donate
+            checkout: Checkout
+
+    contacts:
+        title: Contacts
+        contact_info: Contact Info
+        create_title: Create New Contact
+        import_title: Import Contacts
+        cancel: Wait, Never Mind
+        all_donations: All Donations
+        current_campaign_donations: This Donation
+        not_invited: Not Yet Invited
+        tooltip: Invite this person to this compaign.
+        empty_list: When you create a campaign, add contacts to get funded!
+        form:
+            first_name: First Name
+            last_name: Last Name
+            email: Email
+        success_create: Contact created successfully
+        success_delete: Contact deleted successfully
+        success_invited: Contact was invited successfully
+        success_invited_all: Contacts was invited successfully
+        personal_note_not_needed: Send the email without a personal note
+        personal_note_needed: "'Here's a note from %name%...'"
+        delete_donor: Delete this Donor
+        confirmation_delete: Are you sure?
+
+    errors:
+        404:
+            message: Page Not Found
+        403:
+            message: Forbidden
+        401:
+            message: Unauthorized
+        500:
+            message: Internal Server Error
+
+    marketing_pages:
+        help: Help & Contact
+        about: About Us
+        privacy: Privacy
+        how_works: How FMT Works
+        terms: Terms of Use
+        fees: Fees
+        partner: Partner with FMT

@@ -1,0 +1,21 @@
+{% from '@Public/macro/fields.html.twig' import form_input_error %}
+
+{% if not buttonName is defined %}
+    {% set buttonName = 'fmt.form.submit' %}
+{% endif %}
+
+{% set button_display = "inline-block" %}
+{% set overlaid = "no_overlaid" %}
+
+{% if not form_errors(formElement) is empty %}
+    {% set button_display = "none" %}
+    {% set overlaid = "button_overlaid" %}
+    <div data-overlaid="{{ overlaid }}">
+        {{ form_input_error(formElement) }}
+    </div>
+{% endif %}
+
+<button type="submit" class="btn btn-primary btn-lg margin-bottom-10 btn-block" data-overlaid="{{ overlaid }}"
+        style="display: {{ button_display }};">
+    <b>{{ buttonName|trans|upper }}</b>
+</button>

@@ -1,0 +1,20 @@
+{{ 'fmt.campaign.textbooks.popup.shipping.message'|trans }}
+
+<h3 class="text-center">{{ 'fmt.campaign.textbooks.popup.shipping.options'|trans }}</h3>
+
+<div class="form-group">
+    {# TODO: No Shipping ? #}
+
+    {% for item in list %}
+        <div class="radio">
+            <label>
+                <input type="radio" name="option" value="{{ item.name }}"
+                        {% for key, value in item %}
+                            data-{{ key }}="{{ value }}"
+                        {% endfor %}
+                >
+                {{ item.name }}
+            </label>
+        </div>
+    {% endfor %}
+</div>

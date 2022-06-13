@@ -1,0 +1,14 @@
+{% set itemsCount = cart_summary().itemsCount %}
+{% set cartRouteIndex = constant('FMT\\PublicBundle\\Controller\\Common\\CartController::ROUTE_INDEX') %}
+
+{% if isAuthenticated %}
+    {% set cartRoute = url(get_user_available_route(user, cartRouteIndex)) %}
+{% else %}
+    {% set cartRoute = path(cartRouteIndex) %}
+{% endif %}
+
+<a href="{{ cartRoute }}" class="global-cart-header" data-iframe-link >
+    <span class="small-menu-item-text">Cart</span>
+    <i class="glyphicon glyphicon-shopping-cart"></i>
+    <span class="label label-danger items-counter{% if itemsCount == 0 %} hidden{% endif %}">{{ itemsCount }}</span>
+</a>

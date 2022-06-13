@@ -1,0 +1,65 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    FMT\DataBundle\Repository\:
+        resource: '../../Repository/*'
+
+    FMT\DataBundle\Repository\DoctrineRepository:
+        abstract: true
+
+    FMT\DataBundle\Repository\CampaignRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:Campaign'
+
+    FMT\DataBundle\Repository\UserMajorRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:UserMajor'
+
+    FMT\DataBundle\Repository\UserRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:User'
+
+    FMT\DataBundle\Repository\UserSchoolRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:UserSchool'
+
+    FMT\DataBundle\Repository\UserTransactionRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:UserTransaction'
+
+    FMT\DataBundle\Repository\OrderRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:Order'
+
+    FMT\DataBundle\Repository\UserStatisticRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:UserStatistic'
+
+    FMT\DataBundle\Repository\UserContactRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:UserContact'
+
+    FMT\DataBundle\Repository\DwollaEventRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:DwollaEvent'
+
+    FMT\DataBundle\Repository\BookstoreTransferRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:BookstoreTransfer'
+
+    FMT\DataBundle\Repository\OrderItemRepository:
+        factory: ['@doctrine', getRepository]
+        arguments:
+            - 'DataBundle:OrderItem'

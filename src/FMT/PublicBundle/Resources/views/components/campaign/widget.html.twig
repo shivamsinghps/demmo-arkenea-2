@@ -1,0 +1,84 @@
+{% set endDate = campaign.endDate ? campaign.endDate|textual_month_format : 'fmt.widgets.campaign.header.not_set'|trans %}
+{% set campaign_route = url(constant('FMT\\PublicBundle\\Controller\\Common\\CampaignController::ROUTE_VIEW'), {id: campaign.id}) %}
+
+{% if is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_SEE_DAYS_LEFT'), campaign) %}
+    <p>
+        {{ 'fmt.widgets.campaign.header.starting'|trans({
+            '%days%': campaign.daysLeft ~ campaign.daysLeft|plural(' day')
+        }) }}
+    </p>
+{% endif %}
+
+{% if showLinks is defined and showLinks %}
+    <p class="text-center">
+        <a href="{{ campaign_route }}">
+            <i>{{ 'fmt.widgets.campaign.header.goal'|trans({'%price%': campaign.campaignGoal|price}) }}</i>
+        </a>
+    </p>
+    <p class="text-center">
+        <a href="{{ campaign_route }}" {% if campaign.finished %}class="text-red" {% endif %}>
+            <i>{{ campaign_date_text|trans }}</i>
+        </a>
+    </p>
+    {% if campaign.paused and not campaign.finished %}
+        <p class="text-center">
+            <a href="{{ campaign_route }}" class="text-red">
+                <i>{{ 'fmt.campaign.status.paused'|trans }}</i>
+            </a>
+        </p>
+    {% endif %}
+{% else %}
+    <p class="text-center">
+        <i>{{ 'fmt.widgets.campaign.header.goal'|trans({'%price%': campaign.campaignGoal|price}) }}</i>
+    </p>
+    <p class="text-center">
+        <i>{{ 'fmt.widgets.campaign.header.ends'|trans({'%date%': endDate}) }}</i>
+    </p>
+{% endif %}
+
+<div class="campaign-details box">
+    <div class="box-header">
+        <h4>{{ 'fmt.campaign.student.my_books'|trans }}</h4>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6 col-xs-12 books-list">
+                {% if showAllBooks is defined and showAllBooks %}
+                    {% for book in campaign.books %}
+                        <p>{{ book.title }}</p>
+                        {% if not loop.last %}
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% for book in campaign.books|slice(0, 2) %}
+                        <p class="ellipsis-text">{{ book.title }}</p>
+                        {% if not loop.last %}
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
+                    {% if campaign.books|length > 2 %}
+                        <p>
+                            <a href="{{ campaign_route }}" class="btn btn-default" style="margin-top: 10px">
+                                {{ 'fmt.campaign.student.see_more'|trans }}
+                            </a>
+                        </p>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="col-md-6 col-xs-12 campaign-statistic">
+                <div>
+                    <div>
+                        <div class="round-slider-centered round-slider round-slider-half slider-vertical-gradient"
+                             data-value="{{ min(campaign.percentOfFunded, 1)|percent }}"
+                             data-circle-shape="half-right"
+                             data-radius="75"
+                             data-border-width="15"
+                             data-color="{{ color_by_percent(campaign.percentOfFunded) }}"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

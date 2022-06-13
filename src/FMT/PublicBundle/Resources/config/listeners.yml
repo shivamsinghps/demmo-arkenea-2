@@ -1,0 +1,22 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    FMT\PublicBundle\Listener\ExceptionListener:
+        arguments:
+            $debug: '%kernel.debug%'
+        tags:
+          - { name: kernel.event_listener, event: kernel.exception, method: onResponseFormatException, priority: 1}
+
+    FMT\PublicBundle\Listener\UserToFOSListener:
+        tags:
+          - { name: kernel.event_listener, event: fmt.signup_started, method: onUserSubmitted}
+          - { name: kernel.event_listener, event: fmt.signup_success, method: onUserCreated}
+          - { name: kernel.event_listener, event: fmt.signup_failed, method: onUserFailed}
+          - { name: kernel.event_listener, event: fmt.user_updated, method: onResetSuccess}
+          - { name: kernel.event_listener, event: fmt.confirmation_success, method: onConfirmationSuccess}
+
+    FMT\PublicBundle\Listener\DwollaEventListener:
+        tags:
+          - { name: kernel.event_listener, event: kernel.controller, method: onController }

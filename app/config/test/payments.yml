@@ -1,0 +1,5 @@
+services:
+
+    test.infrastructure.service.payments.stripe.client:
+        alias: FMT\InfrastructureBundle\Service\Payments\Stripe\StripeClient
+        public: true

@@ -1,0 +1,25 @@
+imports:
+    - { resource: lambda_local.yml}
+
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $lambdaFunctionLocalOptions: '%lambda_function_local_options%'
+            $lambdaFunctions: '%lambda_functions%'
+            $kernelEnvironment: '%kernel.environment%'
+
+    FMT\InfrastructureBundle\Service\AwsLambda\:
+        resource: '../../../../../src/FMT/InfrastructureBundle/Service/AwsLambda/*'
+
+    FMT\InfrastructureBundle\Service\AwsLambda\ExecutorProvider:
+        arguments:
+            $environment: '%kernel.environment%'
+
+    FMT\InfrastructureBundle\Service\AwsLambda\ExecutorInterface:
+        factory: 'FMT\InfrastructureBundle\Service\AwsLambda\ExecutorProvider:getExecutor'
+
+    Aws\Sdk: '@aws_sdk'

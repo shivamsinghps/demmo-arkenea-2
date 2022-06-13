@@ -1,0 +1,82 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% block content %}
+<section class="content cart">
+
+    <div class="box box-primary books-box box-solid">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+                {{ 'fmt.cart.title'|trans }}
+            </h3>
+        </div>
+        <div class="box-body">
+            <table class="table">
+                <tbody>
+                {% if cart.items|length > 0 %}
+                    {% for item in cart.items %}
+                        {% include '@Public/common/cart/_cart_row.html.twig' with {item: item} only %}
+                    {% endfor %}
+                {% endif %}
+                <tr class="cart-is-empty{% if cart.items|length > 0 %} hidden{% endif %}">
+                    <td rowspan="3">{{ 'fmt.cart.empty'|trans }}</td>
+                </tr>
+                </tbody>
+
+                <tfoot class="cart-summary summary{% if cart.items|length == 0 %} hidden{% endif %}">
+                <tr>
+                    <td class="text-right">{{ 'fmt.cart.summary.subtotal'|trans }}</td>
+                    <td class="cart-summary-subtotal">{{ cart.price|price }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">{{ 'fmt.cart.summary.shipping'|trans }}</td>
+                    <td class="cart-summary-shipping">{{ cart.shipping|price }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">{{ 'fmt.cart.summary.tax'|trans }}</td>
+                    <td class="cart-summary-tax">{{ cart.tax|price }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">{{ 'fmt.cart.summary.fmt_tax_fee'|trans }}</td>
+                    <td class="cart-summary-fmt-fee">{{ cart.fmtFee|price }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right">{{ 'fmt.cart.summary.transaction_fee'|trans }}</td>
+                    <td class="cart-summary-transaction-fee">{{ cart.transactionFee|price }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="text-right"><strong>{{ 'fmt.cart.summary.total'|trans }}</strong></td>
+                    <td class="cart-summary-total"><strong>{{ cart.total|price }}</strong></td>
+                    <td></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    {% if cart.total != 0 %}
+        {% include '@Public/form/checkout.html.twig' with { "form": form, "checkout" : true, "student" : "Student" } %}
+    {% endif %}
+
+</section>
+{% endblock content %}
+
+{% block footer_scripts %}
+    {% javascripts
+        '@PublicBundle/Resources/public/js/handler/round-slider.js'
+        '@PublicBundle/Resources/public/js/page/common/cart/actions.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        $(document).ready(function () {
+            new CartActions();
+
+            var paymentProceed = $('#payment_proceed');
+            paymentProceed.prop('disabled', false);
+        });
+    </script>
+{% endblock footer_scripts %}

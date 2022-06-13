@@ -1,0 +1,37 @@
+<tr data-row="{% if key is defined %}{{ key - 1 }}{% else %}__name__{% endif %}" data-exchange="0" >
+    <td>
+        <span class="serial-number">{{ key|default('__name__') }}.</span>
+        {{ form_widget(form.productFamilyId) }}
+        {{ form_widget(form.sku) }}
+        {{ form_widget(form.title) }}
+        {{ form_widget(form.author) }}
+        {{ form_widget(form.class) }}
+        {{ form_widget(form.isbn) }}
+        {{ form_widget(form.price) }}
+        {{ form_widget(form.state) }}
+        {{ form_widget(form.status) }}
+    </td>
+    <td class="title">
+        {{ form.vars.value.title|default }}
+        {% if form.vars.value %}
+            ({{ form.vars.value|book_state }})
+        {% endif %}
+        {% if form.vars.value and form.vars.value.status == constant('FMT\\DataBundle\\Entity\\CampaignBook::STATUS_OUT_OF_STOCK') %}
+            <p class="text-danger">{{ 'fmt.statuses.book.STATUS_OUT_OF_STOCK'|trans }}</p>
+        {% endif %}
+    </td>
+    <td class="author mobile-hide">{{ form.vars.value.author|default }}</td>
+    <td class="class mobile-hide">{{ form.vars.value.class|default }}</td>
+    <td class="isbn mobile-hide">{{ form.vars.value.isbn|default }}</td>
+    <td class="price">{{ form.vars.value.price|default(0)|price }}</td>
+    <td class="actions">
+        {% if form.vars.value and (form.vars.value.status is not constant('FMT\\DataBundle\\Entity\\CampaignBook::STATUS_ORDERED') and form.vars.value.status is not constant('FMT\\DataBundle\\Entity\\CampaignBook::STATUS_UNAVAILABLE'))%}
+            <button type="button" class="btn btn-default btn-sm exchange-book" title="{{ 'fmt.campaign.textbooks.buttons.exchange'|trans }}">
+                <i class="fa fa-exchange"></i>
+            </button>
+            <button type="button" class="btn btn-default btn-sm remove-book" title="{{ 'fmt.campaign.textbooks.buttons.remove'|trans }}">
+                <i class="fa fa-remove"></i>
+            </button>
+        {% endif %}
+    </td>
+</tr>

@@ -1,0 +1,90 @@
+{% set invitationForm = get_contact_invitation_form() %}
+{% set invitation_route_name = constant('FMT\\PublicBundle\\Controller\\Common\\PublicDashboardController::ROUTE_DONOR_INVITATION_PAGE') %}
+{% set invitation_url = url(invitation_route_name, {id: user.id, token: contact.donor.confirmationToken}) %}
+{% set isStartedCampaign = campaign and campaign.isStarted %}
+
+<div class="modal fade campaign-invitation-modal" id="modal-invitation-{{ contact.id }}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {{ form_start(invitationForm, {
+                'action': url(
+                    constant('FMT\\PublicBundle\\Controller\\Student\\ContactController::ROUTE_INVITE_TO_CAMPAIGN'),
+                    { id: contact.id }
+                )
+            }) }}
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Invite this Donor</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Awesome, let's intive {{ contact.fullName }} to contribute to your book fund!
+                    We'll send them an email and if you'd like to add any text, go for it.
+                    If you decide you don't want to add a personal note, just select the "{{ "fmt.contacts.personal_note_not_needed"|trans }}".
+                </p>
+
+                <hr>
+
+                {% if campaign and not isStartedCampaign %}
+                    <p>Hi {{ contact.fullName }},</p>
+                    <p>SAVE THE DATE!!</p>
+
+                    <p>
+                        {{ user.fullName }} created a crowdfunding campaign with FundMyTextbooks and is inviting you to donate
+                        with confidence that your donation will only go to the books! (We promise.)
+                    </p>
+
+                    <p>
+                        Their textbook fundraising campaign is expected to start on {{ campaign.startDate|standard_date_format }}.
+                    </p>
+                {% elseif isStartedCampaign %}
+                    <p>Hello, {{ contact.firstName }}</p>
+                    <p>
+                        {{ user.profile.firstName }} invites you to join crowdfunding platform "FundMyTextbooks"
+                        where you will be able to donate the student with confidence that your donation will only go to books!
+                        (We promise)
+                    </p>
+                {% endif %}
+
+                {{ form_widget(invitationForm.isPersonalNoteNeeded.children|first, { 'id': 'isPersonalNoteNeeded-0-'~ contact.id }) }}
+                {{ form_widget(invitationForm.isPersonalNoteNeeded.children|last, {'id': 'isPersonalNoteNeeded-1-'~ contact.id})|trans({ "%name%": user.fullName })|raw }}
+                <div class="isPersonalNoteNeeded-error-wrap"></div>
+                <i class="fa fa-quote-left left-quote" aria-hidden="true"></i>
+                {{ form_widget(invitationForm.personalNote, { 'id': 'personalNote-'~ contact.id }) }}
+                <i class="fa fa-quote-right right-quote" aria-hidden="true"></i>
+                <div class="personalNote-error-wrap"></div>
+
+                {% if not isStartedCampaign %}
+                    <p>
+                        Remember, there are several ways to help:
+                    </p>
+                    <ul>
+                        <li>Anonymous donation</li>
+                        <li>Purchase a book or donate to their fund with no account needed</li>
+                        <li>Create an account to purchase a book or donate to their fund and/or others' with greater ease.</li>
+                    </ul>
+
+                    <p>
+                        {{ user.fullName }} thought highly enough of you to invite you to help them on their educational
+                        journey and so we join them in thanking you in advance!
+                    </p>
+                {% else %}
+                    <p>
+                        <a href="{{ invitation_url }}">
+                            Invitation link
+                        </a>
+                    </p>
+                {% endif %}
+
+                <p>Warm Regards,</p>
+                <p>The FMT Team (and {{ user.fullName }})</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            {{ form_end(invitationForm) }}
+        </div>
+    </div>
+</div>

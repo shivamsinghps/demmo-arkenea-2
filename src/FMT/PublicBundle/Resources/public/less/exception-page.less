@@ -1,0 +1,39 @@
+.exception-page {
+    @media (max-width: 992px) {
+      .registration-box {
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+    @media (min-width: 992px) {
+      .box-body>.row {
+        display: flex;
+        align-items: center;
+      }
+      .registration-box {
+        .col {
+          &:last-child {
+            margin-top: 20px;
+          }
+          .btn {
+            width: 80%;
+          }
+        }
+      }
+    }
+  .information-box {
+    p {
+      font-weight: 600;
+      &:nth-child(1) {
+        font-size: 32px;
+      }
+      &:nth-child(2) {
+        font-size: 24px;
+      }
+      &:nth-child(3) {
+        font-size: 18px;
+      }
+    }
+  }
+}

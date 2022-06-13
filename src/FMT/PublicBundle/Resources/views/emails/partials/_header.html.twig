@@ -1,0 +1,7 @@
+<section class="header">
+    <a href="{{ url(constant('FMT\\PublicBundle\\Controller\\Common\\PublicDashboardController::ROUTE_INDEX')) }}" class="logo-link">
+        {% image '@PublicBundle/Resources/public/images/logo.svg' %}
+            <img class="logo-image" src="{{ absolute_url(asset_url) }}" alt="logo"/>
+        {% endimage %}
+    </a>
+</section>

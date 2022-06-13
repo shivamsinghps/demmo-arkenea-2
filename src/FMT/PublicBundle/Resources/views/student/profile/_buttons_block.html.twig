@@ -1,0 +1,51 @@
+<div class="box-body box-profile">
+    <div class="row">
+        {% if app.user.hasUnfinishedCampaign %}
+            <div class="col-xs-12 col-md-12 margin-bottom-10">
+                <a href="{{ url(constant('FMT\\PublicBundle\\Controller\\Student\\CampaignController::ROUTE_EDIT'), {'id': app.user.getUnfinishedCampaign.id}) }}"
+                   class="btn btn-primary btn-lg btn-fix-text btn-block btn-text-size">
+                    <b>{{ 'fmt.user.profile.edit_current_campaig'|trans|upper }}</b>
+                </a>
+
+            </div>
+            <div class="col-xs-12 col-md-12 margin-bottom-10">
+                <a href="{{ url(constant('FMT\\PublicBundle\\Controller\\Common\\CampaignController::ROUTE_VIEW'), {'id': app.user.getUnfinishedCampaign.id}) }}"
+                   class="btn btn-primary btn-lg btn-fix-text btn-block btn-text-size">
+                    <b>
+                        {{ 'fmt.user.profile.view_current_campaign'|trans|upper }}
+                    </b>
+                </a>
+            </div>
+        {% endif %}
+        {% if app.user.getCampaigns()|length %}
+            <div class="col-md-12 col-xs-12 margin-bottom-10">
+                <a href="{{ url(constant('FMT\\PublicBundle\\Controller\\Student\\TransactionHistoryController::ROUTE_INDEX')) }}"
+                   class="btn btn-primary btn-lg btn-fix-text btn-block btn-text-size">
+                    <b>{{ 'fmt.user.profile.view_donations'|trans|upper }}</b>
+                </a>
+            </div>
+        {% endif %}
+        <div class="col-xs-12 col-md-12 margin-bottom-10">
+            <button type="submit" class="btn btn-primary btn-lg btn-fix-text btn-block btn-text-size save--profile">
+                <b>{{ 'fmt.user.profile.submit'|trans|upper }}</b>
+            </button>
+        </div>
+        {% if is_granted(constant('FMT\\PublicBundle\\Voter\\UserVoter::CAN_DELETE_ACCOUNT'), app.user) %}
+        <div class="col-md-12 col-xs-12 margin-bottom-10">
+            {% set error_wrapper = 'form > .box-body' %}
+            <a
+                id="disable-account"
+                data-url="{{ url(constant('FMT\\PublicBundle\\Controller\\Student\\ProfileController::ROUTE_DISABLE')) }}"
+                data-title="{{ 'fmt.user.profile.popup.delete.title'|trans }}"
+                data-message="{{ 'fmt.user.profile.popup.delete.description'|trans }}"
+                data-button-name="{{ 'fmt.user.profile.popup.delete.confirm'|trans }}"
+                data-error="{{ 'fmt.user.errors.default'|trans }}"
+                data-error-wrapper="{{ error_wrapper }}"
+                class="btn btn-danger btn-lg btn-fix-text btn-block btn-text-size"
+            >
+                <b>{{ 'fmt.user.profile.delete_account'|trans|upper }}</b>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>

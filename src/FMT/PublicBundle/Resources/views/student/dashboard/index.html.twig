@@ -1,0 +1,26 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% set profile = user.profile %}
+{% set share_text = generate_share_text(user)|trans %}
+{% set share_param_name = constant('FMT\\PublicBundle\\Twig\\UserExtension::SHARE_PARAM_NAME') %}
+{% set page_url = url(constant('FMT\\PublicBundle\\Controller\\Common\\PublicDashboardController::ROUTE_STUDENT_INDEX'), {id: user.id, (share_param_name): generate_share_param_val(user)}) %}
+{% set avatar = asset(get_user_avatar(user)) %}
+{% set fb_share_link = generate_share_link({'u': page_url}, 'fb') %}
+{% set tw_share_link = generate_share_link({'url': page_url, 'text': share_text}, 'tw') %}
+{% set page_dicription = user.profile.fullName %}
+
+{% block meta %}
+    {% include '@Public/common/campaign/_sharing_meta.html.twig' %}
+{% endblock meta %}
+
+{% block body_class %}{{ parent() }} student-dashboard {% endblock body_class %}
+{% block content %}
+    {% include '@Public/student/dashboard/_content.html.twig' %}
+{% endblock content %}
+{% block footer_scripts %}
+    {% javascripts
+    '@PublicBundle/Resources/public/js/handler/round-slider.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

@@ -1,0 +1,8 @@
+{% extends '@Public/emails/base_temlate.email.twig' %}
+
+{% block content %}
+    <p>Hello,</p>
+    <p>An ACH deposit has been initiated from FMT for the amount of {{ amount | price }}
+        covering {{ purchaseAmount | price }} in book purchases, {{ refundAmount | price }} in book returns
+        and {{ rejectedTransfersAmount | price }} in rejected deposits..</p>
+{% endblock content %}

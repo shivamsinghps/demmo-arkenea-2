@@ -1,0 +1,21 @@
+{% extends '@Public/common/login-layout.html.twig' %}
+{% set email = email|default('') %}
+{% set formError = formError|default(false) %}
+{% block content %}
+    <section class="content">
+        <div class="box box-default registration-tabs-body">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ 'fmt.registration.reset.page_title'|trans }}</h3>
+            </div>
+            <div class="box-body registration-content">
+                <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request show-label" data-reset-password-form="form" novalidate>
+                    {% include '@Public/common/login/_reset_form_input.htm.twig' %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">{{ 'fmt.form.submit'|trans|upper }}</button>
+                    </div>
+                </form>
+                <span class="help-block form-error hide" data-reset-password-form-error-template="template">{{ 'fmt.reset.error'|trans([], 'validators') }}</span>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

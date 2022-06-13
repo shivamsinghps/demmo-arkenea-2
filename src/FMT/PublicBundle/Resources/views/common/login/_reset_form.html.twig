@@ -1,0 +1,9 @@
+<form action="{{ url('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request" data-reset-password-form="form" novalidate>
+    {% include '@Public/common/login/_reset_form_input.htm.twig' %}
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary">{{ 'fmt.form.submit'|trans|upper }}</button>
+        <button type="button" class="btn btn-primary btn-light-green" data-toggle="{{ data_toggle }}">{{ back_button }}</button>
+    </div>
+</form>
+
+<span class="help-block form-error hide" data-reset-password-form-error-template="template">{{ 'fmt.reset.error'|trans([], 'validators') }}</span>

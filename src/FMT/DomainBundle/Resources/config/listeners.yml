@@ -1,0 +1,21 @@
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    FMT\DomainBundle\Listener\:
+        resource: '../../Listener'
+
+    FMT\DomainBundle\Listener\UserListener:
+        tags:
+          - { name: kernel.event_listener, event: fmt.user_profile_updated, method: onUserProfileUpdated}
+          - { name: kernel.event_listener, event: fmt.contact_signup_success, method: onContactSignupInitiated }
+
+    FMT\DomainBundle\Listener\CampaignListener:
+        tags:
+          - { name: kernel.event_listener, event: fmt.campaign_started, method: onCampaignStarted }
+
+    FMT\DomainBundle\Listener\ManageReturnFoundsListener:
+        tags:
+          - { name: kernel.event_listener, event: fmt.order_item.return, method: onOrderItemReturned}

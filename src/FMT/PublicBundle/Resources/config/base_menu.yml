@@ -1,0 +1,16 @@
+parameters:
+  base_menu:
+    help: '%base_menu__help%'
+    about: '%base_menu__about%'
+    privacy: '%base_menu__privacy%'
+    how_works: '%base_menu__how_works%'
+    terms: '%base_menu__terms%'
+    fees: '%base_menu__fees%'
+    partner: '%base_menu__partner%'
+
+services:
+  marketing:
+    class: FMT\PublicBundle\Twig\MarketingExtension
+    public: true
+    arguments:
+      $parameterBag: ['@assetic.parameter_bag']

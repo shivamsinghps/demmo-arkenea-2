@@ -1,0 +1,6 @@
+{% if campaign.paused %}
+    <div class="alert alert-danger alert-dismissible">
+        <h4><i class="icon fa fa-ban"></i> Warning!</h4>
+        {{ 'fmt.campaign.status.paused'|trans }}
+    </div>
+{% endif %}

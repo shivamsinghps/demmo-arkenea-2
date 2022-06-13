@@ -1,0 +1,12 @@
+<span>
+    {{ product.name }}
+    {% if(product.state) %}
+        ({{ product.state }})
+    {% endif %}
+    {% if(product['calculated-inventory'] <= 0) %}
+        <span class="text-danger"> {{ 'fmt.statuses.book.STATUS_OUT_OF_STOCK'|trans }} </span>
+    {% endif %}
+    {% if(product['converted-price']) %}
+        - {{ product['converted-price'] }}
+    {% endif %}
+</span>

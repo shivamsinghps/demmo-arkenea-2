@@ -1,0 +1,47 @@
+{% set profile = profile is defined ? profile : user.profile %}
+{% set avatar = get_user_avatar(user) %}
+{% if userIsNotStudent is defined %}
+    {% set checkFundButton = userIsNotStudent or campaign.user.id == activeUserId %}
+{% else %}
+    {% set checkFundButton = true %}
+{% endif %}
+
+
+<div class="box box-default">
+    <div class="box-header with-border">
+        <h3 class="box-title break-long-words">{{ profile.fullName }}</h3>
+        <br>
+        <i>{{ profile.school.name }} {{ profile.gradYear }}</i>
+    </div>
+    <div class="box-body flex-center">
+        {% if avatar %}
+            <img src="{{ asset(avatar) }}" class="img-thumbnail">
+        {% else %}
+            <i class="fa fa-user img-thumbnail"></i>
+        {% endif %}
+    </div>
+    {% if campaign is defined %}
+        <div class="box-footer">
+            <div class="row flex-center">
+                {% if campaign.percentOfFunded >= 1 %}
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 actions-box">
+                    <a href="javascript:void(0)" class="btn btn-block btn-success disabled margin-bottom-10">
+                        <b>{{ 'fmt.campaign.student.fully_funded'|trans|upper }}</b>
+                    </a>
+                </div>
+                {% elseif is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_FUND'), campaign) %}
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 actions-box">
+                        {% if checkFundButton %}
+                            <a href="{{ donate_user_link(user) }}"
+                               class="btn btn-primary btn-block no-padding-lr margin-bottom-10 btn-fix-text btn-fund-my-self"
+                               title="{{ campaign|fund_student_name|trans({'%name%': profile.firstName}) }}"
+                            >
+                                <b>{{ campaign|fund_student_name|trans({'%name%': profile.firstName})|upper }}</b>
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>

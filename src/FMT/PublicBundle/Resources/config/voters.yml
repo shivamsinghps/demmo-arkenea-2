@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+
+    FMT\PublicBundle\Voter\:
+        resource: '../../Voter/*'
+
+    FMT\PublicBundle\Voter\CommandVoter:
+        arguments:
+            $isProd: '%is_prod%'

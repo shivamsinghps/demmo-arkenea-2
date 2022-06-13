@@ -1,0 +1,19 @@
+{% extends '@Public/base.html.twig' %}
+
+{% block body_attributes %}class="skin-blue layout-top-nav"{% endblock body_attributes %}
+
+{% block container %}
+    <div class="wrapper">
+    {% include '@Public/common/header.html.twig' %}
+    <div class="content-wrapper">
+        <div class="container">
+            {% block content %}{% endblock content %}
+
+            <div class="preloader">
+                <div class="loader fa-spin"></div>
+            </div>
+        </div>
+    </div>
+        {% include '@Public/common/footer.html.twig' %}
+    </div>
+{% endblock container %}

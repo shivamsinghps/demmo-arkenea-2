@@ -1,0 +1,39 @@
+{% from '@Public/macro/fields.html.twig' import form_radio_line %}
+{{ form_start(
+    formFilter, {attr:{
+        'data-active-campaign-form': 'form',
+        'data-form-name': 'active-campaign',
+        'data-reload-page': true
+    }})
+}}
+<div class="row margin-bottom-10">
+    <div class="col-md-3">
+        {{ form_row(formFilter.limit, {attr: {'data-active-campaign-dropdown-filter': 'dropdown'}}) }}
+    </div>
+    <div class="col-md-4">
+        {{ form_row(formFilter.major, {attr: {'data-active-campaign-dropdown-filter': 'dropdown'}}) }}
+    </div>
+    <div class="col-md-3">
+        {{ form_row(formFilter.sortBy, {attr: {'data-active-campaign-dropdown-filter': 'dropdown'}}) }}
+    </div>
+    <div class="col-md-2 sort-order-block">
+        {{ form_radio_line(formFilter.sortDirection, {attr: {class: 'radio-inline'}}) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 margin-bottom-10">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+            {{ form_widget(formFilter.search, {attr: {
+                'data-active-campaign-search-filter': 'search',
+                placeholder: 'fmt.form.filter.search_placeholder_campaign'
+            }}) }}
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-primary full-width" data-active-campaign-filter-clear="{{ url(app.request.attributes.get('_route')) }}">
+            {{ 'fmt.form.filter.clear'|trans }}
+        </button>
+    </div>
+</div>
+{{ form_end(formFilter) }}

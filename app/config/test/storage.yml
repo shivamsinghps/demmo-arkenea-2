@@ -1,0 +1,6 @@
+services:
+    test.infrastructure.service.amazon.storage_factory:
+        alias: FMT\InfrastructureBundle\Service\AmazonS3\StorageFactory
+        public: true
+        arguments:
+            $root: "%kernel.root_dir%/../web"

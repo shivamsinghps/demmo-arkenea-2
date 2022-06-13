@@ -1,0 +1,56 @@
+monolog:
+    channels: [cartCheckout, priceCalculation]
+    handlers:
+        web_main:
+            type: service
+            id: FMT\InfrastructureBundle\Service\Monolog\WebStreamHandler
+            max_files: 10
+            channels: ['!event']
+        cli_main:
+            type: service
+            id: FMT\InfrastructureBundle\Service\Monolog\CliStreamHandler
+            max_files: 10
+            channels: ['!event']
+        error:
+            type: stream
+            formatter: Monolog\Formatter\LineFormatter
+            path: "php://stderr"
+            level: error
+            max_files: 10
+        console:
+            type: console
+            process_psr_3_messages: false
+            channels: ['!event', '!doctrine', '!console']
+        lambda:
+            type: stream
+            path: "php://stderr"
+            channels: [cartCheckout, priceCalculation]
+
+services:
+    FMT\InfrastructureBundle\Service\Monolog\WebStreamHandler:
+        arguments:
+            $stream: "php://stderr"
+            $level: debug
+        calls:
+          - [setFormatter, ["@Monolog\\Formatter\\LineFormatter"]]
+
+    FMT\InfrastructureBundle\Service\Monolog\CliStreamHandler:
+        arguments:
+            $stream: "php://stderr"
+            $level: debug
+        calls:
+          - [setFormatter, ["@Monolog\\Formatter\\LineFormatter"]]
+
+    Monolog\Formatter\LineFormatter:
+        class: Monolog\Formatter\LineFormatter
+        arguments:
+            $format: "[%%datetime%%] %%channel%%.%%level_name%% - %%message%% %%context%%\n"
+            $dateFormat: 'Y-m-d H:i:s'
+            $allowInlineLineBreaks: true
+            $ignoreEmptyContextAndExtra: true
+
+    Psr\Log\LoggerInterface: "@logger"
+
+    fmt.logger:
+        alias: logger
+        public: true

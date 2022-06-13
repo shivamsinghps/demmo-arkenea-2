@@ -1,0 +1,72 @@
+.student-dashboard {
+  .circle-with-description {
+    position: relative;
+  }
+  .description-box {
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+
+  .circle-half-title {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .stat-circ-full-width {
+    text-align: center;
+  }
+
+  .student-stat-title {
+    font-size: 14px;
+  }
+
+  .new-campaign-btn-wrap {
+    text-align: right;
+  }
+
+  .campaign-block-title {
+    font-size: 18px;
+  }
+
+  .btn-fix-text {
+    display: block;
+  }
+
+  .campaign-block-wrap {
+    height: 265px;
+  }
+
+  .books_wrap {
+    padding: 0px 10px;
+  }
+
+  @media (max-width: 650px) {
+    .stat-circ-full-width {
+      margin-bottom: 10px;
+      width: 100%;
+      text-align: center;
+      .student-stat-title {
+        text-align: center;
+      }
+    }
+  }
+  .round-slider.round-slider-half {
+    &.slider-horizontal-gradient {
+      .rs-handle {
+        height: 3px !important;
+        width: 30px !important;
+        margin-top: 0 !important;
+        margin-left: 25px !important;
+      }
+      .rs-tooltip {
+        top: 60%;
+        font-size: 30px;
+      }
+    }
+  }
+}

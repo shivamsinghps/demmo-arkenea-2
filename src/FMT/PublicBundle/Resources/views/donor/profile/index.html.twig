@@ -1,0 +1,59 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% block body_class %}{{ parent() }} profile-page {% endblock body_class %}
+{% block content %}
+    <section class="content-header">
+        <h1>{{ 'fmt.user.donor.profile.header'|trans }}</h1>
+    </section>
+    <section class="content">
+        {% if app.user.isIncompleteDonor %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Warning!</h4>
+                {{ 'fmt.user.profile.page_warning_donor'|trans }}
+            </div>
+        {% endif %}
+        <div class="box box-primary">
+            {{ form_start(form) }}
+            <div class="box-body no-padding-lr">
+                {% include '@Public/donor/profile/_form.html.twig' %}
+                <div class="col-md-3">
+                    <div class="col-md-12 col-xs-12">
+                        {% include '@Public/components/buttons/buttonOverlaidByMessage.html.twig' with {'formElement': form.profile.email, 'buttonName': 'fmt.user.profile.submit'} %}
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                        <a href="{{ url(constant('\FMT\\PublicBundle\\Controller\\Donor\\TransactionHistoryController::ROUTE_INDEX')) }}"
+                           class="btn btn-primary btn-lg margin-bottom-10 btn-block save-profile">
+                            <b>{{ 'fmt.user.profile.view_donations'|trans|upper }}</b>
+                        </a>
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                        {% set error_wrapper = 'form > .box-body' %}
+                        <a
+                            id="disable-account"
+                            data-url="{{ url(constant('FMT\\PublicBundle\\Controller\\Donor\\ProfileController::ROUTE_DISABLE')) }}"
+                            data-title="{{ 'fmt.user.profile.popup.delete.title'|trans }}"
+                            data-message="{{ 'fmt.user.profile.popup.delete.description'|trans }}"
+                            data-button-name="{{ 'fmt.user.profile.popup.delete.confirm'|trans }}"
+                            data-error="{{ 'fmt.user.errors.default'|trans }}"
+                            data-error-wrapper="{{ error_wrapper }}"
+                            class="btn btn-danger btn-lg btn-fix-text btn-block btn-text-size"
+                        >
+                            <b>{{ 'fmt.user.profile.delete_account'|trans|upper }}</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock content %}
+{% block footer_scripts %}
+    {% javascripts
+        '@PublicBundle/Resources/public/js/handler/profile-disable.js'
+        '@PublicBundle/Resources/public/js/page/donor/profile/index.js'
+        '@PublicBundle/Resources/public/js/handler/button-overlaid.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

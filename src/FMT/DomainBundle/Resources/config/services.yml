@@ -1,0 +1,79 @@
+imports:
+    - { resource: implementation.yml }
+    - { resource: managers.yml }
+    - { resource: mapper.yml }
+    - { resource: synchronizer.yml }
+    - { resource: cart.yml }
+    - { resource: listeners.yml }
+    - { resource: domain.yml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    _instanceof:
+        FMT\DomainBundle\Service\PaymentProcessor\ProcessorInterface:
+            tags: [fmt.payment_processors]
+
+    FMT\DomainBundle\EventSubscriber\:
+        resource: '../../EventSubscriber/*'
+
+    FMT\DomainBundle\Service\Synchronizer\:
+        resource: '../../Service/Synchronizer'
+        autowire: true
+        autoconfigure: true
+
+    FMT\DomainBundle\Service\PaymentProcessor\:
+        resource: '../../Service/PaymentProcessor'
+        autowire: true
+        autoconfigure: true
+
+    FMT\DomainBundle\Service\Pdf\:
+        resource: '../../Service/Pdf'
+        autowire: true
+        autoconfigure: true
+
+    FMT\DomainBundle\Service\Pdf\ReceiptFPDFHelper:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+    FMT\DomainBundle\Service\Order\OrderReturnsChecker:
+        arguments:
+            $returnWindow: '%fmt.order.returns.return_window%'
+            $chunkSize: '%fmt.order.returns.chunk_size%'
+
+    FMT\DomainBundle\Service\Order\MonitorOrder:
+        arguments:
+            $chunkSize: '%fmt.order.monitor.chunk_size%'
+    FMT\DomainBundle\Service\BookstorePayment\CustomerOptions:
+        arguments:
+            $firstName: '%dwolla_bookstore_customer_first_name%'
+            $lastName: '%dwolla_bookstore_customer_last_name%'
+            $email: '%dwolla_bookstore_customer_email%'
+            $businessName: '%dwolla_bookstore_customer_business_name%'
+            $ipAddress: '%dwolla_bookstore_customer_ip_address%'
+            $correlationId: '%dwolla_bookstore_customer_correlation_id%'
+
+    FMT\DomainBundle\Service\BookstorePayment\FundingSourceOptions:
+        arguments:
+            $name: '%dwolla_bookstore_funding_source_name%'
+            $routingNumber: '%dwolla_bookstore_funding_source_routing_number%'
+            $accountNumber: '%dwolla_bookstore_funding_source_account_number%'
+
+    FMT\DomainBundle\Service\BookstorePayment\BookstorePaymentManager:
+        arguments:
+            $selfFundingSourceIri: '%dwolla_fmt_funding_source%'
+
+    FMT\DomainBundle\Service\BookstorePayment\WebhooksSubscriber:
+        arguments:
+            $secret: '%fmt.payments.dwolla.webhooks_token%'
+            $selfWebhookEndpoint: '%dwolla_webhooks_endpoint%'
+
+    FMT\DomainBundle\Service\BookstorePayment\EmailNotificator:
+        arguments:
+            $receiverEmail: '%dwolla_bookstore_email%'
+
+    FMT\DomainBundle\Service\BookstorePayment\CustomerManager:
+    FMT\DomainBundle\Service\BookstorePayment\TransferManager:
+    FMT\DomainBundle\Service\BookstorePayment\TransactionCollector:

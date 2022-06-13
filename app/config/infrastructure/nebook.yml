@@ -1,0 +1,36 @@
+parameters:
+    nebook_options:
+          endpoint: "%nebook_endpoint%"
+          wsdl: "%nebook_wsdl%"
+          xmlns: "%nebook_xmlns%"
+          bookstore_id: "%nebook_bookstore_id%"
+          username: "%nebook_user%"
+          password: "%nebook_password%"
+          timeout: 15
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+
+    FMT\InfrastructureBundle\Service\Nebook\RestApi\:
+        resource: '../../../src/FMT/InfrastructureBundle/Service/Nebook/RestApi/*'
+
+
+    FMT\InfrastructureBundle\Service\Nebook\SoapApi\:
+        resource: '../../../src/FMT/InfrastructureBundle/Service/Nebook/SoapApi/*'
+
+
+    FMT\InfrastructureBundle\Service\Nebook\Options:
+        arguments:
+            $options: '%nebook_options%'
+
+    FMT\InfrastructureBundle\Service\Nebook\SoapApi\Client:
+        arguments:
+            $siteId: "%nebook_bookstore_id%"
+
+    FMT\InfrastructureBundle\Service\Nebook\SoapApi\CustomSoapClient:
+        arguments:
+            $wsdl: "%nebook_wsdl%"
+            $options: ~

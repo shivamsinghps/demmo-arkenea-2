@@ -1,0 +1,134 @@
+{% extends '@Public/base.html.twig' %}
+
+{% block body_attributes %}class="skin-blue layout-top-nav"{% endblock body_attributes %}
+
+{% block container %}
+    <div class="wrapper">
+        {% include '@Public/common/header.html.twig' %}
+        <div class="content-wrapper">
+            <div class="container" id="general-container">
+                <div class="content iframe-content">
+                    {% block content %}
+                        <script>
+                            (function () {
+                                var iframeEl;
+                                var rootClientHeight = 0;
+
+                                function getNotLessMinimalHeight(height) {
+                                    var footerHeight = $('.main-header').height();
+                                    var minHeight = rootClientHeight - footerHeight ;
+
+                                    return minHeight > height ? minHeight : height;
+                                }
+
+                                // read messages from iframe
+                                window.addEventListener('message', event => {
+                                    if (!iframeEl) {
+                                        iframeEl = document.getElementById('wp-frame');
+                                    }
+                                    var eventData = event.data;
+                                    if (!eventData) {
+                                        console.log('EventData is empty.');
+                                        return;
+                                    }
+
+                                    if ('dispatchedBy' in eventData && eventData.dispatchedBy === '3rdLevelWP') {
+                                        // resize iframe according to it's content, and pass new height to parent window
+                                        iframeEl.height = getNotLessMinimalHeight(eventData.height) + 'px';
+                                        messageToParent({
+                                            height: document.documentElement.scrollHeight,
+                                            dispatchedBy: '2ndLevelAPP'
+                                        });
+                                    } else if ('action' in eventData) {
+                                        switch (eventData.action) {
+                                            case 'pushState':
+                                                // handle new iframe location
+                                                iframeEl.height = getNotLessMinimalHeight(0);
+                                                messageToParent(eventData);
+                                                messageToParent({
+                                                    height: getNotLessMinimalHeight(0),
+                                                    dispatchedBy: '2ndLevelAPP'
+                                                });
+                                                break;
+                                            case 'redirect':
+                                                messageToParent(eventData);
+                                                break;
+                                            case 'clientHeight':
+                                                // story rootClient window height
+                                                rootClientHeight = eventData.clientHeight;
+                                                break;
+                                            case 'authBtn':
+                                                // handle signup and register btn clicks
+                                                authPopupShow(eventData.registerAction, eventData.userType);
+                                                break;
+                                        }
+                                    } else {
+                                        console.log('app listener - error', eventData);
+                                    }
+                                });
+
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    $(document).on('click', '[data-iframe-link]', function (evt) {
+                                        var newHref = $(evt.currentTarget).prop('href');
+                                        messageToParent({
+                                            location: newHref,
+                                            action: 'redirect'
+                                        });
+                                        evt.preventDefault();
+                                    });
+                                });
+
+                                function authPopupShow(registerAction, userType) {
+                                    switch (registerAction) {
+                                        case 'signup':
+                                            var $signupBtn = $("[data-btn=show-signup]");
+                                            $signupBtn.parent().removeClass('open');
+                                            $burgerMenu = $('[data-target="#navbar-collapse"]');
+                                            if (userType) {
+                                                $(".register-box-body").find("a[data-tab=" + userType + "]").click();
+                                            }
+                                            if ($burgerMenu.is(':visible')) {
+                                                $burgerMenu.click();
+                                            }
+                                            $signupBtn.click();
+                                            break;
+                                        case 'login':
+                                            var $loginBtn = $("[data-btn=show-log-in]");
+                                            $loginBtn.parent().removeClass('open');
+                                            $loginBtn.click();
+                                            break;
+
+                                    }
+                                }
+
+                                function messageToParent(data) {
+                                    window.parent.postMessage(data, '{{ marketing_app_url }}');
+                                }
+                            })();
+                        </script>
+                        <iframe
+                                height="1000"
+                                id="wp-frame"
+                                width="100%"
+                                scrolling="no"
+                                src="{{ iframe_url }}"
+                                style="border:0;min-height: 100%;"
+                        ></iframe>
+
+                    {% endblock content %}
+                    <div class="preloader">
+                        <div class="loader fa-spin"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include '@Public/common/footer.html.twig' %}
+    </div>
+{% endblock container %}
+
+{% block footer_scripts %}
+    {{ parent() }}
+    {% javascripts '@PublicBundle/Resources/public/js/handler/signup-popup.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

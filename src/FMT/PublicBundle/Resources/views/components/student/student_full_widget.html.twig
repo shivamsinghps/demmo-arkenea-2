@@ -1,0 +1,83 @@
+{% set profile = user.profile %}
+{% set avatar = get_user_avatar(user) %}
+{% set school = profile.school %}
+{% if userIsNotStudent is defined %}
+    {% set checkFundButton = userIsNotStudent or campaign.user.id == activeUserId %}
+{% else %}
+    {% set checkFundButton = true %}
+{% endif %}
+
+<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title break-long-words">{{ profile.fullName }}</h3>
+            <div>
+                <i>{{ school.name }} {{ profile.gradYear }}</i>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="margin-bottom-10 avatar-wrapper avatar-on-center">
+                {% if avatar %}
+                    <img src="{{ asset(avatar) }}" alt="avatar" class="img-thumbnail">
+                {% else %}
+                    <i class="fa fa-user img-thumbnail"></i>
+                {% endif %}
+            </div>
+            {% if campaign %}
+                <div class="bnt-block margin-bottom-10">
+                    <div class="row">
+                        {% if campaign.percentOfFunded >= 1 %}
+                            <div class="col-md-12">
+                                <a href="{{ campaign_fund_link_according_role(campaign) }}"
+                                   class="btn btn-block btn-success disabled margin-bottom-10">
+                                    <b>{{ 'fmt.campaign.student.fully_funded'|trans|upper }}</b>
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="col-md-6">
+                                <a href="{{ url(constant('\\FMT\\PublicBundle\\Controller\\Common\\CampaignController::ROUTE_VIEW'), {id: campaign.id}) }}"
+                                   class="btn btn-primary btn-block no-padding-lr margin-bottom-10 btn-fix-text"
+                                >
+                                    <b>{{ 'fmt.campaign.student.view_campaign'|trans|upper }}</b>
+                                </a>
+                            </div>
+                            {% if is_granted(constant('FMT\\PublicBundle\\Voter\\CampaignVoter::CAN_FUND'), campaign) %}
+                                {% if checkFundButton %}
+                                    <div class="col-md-6">
+                                        <a href="{{ campaign_fund_link_according_role(campaign) }}"
+                                           class="btn btn-primary btn-block no-padding-lr margin-bottom-10"
+                                           title="{{ campaign|fund_student_name|trans({'%name%': profile.firstName}) }}"
+                                        >
+                                            <div class="fund-button-text btn-fix-text">
+                                                {{ campaign|fund_student_name|trans({'%name%': profile.firstName})|upper }}
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% elseif campaign.paused %}
+                                <div class="col-md-6">
+                                    <a class="btn btn-default btn-block no-padding-lr margin-bottom-10 btn-fix-text">
+                                        <b>
+                                            {{ "fmt.campaign.state.paused"|trans|upper }}
+                                        </b>
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="col-md-6">
+                                    <a class="btn btn-default btn-block no-padding-lr margin-bottom-10 btn-fix-text">
+                                        <b>
+                                            {{ "fmt.campaign.state.finished"|trans|upper }}
+                                        </b>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="margin-bottom-10">
+                    {% include '@Public/components/campaign/widget.html.twig' %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

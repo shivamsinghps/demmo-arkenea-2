@@ -1,0 +1,42 @@
+{% extends "@Public/emails/base_temlate.email.twig" %}
+{% block subject %}SAVE THE DATE for {{ student.fullName }}...!{% endblock %}
+
+{% block content %}
+    <p>Hi {{ contact.fullName }},</p>
+    <p>SAVE THE DATE!!</p>
+
+    <p>
+        {{ student.fullName }} created a crowdfunding campaign with FundMyTextbooks and is inviting you to donate
+        with confidence that your donation will only go to the books! (We promise.)
+    </p>
+
+    <p>
+        Their textbook fundraising campaign is expected to start on {{ campaign.startDate|standard_date_format }}.
+    </p>
+
+    {% if personalNote %}
+        <p>
+            Here's a note from {{ student.fullName }}:
+        </p>
+
+        <p>
+            "{{ personalNote }}"
+        </p>
+    {% endif %}
+
+    <p>
+        So - keep an eye out for an email that the campaign has started! When it does, there are several ways you can help:
+    </p>
+    <ul>
+        <li>Anonymous donation</li>
+        <li>Purchase a book or donate to their fund with no account needed</li>
+        <li>Create an account to purchase a book or donate to their fund and/or others' with greater ease.</li>
+    </ul>
+    <p>
+        {{ student.fullName }} thought highly enough of you to invite you to help them on their educational
+        journey and so we join them in thanking you in advance!
+    </p>
+
+    <p>Warm Regards,</p>
+    <p>The FMT Team (and {{ student.fullName }})</p>
+{% endblock %}

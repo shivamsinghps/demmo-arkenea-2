@@ -1,0 +1,27 @@
+<p class="login-box-msg">{{ 'fmt.authentication.log_in'|trans|upper }}</p>
+<form action="{{ url('fos_user_security_check') }}" method="POST" id="loginForm" class="form-horizontal">
+    <div class="box-body">
+        <div class="form-group has-input">
+            <input type="text" name="_username" class="form-control" id="username" placeholder="{{ 'fmt.form.email'|trans }}" data-login-form-username="username">
+        </div>
+        <div class="form-group has-input">
+            <input type="password" name="_password" class="form-control"
+                   id="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="remember_me" name="_remember_me" />
+                    Tired of logging in? Stay logged in.
+                </label>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary">{{ 'fmt.authentication.log_in'|trans|upper }}</button>
+        </div>
+        <div class="form-group text-center" data-btn="show-log-in-forgot-password" >
+            <a href="javascript:void(0)" class="forgot-password-link" data-toggle="forgot-link">{{ 'fmt.authentication.forgot_password'|trans|upper }}</a>
+        </div>
+    </div>
+</form>

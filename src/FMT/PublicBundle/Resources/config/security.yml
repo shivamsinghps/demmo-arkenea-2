@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+
+    FMT\PublicBundle\Service\Security\AuthenticationHandler:
+        calls:
+            - [setMarketingAppUrl, ["%marketing_app_url%"]]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }

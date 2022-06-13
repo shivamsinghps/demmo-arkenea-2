@@ -1,0 +1,25 @@
+parameters:
+    lambda_function_local_options:
+        nodeBinary: '%node_bin%'
+        lambdaDir: '%kernel.project_dir%/src/FMT/DomainBundle/Resources/aws_lambda'
+
+    lambda_functions:
+        submitCart:
+            environmentVariables:
+                NEBOOK_ENDPOINT: '%nebook_endpoint%'
+                NEBOOK_BOOKSTORE_ID: '%nebook_bookstore_id%'
+                NEBOOK_USER: '%nebook_user%'
+                NEBOOK_PASSWORD: '%nebook_password%'
+                # example variables
+                # TENDER IDs: 52 - VISA, 51 - MASTERCARD, 50 - AMERICAN EXPRESS, 53 - DISCOVER, 54 - CAMPUS CARD
+                NEBOOK_TENDER_ID: '70'
+                NEBOOK_TENDER_ACCOUNT_NUMBER: '44620300000000004917610000000000003'
+                NEBOOK_BILLING_ADDRESS_1: 'Some st., 1524-12'
+                NEBOOK_BILLING_ADDRESS_2: ''
+                NEBOOK_BILLING_ADDRESS_CITY: 'Some city'
+                NEBOOK_BILLING_COUNTRY: 'US'
+                NEBOOK_BILLING_PHONE: '4011111111'
+                NEBOOK_BILLING_STATE: 'NE'
+                NEBOOK_BILLING_ZIP: '12345'
+                NEBOOK_BILLING_FIRST_NAME: 'Test Name'
+                NEBOOK_BILLING_LAST_NAME: 'Test Last Name'

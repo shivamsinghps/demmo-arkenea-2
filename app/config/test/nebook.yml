@@ -1,0 +1,5 @@
+services:
+
+    test.infrastructure.service.nebook.client:
+        alias: FMT\InfrastructureBundle\Service\Nebook\RestApi\Client
+        public: true

@@ -1,0 +1,23 @@
+<div class="modal fade campaign-delete-modal" id="modal-delete-{{ contact.id }}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">{{ 'fmt.contacts.delete_donor'|trans }}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{ contact.fullName }}</p>
+                <p>{{ contact.donor.profile.email }}</p>
+                <p>{{ 'fmt.contacts.confirmation_delete'|trans }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{{ 'fmt.form.cancel'|trans }}</button>
+                <button type="button" class="btn btn-primary delete-contact" data-href="{{ url(
+                    constant('FMT\\PublicBundle\\Controller\\Student\\ContactController::ROUTE_REMOVE'),
+                    { id: contact.id }
+                ) }}">{{ 'fmt.form.submit'|trans }}</button>
+            </div>
+        </div>
+    </div>
+</div>

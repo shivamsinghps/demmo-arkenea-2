@@ -1,0 +1,42 @@
+{% extends '@Public/common/login-layout.html.twig' %}
+{% from '@Public/macro/fields.html.twig' import form_input %}
+
+{% block content %}
+    <section class="content">
+        <div class="box box-default registration-tabs-body">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ 'fmt.registration.reset.page_title'|trans }}</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        {% include '@Public/common/registration/_reset_confirm_text.html.twig' %}
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                        {% include '@Public/common/registration/_reset_confirm_password_requirments.html.twig' %}
+                        <div><b>{{ email }}</b></div>
+                        {{ form_start(form,
+                            {
+                                'action': url('fos_user_resetting_reset', {'token': token}),
+                                'attr': { 'class': 'fos_user_resetting_reset confirm-password-form', 'data-form-target': 'validatior'}
+                            }
+                        ) }}
+                        <div class="box-body no-padding-lr">
+                            {{ form_input(form.plainPassword.first, {'data-validation': "custom_regexp"}) }}
+                            {{ form_input(form.plainPassword.second, {'data-validation': "custom_repeat_passsword"}) }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">{{ 'fmt.form.submit'|trans|upper }}</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+{% block footer_scripts %}
+    {% javascripts
+    '@PublicBundle/Resources/public/js/handler/password-validate.js'
+    '@PublicBundle/Resources/public/js/handler/signup-popup.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

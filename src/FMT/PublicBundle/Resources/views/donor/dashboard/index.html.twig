@@ -1,0 +1,37 @@
+{% extends '@Public/common/general-layout.html.twig' %}
+
+{% set profile = user.profile %}
+{% set statistic = user.statistic %}
+{% set share_text = generate_share_text(user)|trans %}
+{% set page_url = url(constant('FMT\\PublicBundle\\Controller\\Common\\PublicDashboardController::ROUTE_DONOR_INDEX'), {id: user.id}) %}
+{% set avatar = asset(get_user_avatar(user)) %}
+{% set fb_share_link = generate_share_link({'u': page_url,}, 'fb') %}
+{% set tw_text = 'fmt.social_network.donor_share_text'|trans ~ '
+' ~ 'fmt.social_network.donor_share_statistics'|trans({
+    '%students_founded%': statistic.studentsFounded,
+    '%books_purchased%': statistic.booksPurchasedFor,
+    '%amount_founded%': statistic.amountFounded|price
+}) %}
+{% set tw_url_params = {
+    'url': page_url,
+    text: tw_text
+} %}
+{% set tw_share_link = generate_share_link(tw_url_params, 'tw') %}
+{% set page_dicription = user.profile.fullName %}
+
+{% block meta %}
+    {% include '@Public/common/campaign/_sharing_meta.html.twig' %}
+{% endblock meta %}
+
+{% block body_class %}{{ parent() }} donor-dashboard-page {% endblock body_class %}
+{% block content %}
+    {% include '@Public/donor/dashboard/_content.html.twig' %}
+{% endblock content %}
+{% block footer_scripts %}
+    {% javascripts
+        '@PublicBundle/Resources/public/js/page/donor/dashboard/index.js'
+        '@PublicBundle/Resources/public/js/handler/round-slider.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock footer_scripts %}

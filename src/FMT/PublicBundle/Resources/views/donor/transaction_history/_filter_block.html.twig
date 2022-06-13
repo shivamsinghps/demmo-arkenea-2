@@ -1,0 +1,33 @@
+{% from '@Public/macro/fields.html.twig' import form_radio_line %}
+{{ form_start(formFilter, {attr: {'data-transaction-history-form': 'form', 'data-form-name': 'transaction-history'}}) }}
+<div class="row margin-bottom-10">
+    <div class="col-md-2">
+        {{ form_row(formFilter.limit, {attr: {
+            'data-transaction-history-dropdown-filter': 'dropdown',
+            'data-original-page': url(app.request.attributes.get('_route'))
+        }}) }}
+    </div>
+    <div class="col-md-8">
+        {{ form_row(formFilter.sortBy, {attr: {'data-transaction-history-dropdown-filter': 'dropdown'}}) }}
+    </div>
+    <div class="col-md-2 sort-order-block">
+        {{ form_radio_line(formFilter.sortDirection, {attr: {class: 'radio-inline'}}) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+            {{ form_widget(formFilter.search, {attr: {
+                'data-transaction-history-search-filter': 'search',
+                placeholder: 'fmt.form.filter.search_placeholder_th_donor'
+            }}) }}
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-primary full-width" data-transaction-history-filter-clear="{{ url(app.request.attributes.get('_route')) }}">
+            {{ 'fmt.form.filter.clear'|trans }}
+        </button>
+    </div>
+</div>
+{{ form_end(formFilter) }}

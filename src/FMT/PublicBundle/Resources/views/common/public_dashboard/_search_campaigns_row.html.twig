@@ -1,0 +1,31 @@
+<div class="row">
+    {{ form_start(form) }}
+    <div class="search-on-main col-md-9 col-xs-8 col-sm-7">
+        <div class="input-group">
+            {{ form_widget(form.search, { 'attr': {'placeholder': 'fmt.form.search_placeholder'|trans}}) }}
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-primary btn-flat">
+                    <i class="fa fa-fw fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+    <div class="browse-on-main col-md-3 col-xs-4 col-sm-5">
+        <a
+                href="{{ url(constant('\\FMT\\PublicBundle\\Controller\\Common\\PublicDashboardController::ROUTE_ACTIVE_CAMPAIGN')) }}"
+                class="btn btn-primary btn-block no-padding-lr margin-bottom-10 browse-btn">
+            {{ 'fmt.form.browse_active_campaigns'|trans }}
+        </a>
+    </div>
+
+    {% if sortDirection is defined %}
+        {{ form_widget(form.sortDirection, {attr: {'value': 'ASC', 'style': 'display: none;'}}) }}
+    {% else %}
+        {% do form.sortDirection.setRendered %}
+    {% endif %}
+
+    {% do form.major.setRendered %}
+    {% do form.sortBy.setRendered %}
+    {% do form.limit.setRendered %}
+    {{ form_end(form) }}
+</div>

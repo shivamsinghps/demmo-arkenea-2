@@ -1,0 +1,13 @@
+{% if sortByMajor is defined and sortByMajor %}
+    {% set campaigns = sort_campaign_by_major(campaigns)  %}
+{% else %}
+    {% set campaigns = [campaigns] %}
+{% endif %}
+
+{% if campaigns|length %}
+    {% for major_name, campaignArr in campaigns %}
+        {% include '@Public/common/public_dashboard/_student_item.html.twig' with {campaigns: campaignArr, major_name: major_name} %}
+    {% endfor %}
+{% else %}
+    {% include '@Public/common/public_dashboard/_student_item.html.twig' with {campaigns: {}, major_name: ''} %}
+{% endif %}
