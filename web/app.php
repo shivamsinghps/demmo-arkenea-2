@@ -4,7 +4,7 @@
 // defined('APPLICATION_ENV') or define('APPLICATION_ENV', getenv('APPLICATION_ENV') ?: 'dev');
 
 
-defined('APPLICATION_DEBUG','0');
+define('APPLICATION_DEBUG','0');
 define('APPLICATION_ENV', 'dev');
 
 use Symfony\Component\HttpFoundation\Request;
