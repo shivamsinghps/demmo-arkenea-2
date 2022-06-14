@@ -42,5 +42,5 @@ RUN chmod 777 -R /var\
 RUN a2enmod headers\
     && a2enmod rewrite
 
-CMD php bin/console cache:clear ; pear channel-discover ; pear.phing.info ; pear install --alldeps phing/phing ; phing configure ; phing buildphp phing.phar deploy -verbose ; apache2-foreground
+CMD phing buildphp phing.phar deploy -verbose ; apache2-foreground
 
