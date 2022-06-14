@@ -1,0 +1,14 @@
+{
+  "name": "jquery-cropper",
+  "homepage": "https://github.com/fengyuanchen/jquery-cropper",
+  "version": "1.0.1",
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.1",
+    "commit": "70867208c16fbf767802aa61de370d72ed6e68ba"
+  },
+  "_source": "https://github.com/fengyuanchen/jquery-cropper.git",
+  "_target": "^1.0.1",
+  "_originalSource": "jquery-cropper"
+}
