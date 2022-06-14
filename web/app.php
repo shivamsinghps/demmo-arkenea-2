@@ -1,7 +1,11 @@
 <?php
 
-defined('APPLICATION_DEBUG') or define('APPLICATION_DEBUG', getenv('APPLICATION_DEBUG') === '1');
-defined('APPLICATION_ENV') or define('APPLICATION_ENV', getenv('APPLICATION_ENV') ?: 'dev');
+// defined('APPLICATION_DEBUG') or define('APPLICATION_DEBUG', getenv('APPLICATION_DEBUG') === '1');
+// defined('APPLICATION_ENV') or define('APPLICATION_ENV', getenv('APPLICATION_ENV') ?: 'dev');
+
+
+defined('APPLICATION_DEBUG','0')
+define('APPLICATION_ENV', 'dev');
 
 use Symfony\Component\HttpFoundation\Request;
 
