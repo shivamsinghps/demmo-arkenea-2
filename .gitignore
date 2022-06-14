@@ -23,7 +23,6 @@
 /web/js
 /web/fonts
 /web/images
-/web/avatar
 /src/FMT/DomainBundle/Resources/aws_lambda/lib/node_modules
 npm-debug.log
 /.php_cs.cache
