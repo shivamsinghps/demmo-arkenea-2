@@ -1,6 +1,10 @@
 
 git pull
 
+cp build.properties.dist build.properties
+
+cp environment/.env.dist environment/.envs
+
 cd ./environment
 
 docker-compose stop
